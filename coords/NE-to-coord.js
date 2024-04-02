@@ -1,4 +1,4 @@
-const stateCityCoords = {
+const NE_COORDS = {
 	Connecticut: {
 		Bridgeport: [41.1865, -73.1952],
 		Hartford: [41.7658, -72.6734],
@@ -55,4 +55,4 @@ const stateCityCoords = {
 		'Virginia Beach': [36.8529, -75.9780],
 	},
 }
-export default stateCityCoords;
+export default NE_COORDS;

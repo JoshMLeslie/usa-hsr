@@ -1,5 +1,5 @@
-import allPhases from "./phases.js";
-import allCoords from "./name-to-coord.js";
+import NE_STATES from "./states/states-ne.js";
+import NE_COORDS from "./coords/NE-to-coord.js";
 
 const USA_CENTER = [39.833, -98.583];
 const NE_CENTER = [40.261354, -74.518535];
@@ -27,12 +27,12 @@ document.querySelector('#usa-region-btn').onclick = () => {
 document.querySelector('#north-east-region-btn').onclick = () => {
     map.setView(NE_CENTER, 6);
 
-    Object.keys(allPhases).forEach(state => {
-        const { cities, routes, phases } = allPhases[state];
+    Object.keys(NE_STATES).forEach(state => {
+        const { cities, routes, phases } = NE_STATES[state];
 
         for (const routeIx in routes) {
             const route = routes[routeIx];
-            const coords = route.map(r => allCoords[state][r])
+            const coords = route.map(r => NE_COORDS[state][r])
             draw(coords)
         }
     })

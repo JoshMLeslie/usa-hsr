@@ -1,4 +1,4 @@
-const allPhases =
+const NE_STATES =
 {
 	"Connecticut": {
 		"cities": ["Hartford", "Bridgeport", "New Haven", "Stamford", "Waterbury"],
@@ -93,4 +93,4 @@ const allPhases =
 		]
 	}
 }
-export default allPhases;
+export default NE_STATES;
