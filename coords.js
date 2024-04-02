@@ -1,4 +1,4 @@
-const NE_COORDS = {
+const COORDS = {
 	Connecticut: {
 		Bridgeport: [41.1865, -73.1952],
 		Hartford: [41.7658, -72.6734],
@@ -30,6 +30,7 @@ const NE_COORDS = {
 		Harrisburg: [40.2732, -76.8867],
 		Philadelphia: [39.9526, -75.1652],
 		Pittsburgh: [40.4406, -79.9959],
+		Scranton: [41.4080, -75.6624]
 	},
 	'New Jersey': {
 		'Atlantic City': [39.3643, -74.4229],
@@ -42,7 +43,7 @@ const NE_COORDS = {
 	'New York': {
 		Albany: [42.6526, -73.7562],
 		Buffalo: [42.8864, -78.8784],
-		'New York City': [40.7128, -74.0060],
+		'NYC': [40.7128, -74.0060],
 		Rochester: [43.1566, -77.6088],
 		Syracuse: [43.0481, -76.1474],
 	},
@@ -52,7 +53,14 @@ const NE_COORDS = {
 		'Newport News': [37.0871, -76.4730],
 		Norfolk: [36.8508, -76.2859],
 		Richmond: [37.5407, -77.4360],
+		Roanoke: [37.2707, -79.9414],
 		'Virginia Beach': [36.8529, -75.9780],
 	},
+	Vermont: {
+		Burlington: [44.4759, -73.2121]
+	},
+	"West Virginia": {
+		Charleston: [38.3498, -81.6326]
+	}
 }
-export default NE_COORDS;
+export default COORDS;
