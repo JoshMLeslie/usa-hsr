@@ -54,6 +54,9 @@ const COORDS = {
 			Rochester: [43.1566, -77.6088],
 			Syracuse: [43.0481, -76.1474],
 		},
+		'Rhode Island': {
+			Providence: [41.824, -71.4128],
+		},
 		Virginia: {
 			Alexandria: [38.8048, -77.0469],
 			Arlington: [38.8816, -77.091],
@@ -79,7 +82,7 @@ const COORDS = {
 			Woodstock: [46.1514, -67.5998],
 		},
 		Ontario: {
-			Hamilton: [43.2557, -79.8711],
+			Toronto: [43.65107, -79.347015],
 		},
 	},
 };

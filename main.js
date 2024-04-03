@@ -17,7 +17,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // INIT END
 
 const draw = (args, opts = {}) => {
-	L.polyline(args, opts).addTo(map);
+	L.polyline(args, {color: 'blue', ...opts}).addTo(map);
 	args.forEach((arg) => {
 		L.circleMarker(arg, {radius: 2, color: '#333333'}).addTo(map);
 	});

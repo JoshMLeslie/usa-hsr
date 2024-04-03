@@ -60,6 +60,14 @@ const BW_NE = [
 		to: {state: 'Maine', city: 'Portland', country: 'USA'},
 	},
 	{
+		from: {state: 'Massachusetts', city: 'Boston', country: 'USA'},
+		to: {state: 'Rhode Island', city: 'Providence', country: 'USA'},
+	},
+	{
+		from: {state: 'Connecticut', city: 'New Haven', country: 'USA'},
+		to: {state: 'Rhode Island', city: 'Providence', country: 'USA'},
+	},
+	{
 		from: {state: 'Quebec', city: 'Montreal', country: 'Canada'},
 		to: {state: 'Vermont', city: 'Burlington', country: 'USA'},
 	},
@@ -68,7 +76,7 @@ const BW_NE = [
 		to: {state: 'Maine', city: 'Jackman', country: 'USA'},
 	},
 	{
-		from: {state: 'Ontario', city: 'Hamilton', country: 'Canada'},
+		from: {state: 'Ontario', city: 'Toronto', country: 'Canada'},
 		to: {state: 'New York', city: 'Buffalo', country: 'USA'},
 	},
 	{

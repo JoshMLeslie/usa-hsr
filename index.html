@@ -1,32 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>USA HSR</title>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+			integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+			crossorigin=""
+		/>
+		<style>
+			#map-container {
+				position: relative;
+			}
+			#map {
+				height: 75vh;
+				border: 2px solid gray;
+			}
+			#legend {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 150px;
+				background-color: whitesmoke;
+				z-index: 1000;
+				border: 2px solid gray;
+				border-top-right-radius: 8px;
+				padding: 8px;
+				font-family: sans-serif;
+			}
+			#legend p {
+				padding: 0;
+				margin: 0;
+				font-weight: 700;
+			}
+			#legend table tr td.legend-line {
+				width: 100%;
+				height: 0;
+                padding-left: 4px;
+			}
+			#legend #local {
+				border-bottom: 8px solid blue;
+			}
+			#legend #interstate {
+				border-bottom: 8px dashed green;
+			}
+			#legend #country {
+				border-bottom: 8px dashed orange;
+			}
+		</style>
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USA HSR</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <style>
-        #map {
-            height: 75vh;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="map"></div>
-    <div id="region-selection-container">
-        <p>Zoom to:</p>
-        <button id="usa-region-btn">
-            Continental US
-        </button>
-        <button id="north-east-region-btn">
-            NorthEast Region
-        </button>
-    </div>
-</body>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="./main.js" type="module"></script>
+	<body>
+		<div id="map-container">
+			<div id="map"></div>
+			<div id="legend">
+				<p>Legend</p>
+				<table>
+					<tbody>
+						<tr>
+							<td>Local</td>
+							<td class="legend-line"><div id="local"></div></td>
+						</tr>
+						<tr>
+							<td>Interstate</td>
+							<td class="legend-line"><div id="interstate"></div></td>
+						</tr>
+						<tr>
+							<td>Country</td>
+							<td class="legend-line"><div id="country"></div></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div id="region-selection-container">
+			<p>Zoom to:</p>
+			<button id="usa-region-btn">Continental US</button>
+			<button id="north-east-region-btn">NorthEast Region</button>
+		</div>
+	</body>
+	<script
+		src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+		integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+		crossorigin=""
+	></script>
+	<script src="./main.js" type="module"></script>
 </html>
