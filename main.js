@@ -1,6 +1,6 @@
 import COORDS from "./coords.js";
-import NE_STATES from "./states/north-east.js";
 import BW_NE from "./states/between.js";
+import NE_STATES from "./states/north-east.js";
 
 const USA_CENTER = [39.833, -98.583];
 const NE_CENTER = [40.261354, -74.518535];
@@ -42,10 +42,12 @@ const drawBetween = (routeData, coords) => {
     const fromCoords = coords[from.state][from.city]
     const toCoords = coords[to.state][to.city]
     if (!fromCoords) {
-        console.error('bad from coord', routeData)
+        console.error(routeData)
+        throw ReferenceError('bad from coord')
     }
     if (!toCoords) {
-        console.error('bad to coord', routeData)
+        console.error(routeData)
+        throw ReferenceError('bad to coord')
     }
     draw([fromCoords, toCoords], {
         color: 'green',

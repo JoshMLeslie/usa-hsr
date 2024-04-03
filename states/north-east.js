@@ -1,86 +1,83 @@
-const NE_STATES =
-{
-	"Connecticut": {
-		"cities": ["Hartford", "Bridgeport", "New Haven", "Stamford", "Waterbury"],
-		"routes": [
-			["Hartford", "Bridgeport", "Stamford"],
-			["Bridgeport", "New Haven"],
+const NE_STATES = {
+	Connecticut: {
+		cities: ['Hartford', 'Bridgeport', 'New Haven', 'Stamford', 'Waterbury'],
+		routes: [
+			['Hartford', 'Bridgeport', 'Stamford'],
+			['Bridgeport', 'New Haven'],
 		],
-		"phases": [
-			["Hartford", "Bridgeport", "New Haven"],
-			["Bridgeport", "New Haven"],
-		]
+		phases: [
+			['Hartford', 'Bridgeport', 'New Haven'],
+			['Bridgeport', 'New Haven'],
+		],
 	},
-	"Delaware": {
-		"cities": ["Wilmington", "Newark"],
-		"routes": [
-			["Wilmington", "Newark"]
-		],
-		"phases": [
-			["Wilmington", "Newark"]
-		]
+	Delaware: {
+		cities: ['Wilmington', 'Newark'],
+		routes: [['Wilmington', 'Newark']],
+		phases: [['Wilmington', 'Newark']],
 	},
-	"Maryland": {
-		"cities": ["Baltimore"],
-		"routes": [
-			["Baltimore"]
+	Maine: {
+		cities: ['Portland', 'Bangor', 'Houlton', 'Jackman'],
+		routes: [
+			['Portland', 'Bangor', 'Houlton'],
+			['Houlton', 'Jackman'],
 		],
-		"phases": [
-			["Baltimore"],
-		]
+		phases: [
+			['Portland', 'Bangor', 'Houlton'],
+			['Houlton', 'Jackman'],
+		],
 	},
-	"Massachusetts": {
-		"cities": ["Boston", "Worcester", "Springfield", "Cambridge", "Lowell"],
-		"routes": [
-			["Springfield", "Worcester", "Boston"],
-		],
-		"phases": [
-			["Springfield", "Worcester", "Boston"],
-		]
+	Maryland: {
+		cities: ['Baltimore'],
+		routes: [['Baltimore']],
+		phases: [['Baltimore']],
 	},
-	"New Jersey": {
-		"cities": ["Newark", "Jersey City", "Trenton", "Atlantic City", "Camden", "Paterson"],
-		"routes": [
-			["Newark", "Trenton", "Atlantic City"]
-		],
-		"phases": [
-			["Newark", "Trenton"],
-			["Trenton", "Atlantic City"]
-		]
+	Massachusetts: {
+		cities: ['Boston', 'Worcester', 'Springfield', 'Cambridge', 'Lowell'],
+		routes: [['Springfield', 'Worcester', 'Boston']],
+		phases: [['Springfield', 'Worcester', 'Boston']],
 	},
-	"New York": {
-		"cities": ["NYC", "Buffalo", "Albany", "Syracuse", "Rochester"],
-		"routes": [
-			["NYC", "Albany", "Syracuse", "Rochester", "Buffalo"],
+	'New Jersey': {
+		cities: [
+			'Newark',
+			'Jersey City',
+			'Trenton',
+			'Atlantic City',
+			'Camden',
+			'Paterson',
 		],
-		"phases": [
-			["NYC", "Albany",],
-			["Albany", "Burlington"],
-			["Albany", "Syracuse", "Rochester", "Buffalo"],
-		]
+		routes: [['Newark', 'Trenton', 'Atlantic City']],
+		phases: [
+			['Newark', 'Trenton'],
+			['Trenton', 'Atlantic City'],
+		],
 	},
-	"Pennsylvania": {
-		"cities": ["Erie", "Pittsburgh", "Harrisburg", "Philadelphia"],
-		"routes": [
-			["Erie", "Pittsburgh", "Harrisburg", "Philadelphia"]
+	'New York': {
+		cities: ['NYC', 'Buffalo', 'Albany', 'Syracuse', 'Rochester'],
+		routes: [['NYC', 'Albany', 'Syracuse', 'Rochester', 'Buffalo']],
+		phases: [
+			['NYC', 'Albany'],
+			['Albany', 'Burlington'],
+			['Albany', 'Syracuse', 'Rochester', 'Buffalo'],
 		],
-		"phases": [
-			["Erie", "Pittsburgh"],
-			["Harrisburg", "Philadelphia"]
-			["Pittsburgh", "Harrisburg"],
-
-		]
 	},
-	"Virginia": {
-		"cities": ["Richmond", "Norfolk", "Alexandria"],
-		"routes": [
-			["Norfolk", "Richmond", "Alexandria"],
-			["Richmond", "Roanoke"]
+	Pennsylvania: {
+		cities: ['Erie', 'Pittsburgh', 'Harrisburg', 'Philadelphia'],
+		routes: [['Erie', 'Pittsburgh', 'Harrisburg', 'Philadelphia']],
+		phases: [
+			['Erie', 'Pittsburgh'],
+			['Harrisburg', 'Philadelphia'][('Pittsburgh', 'Harrisburg')],
 		],
-		"phases": [
-			["Norfolk", "Richmond", "Alexandria"],
-			["Richmond", "Roanoke"]
-		]
-	}
-}
+	},
+	Virginia: {
+		cities: ['Richmond', 'Norfolk', 'Alexandria'],
+		routes: [
+			['Norfolk', 'Richmond', 'Alexandria'],
+			['Richmond', 'Roanoke'],
+		],
+		phases: [
+			['Norfolk', 'Richmond', 'Alexandria'],
+			['Richmond', 'Roanoke'],
+		],
+	},
+};
 export default NE_STATES;

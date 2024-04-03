@@ -11,6 +11,12 @@ const COORDS = {
 		Newark: [39.6837, -75.7497],
 		Wilmington: [39.7391, -75.5398],
 	},
+	Maine: {
+		Portland: [43.6591, -70.2568],
+		Bangor: [44.8014, -68.7778],
+		Houlton: [46.1252, -67.8399],
+		Jackman: [45.6298, -70.2536],
+	},
 	Maryland: {
 		Annapolis: [38.9784, -76.4922],
 		Baltimore: [39.2904, -76.6122],
@@ -30,7 +36,7 @@ const COORDS = {
 		Harrisburg: [40.2732, -76.8867],
 		Philadelphia: [39.9526, -75.1652],
 		Pittsburgh: [40.4406, -79.9959],
-		Scranton: [41.4080, -75.6624]
+		Scranton: [41.408, -75.6624],
 	},
 	'New Jersey': {
 		'Atlantic City': [39.3643, -74.4229],
@@ -43,24 +49,24 @@ const COORDS = {
 	'New York': {
 		Albany: [42.6526, -73.7562],
 		Buffalo: [42.8864, -78.8784],
-		'NYC': [40.7128, -74.0060],
+		NYC: [40.7128, -74.006],
 		Rochester: [43.1566, -77.6088],
 		Syracuse: [43.0481, -76.1474],
 	},
 	Virginia: {
 		Alexandria: [38.8048, -77.0469],
-		Arlington: [38.8816, -77.0910],
-		'Newport News': [37.0871, -76.4730],
+		Arlington: [38.8816, -77.091],
+		'Newport News': [37.0871, -76.473],
 		Norfolk: [36.8508, -76.2859],
-		Richmond: [37.5407, -77.4360],
+		Richmond: [37.5407, -77.436],
 		Roanoke: [37.2707, -79.9414],
-		'Virginia Beach': [36.8529, -75.9780],
+		'Virginia Beach': [36.8529, -75.978],
 	},
 	Vermont: {
-		Burlington: [44.4759, -73.2121]
+		Burlington: [44.4759, -73.2121],
 	},
-	"West Virginia": {
-		Charleston: [38.3498, -81.6326]
-	}
-}
+	'West Virginia': {
+		Charleston: [38.3498, -81.6326],
+	},
+};
 export default COORDS;
