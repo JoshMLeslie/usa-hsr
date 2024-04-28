@@ -33,6 +33,7 @@ const COORDS = {
 			Worcester: [42.2626, -71.8023],
 		},
 		Pennsylvania: {
+			Burnham: [40.6366, -77.5675],
 			Erie: [42.1292, -80.0851],
 			Harrisburg: [40.2732, -76.8867],
 			Philadelphia: [39.9526, -75.1652],
