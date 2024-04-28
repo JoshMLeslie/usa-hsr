@@ -1,4 +1,4 @@
-const BW_NE = [
+const INTER_NE = [
 	[
 		{state: 'Virginia', city: 'Alexandria', country: 'USA'},
 		{state: 'Maryland', city: 'Baltimore', country: 'USA'},
@@ -48,7 +48,7 @@ const BW_NE = [
 		{state: 'West Virginia', city: 'Charleston', country: 'USA'},
 	],
 	[
-		{state: 'New York', city: 'NYC', country: 'USA'},
+		{state: 'New Jersey', city: 'Newark', country: 'USA'},
 		{state: 'Pennsylvania', city: 'Scranton', country: 'USA'},
 	],
 	[
@@ -93,4 +93,4 @@ const BW_NE = [
 	],
 ];
 
-export default BW_NE;
+export default INTER_NE;

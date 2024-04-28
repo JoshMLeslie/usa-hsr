@@ -55,6 +55,19 @@ const NE = [
 		{city: 'Richmond', state: 'Virginia', country: 'USA'},
 		{city: 'Roanoke', state: 'Virginia', country: 'USA'},
 	],
+	[
+		{city: 'Toronto', state: 'Ontario', country: 'Canada'},
+		{city: 'Ottawa', state: 'Ontario', country: 'Canada'},
+		{city: 'Montreal', state: 'Quebec', country: 'Canada'},
+	],
+	[
+		{city: 'Toronto', state: 'Ontario', country: 'Canada'},
+		{city: 'Sudbury', state: 'Ontario', country: 'Canada'},
+	],
+	[
+		{city: 'Ottawa', state: 'Ontario', country: 'Canada'},
+		{city: 'Sudbury', state: 'Ontario', country: 'Canada'},
+	]
 ];
 
 export default NE;

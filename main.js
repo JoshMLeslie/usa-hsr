@@ -1,5 +1,5 @@
 import COORDS from './coords.js';
-import BW_NE from './zones/between-ne.js';
+import INTER_NE from './zones/inter-ne.js';
 import NE_ZONE from './zones/north-east.js';
 
 const USA_CENTER = [39.833, -98.583];
@@ -52,6 +52,10 @@ const drawZone = (zone, coords) => {
 				};
 			}
 
+			if (a.weight && b.weight) {
+				opts.weight = Math.min(a.weight, b.weight);
+			}
+
 			draw([aCoord, bCoord], opts);
 		}
 	}
@@ -64,5 +68,5 @@ document.querySelector('#usa-region-btn').onclick = () => {
 document.querySelector('#north-east-region-btn').onclick = () => {
 	map.setView(NE_CENTER, 6);
 	drawZone(NE_ZONE, COORDS);
-	drawZone(BW_NE, COORDS);
+	drawZone(INTER_NE, COORDS);
 };

@@ -83,6 +83,8 @@ const COORDS = {
 			Woodstock: [46.1514, -67.5998],
 		},
 		Ontario: {
+			Ottawa: [45.4215, -75.691],
+			Sudbury: [46.5227, -80.9524],
 			Toronto: [43.65107, -79.347015],
 		},
 	},
