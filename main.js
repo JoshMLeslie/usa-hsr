@@ -27,11 +27,9 @@ const draw = (args, opts = {}) => {
 
 const drawZone = (zone, coords) => {
 	for (const route of zone) {
-		const path = route.map((loc) => coords[loc.country][loc.state][loc.city]);
-
-		for (let i = 0, j = 1; j < route.length; i++, j++) {
-			const a = route[i];
-			const b = route[j];
+		for (let aIdx = 0, bIdx = 1; bIdx < route.length; aIdx++, bIdx++) {
+			const a = route[aIdx];
+			const b = route[bIdx];
 
 			const aCoord = coords[a.country][a.state][a.city];
 			const bCoord = coords[b.country][b.state][b.city];
@@ -46,7 +44,7 @@ const drawZone = (zone, coords) => {
 					dashArray: 16,
 				};
 			} else if (isInterState) {
-				 opts = {
+				opts = {
 					color: 'green',
 					dashArray: 4,
 				};
