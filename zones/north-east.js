@@ -1,43 +1,58 @@
 const NE = [
+	// Woodstock, New Brunswick - Sudbury, ON
 	[
-		{city: 'Bridgeport', state: 'Connecticut', country: 'USA'},
-		{city: 'Hartford', state: 'Connecticut', country: 'USA'},
+		{state: 'New Brunswick', city: 'Woodstock', country: 'Canada'},
+		{city: 'Houlton', state: 'Maine', country: 'USA'},
+		{city: 'Jackman', state: 'Maine', country: 'USA'},
+		{state: 'Quebec', city: 'Montreal', country: 'Canada'},
+		{city: 'Ottawa', state: 'Ontario', country: 'Canada'},
+		{city: 'Toronto', state: 'Ontario', country: 'Canada'},
 	],
+	// Woodstock, New Brunswick - Stamford, CT
 	[
-		{city: 'New Haven', state: 'Connecticut', country: 'USA'},
+		{state: 'New Brunswick', city: 'Woodstock', country: 'Canada'},
+		{city: 'Houlton', state: 'Maine', country: 'USA'},
+		{city: 'Bangor', state: 'Maine', country: 'USA'},
+		{city: 'Portland', state: 'Maine', country: 'USA'},
+		{state: 'Massachusetts', city: 'Boston', country: 'USA'},
+		{state: 'Rhode Island', city: 'Providence', country: 'USA'},
+		{state: 'Connecticut', city: 'Hartford', country: 'USA'},
+		{state: 'Connecticut', city: 'New Haven', country: 'USA'},
 		{city: 'Bridgeport', state: 'Connecticut', country: 'USA'},
 		{city: 'Stamford', state: 'Connecticut', country: 'USA'},
+	],
+	// Boston - Buffalo
+	[
+		{city: 'Boston', state: 'Massachusetts', country: 'USA'},
+		{city: 'Worcester', state: 'Massachusetts', country: 'USA'},
+		{city: 'Springfield', state: 'Massachusetts', country: 'USA'},
+		{state: 'New York', city: 'Albany', country: 'USA'},
+		{city: 'Syracuse', state: 'New York', country: 'USA'},
+		{city: 'Rochester', state: 'New York', country: 'USA'},
+		{city: 'Buffalo', state: 'New York', country: 'USA'},
+	],
+	// CT - MA Jumper
+	[
+		{city: 'Springfield', state: 'Massachusetts', country: 'USA'},
+		{state: 'Connecticut', city: 'Hartford', country: 'USA'},
+	],
+	// Montreal - New York
+	[
+		{state: 'Quebec', city: 'Montreal', country: 'Canada'},
+		{state: 'Vermont', city: 'Burlington', country: 'USA'},
+		{state: 'New York', city: 'Albany', country: 'USA'},
+		{city: 'NYC', state: 'New York', country: 'USA'},
 	],
 	[
 		{city: 'Wilmington', state: 'Delaware', country: 'USA'},
 		{city: 'Newark', state: 'Delaware', country: 'USA'},
 	],
-	[
-		{city: 'Portland', state: 'Maine', country: 'USA'},
-		{city: 'Bangor', state: 'Maine', country: 'USA'},
-		{city: 'Houlton', state: 'Maine', country: 'USA'},
-	],
-	[
-		{city: 'Houlton', state: 'Maine', country: 'USA'},
-		{city: 'Jackman', state: 'Maine', country: 'USA'},
-	],
 	[{city: 'Baltimore', state: 'Maryland', country: 'USA'}],
-	[
-		{city: 'Springfield', state: 'Massachusetts', country: 'USA'},
-		{city: 'Worcester', state: 'Massachusetts', country: 'USA'},
-		{city: 'Boston', state: 'Massachusetts', country: 'USA'},
-	],
+
 	[
 		{city: 'Newark', state: 'New Jersey', country: 'USA'},
 		{city: 'Trenton', state: 'New Jersey', country: 'USA'},
 		{city: 'Atlantic City', state: 'New Jersey', country: 'USA'},
-	],
-	[
-		{city: 'NYC', state: 'New York', country: 'USA'},
-		{city: 'Albany', state: 'New York', country: 'USA'},
-		{city: 'Syracuse', state: 'New York', country: 'USA'},
-		{city: 'Rochester', state: 'New York', country: 'USA'},
-		{city: 'Buffalo', state: 'New York', country: 'USA'},
 	],
 	[
 		{city: 'Erie', state: 'Pennsylvania', country: 'USA'},
@@ -58,16 +73,12 @@ const NE = [
 	[
 		{city: 'Toronto', state: 'Ontario', country: 'Canada'},
 		{city: 'Ottawa', state: 'Ontario', country: 'Canada'},
-		{city: 'Montreal', state: 'Quebec', country: 'Canada'},
 	],
 	[
+		{city: 'Sudbury', state: 'Ontario', country: 'Canada'},
 		{city: 'Toronto', state: 'Ontario', country: 'Canada'},
-		{city: 'Sudbury', state: 'Ontario', country: 'Canada'},
+		{city: 'Buffalo', state: 'New York', country: 'USA'},
 	],
-	[
-		{city: 'Ottawa', state: 'Ontario', country: 'Canada'},
-		{city: 'Sudbury', state: 'Ontario', country: 'Canada'},
-	]
 ];
 
 export default NE;
