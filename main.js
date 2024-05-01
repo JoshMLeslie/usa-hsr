@@ -16,28 +16,15 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 }).addTo(map);
 // INIT END
-
 const drawMarkers = (coords, names) => {
 	return coords.map((coord, i) => {
 		const marker = L.circleMarker(coord, {
 			radius: 5,
 			color: '#333333',
-			fill: true,
-			fillOpacity: 1,
 		});
-		const markerPad = L.circleMarker(coord, {
-			radius: 10,
-			color: '#333333',
-			opacity: 0.1,
-			fill: true,
-			fillOpacity: 0.1,
-			interactive: true,
-			zIndexOffset: 10000
-		});
-		markerPad.bindTooltip(names[i]);
-		markerPad.addTo(map)
+		marker.bindTooltip(names[i]);
 		marker.on('click', () => {
-			route.push(names[i]);
+			console.log('clicked')
 		});
 		return marker;
 	});
@@ -46,22 +33,22 @@ const drawMarkers = (coords, names) => {
 const drawPolyline = (coords, routeGroup, opts) => {
 	if (coords.length > 1) {
 		const poly = L.polyline(coords, {opacity: 0.5, ...opts });
-		// const polyPadding = L.polyline(coords, {
-		// 	...opts,
-		// 	opacity: 0.25,
-		// 	weight: 10
-		// });
+		const polyPadding = L.polyline(coords, {
+			...opts,
+			opacity: 0.25,
+			weight: 10
+		});
 		routeGroup.addLayer(poly);
-		// routeGroup.addLayer(polyPadding);
+		routeGroup.addLayer(polyPadding);
 		poly.bindTooltip("foo")
 
 		routeGroup.on('mouseover', () => {
 			poly.setStyle({opacity: 1});
-			// polyPadding.setStyle({opacity: 0.5});
+			polyPadding.setStyle({opacity: 0.5});
 		});
 		routeGroup.on('mouseout', () => {
 			poly.setStyle({opacity: 0.5});
-			// polyPadding.setStyle({opacity: 0.25});
+			polyPadding.setStyle({opacity: 0.25});
 		});
 	}
 }

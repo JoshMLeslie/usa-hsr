@@ -44,17 +44,11 @@ const NE = [
 		{city: 'NYC', state: 'New York', country: 'USA'},
 	],
 	[
-		{city: 'Wilmington', state: 'Delaware', country: 'USA'},
-		{city: 'Newark', state: 'Delaware', country: 'USA'},
-	],
-	[{city: 'Baltimore', state: 'Maryland', country: 'USA'}],
-
-	[
-		{city: 'Newark', state: 'New Jersey', country: 'USA'},
 		{city: 'Trenton', state: 'New Jersey', country: 'USA'},
 		{city: 'Atlantic City', state: 'New Jersey', country: 'USA'},
 	],
 	[
+		{city: 'Buffalo', state: 'New York', country: 'USA'},
 		{city: 'Erie', state: 'Pennsylvania', country: 'USA'},
 		{city: 'Pittsburgh', state: 'Pennsylvania', country: 'USA'},
 		{city: 'Burnham', state: 'Pennsylvania', country: 'USA'},
@@ -64,20 +58,24 @@ const NE = [
 	[
 		{city: 'Norfolk', state: 'Virginia', country: 'USA'},
 		{city: 'Richmond', state: 'Virginia', country: 'USA'},
-		{city: 'Alexandria', state: 'Virginia', country: 'USA'},
-	],
-	[
-		{city: 'Richmond', state: 'Virginia', country: 'USA'},
 		{city: 'Roanoke', state: 'Virginia', country: 'USA'},
-	],
-	[
-		{city: 'Toronto', state: 'Ontario', country: 'Canada'},
-		{city: 'Ottawa', state: 'Ontario', country: 'Canada'},
 	],
 	[
 		{city: 'Sudbury', state: 'Ontario', country: 'Canada'},
 		{city: 'Toronto', state: 'Ontario', country: 'Canada'},
 		{city: 'Buffalo', state: 'New York', country: 'USA'},
+	],
+	[
+		{city: 'Stamford', state: 'Connecticut', country: 'USA'},
+		{city: 'NYC', state: 'New York', country: 'USA'},
+		{city: 'Newark', state: 'New Jersey', country: 'USA'},
+		{city: 'Trenton', state: 'New Jersey', country: 'USA'},
+		{city: 'Philadelphia', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Wilmington', state: 'Delaware', country: 'USA'},
+		{city: 'Newark', state: 'Delaware', country: 'USA'},
+		{city: 'Baltimore', state: 'Maryland', country: 'USA'},
+		{city: 'Alexandria', state: 'Virginia', country: 'USA'},
+		{city: 'Richmond', state: 'Virginia', country: 'USA'},
 	],
 ];
 
