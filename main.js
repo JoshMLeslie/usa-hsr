@@ -7,6 +7,7 @@ import WEST_ZONE from './zones/west.js';
 // INIT
 // var map = L.map('map').setView(CENTERS.USA, 4);
 var map = L.map('map').setView(CENTERS.USA_NE, 6);
+
 // Captures the various routes into a leaflet object for ref
 const RouteGroupings = new L.LayerGroup();
 
@@ -15,7 +16,14 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	attribution:
 		'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 }).addTo(map);
+
+// events
+const SHOW_CITY_LABELS = 'show_city_labels';
+const eSHOW_CITY_LABELS = new Event(SHOW_CITY_LABELS);
+const HIDE_CITY_LABELS = 'hide_city_labels';
+const eHIDE_CITY_LABELS = new Event(HIDE_CITY_LABELS);
 // INIT END
+
 const drawMarkers = (coords, names) => {
 	return coords.map((coord, i) => {
 		const marker = L.circleMarker(coord, {
@@ -23,9 +31,21 @@ const drawMarkers = (coords, names) => {
 			color: '#333333',
 		});
 		marker.bindTooltip(names[i]);
+		document.addEventListener(SHOW_CITY_LABELS, () => {
+			marker.openTooltip();
+		})
+		document.addEventListener(HIDE_CITY_LABELS, () => {
+			marker.closeTooltip();
+		})
+		marker.on('mouseover', () => {
+			// interaction, in front of nearby tooltips
+			marker.bringToFront();
+		})
 		marker.on('click', () => {
 			console.log('clicked')
 		});
+		// initial draw, in front of lines
+		marker.bringToFront();
 		return marker;
 	});
 };
@@ -122,13 +142,20 @@ document.querySelector('#usa-region-btn').onclick = () => {
 document.querySelector('#north-east-region-btn').onclick = () => {
 	map.setView(CENTERS.USA_NE, 6);
 	drawZone(NE_ZONE, COORDS);
-	drawZone(INTER_NE, COORDS);
 };
 document.querySelector('#west-region-btn').onclick = () => {
 	map.setView(CENTERS.USA_WEST, 4);
 	drawZone(WEST_ZONE, COORDS);
-	// drawZone(INTER_WEST, COORDS);
 };
+
+document.querySelector('#show-city-labels').onclick = () => {
+	document.dispatchEvent(eSHOW_CITY_LABELS);
+}
+document.querySelector('#hide-city-labels').onclick = () => {
+	document.dispatchEvent(eHIDE_CITY_LABELS);
+}
+
+// startup UI
 map.setView(CENTERS.USA_NE, 6);
-	drawZone(NE_ZONE, COORDS);
-	drawZone(INTER_NE, COORDS);
+drawZone(NE_ZONE, COORDS);
+drawZone(INTER_NE, COORDS);
