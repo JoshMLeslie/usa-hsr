@@ -1,0 +1,45 @@
+#map-container {
+	position: relative;
+}
+#map {
+	height: 75vh;
+	border: 2px solid gray;
+}
+#map-actions {
+	display: flex;
+	flex-direction: column;
+	width: fit-content;
+	gap: 8px;
+	margin: 0 auto;
+}
+#legend {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 150px;
+	background-color: whitesmoke;
+	z-index: 1000;
+	border: 2px solid gray;
+	border-top-right-radius: 8px;
+	padding: 8px;
+	font-family: sans-serif;
+}
+#legend p {
+	padding: 0;
+	margin: 0;
+	font-weight: 700;
+}
+#legend table tr td.legend-line {
+	width: 100%;
+	height: 0;
+	padding-left: 4px;
+}
+#legend #local {
+	border-bottom: 8px solid blue;
+}
+#legend #interstate {
+	border-bottom: 8px dashed green;
+}
+#legend #country {
+	border-bottom: 8px dashed orange;
+}
