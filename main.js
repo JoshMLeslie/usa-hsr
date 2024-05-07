@@ -33,16 +33,16 @@ const drawMarkers = (coords, names) => {
 		marker.bindTooltip(names[i]);
 		document.addEventListener(SHOW_CITY_LABELS, () => {
 			marker.openTooltip();
-		})
+		});
 		document.addEventListener(HIDE_CITY_LABELS, () => {
 			marker.closeTooltip();
-		})
+		});
 		marker.on('mouseover', () => {
 			// interaction, in front of nearby tooltips
 			marker.bringToFront();
-		})
+		});
 		marker.on('click', () => {
-			console.log('clicked')
+			console.log('clicked');
 		});
 		// initial draw, in front of lines
 		marker.bringToFront();
@@ -52,15 +52,15 @@ const drawMarkers = (coords, names) => {
 
 const drawPolyline = (coords, routeGroup, opts) => {
 	if (coords.length > 1) {
-		const poly = L.polyline(coords, {opacity: 0.5, ...opts });
+		const poly = L.polyline(coords, {opacity: 0.5, ...opts});
 		const polyPadding = L.polyline(coords, {
 			...opts,
 			opacity: 0.25,
-			weight: 10
+			weight: 10,
 		});
 		routeGroup.addLayer(poly);
 		routeGroup.addLayer(polyPadding);
-		poly.bindTooltip("foo")
+		poly.bindTooltip('foo');
 
 		routeGroup.on('mouseover', () => {
 			poly.setStyle({opacity: 1});
@@ -71,7 +71,7 @@ const drawPolyline = (coords, routeGroup, opts) => {
 			polyPadding.setStyle({opacity: 0.25});
 		});
 	}
-}
+};
 
 const draw = ({coords, routeGroup, opts, names = ''}) => {
 	const markers = drawMarkers(coords, names);
@@ -150,10 +150,10 @@ document.querySelector('#west-region-btn').onclick = () => {
 
 document.querySelector('#show-city-labels').onclick = () => {
 	document.dispatchEvent(eSHOW_CITY_LABELS);
-}
+};
 document.querySelector('#hide-city-labels').onclick = () => {
 	document.dispatchEvent(eHIDE_CITY_LABELS);
-}
+};
 
 // startup UI
 map.setView(CENTERS.USA_NE, 6);
