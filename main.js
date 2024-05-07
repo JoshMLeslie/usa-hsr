@@ -153,54 +153,57 @@ const draw = ({coords, routeGroup, opts, names = ''}) => {
 	RouteGroupings.addLayer(routeGroup);
 };
 
+const drawRoute = (route, coords, routeGroup) => {
+	for (let aIdx = 0, bIdx = 1; bIdx < route.length; aIdx++, bIdx++) {
+		const a = route[aIdx];
+		const b = route[bIdx];
+
+		const aCoord = coords[a.country][a.state][a.city];
+		const bCoord = coords[b.country][b.state][b.city];
+
+		if (!aCoord || !bCoord) {
+			if (!aCoord) {
+				console.warn('Coordinate missing', a);
+			}
+			if (!bCoord) {
+				console.warn('Coordinate missing', b);
+			}
+			throw new ReferenceError('Coordinate missing');
+		}
+
+		const isInterNational = a.country !== b.country;
+		const isInterState = a.state !== b.state;
+
+		let opts = {color: 'blue'};
+		if (isInterNational) {
+			opts = {
+				color: 'orange',
+				dashArray: 16,
+			};
+		} else if (isInterState) {
+			opts = {
+				color: 'green',
+				dashArray: 4,
+			};
+		}
+
+		if (a.weight && b.weight) {
+			opts.weight = Math.min(a.weight, b.weight);
+		}
+
+		draw({
+			coords: [aCoord, bCoord],
+			opts,
+			names: [a.city, b.city],
+			routeGroup,
+		});
+	}
+};
+
 const drawZone = (zone, coords) => {
 	for (const route of zone) {
 		const routeGroup = L.featureGroup([], {interactive: true});
-
-		for (let aIdx = 0, bIdx = 1; bIdx < route.length; aIdx++, bIdx++) {
-			const a = route[aIdx];
-			const b = route[bIdx];
-
-			const aCoord = coords[a.country][a.state][a.city];
-			const bCoord = coords[b.country][b.state][b.city];
-
-			if (!aCoord || !bCoord) {
-				if (!aCoord) {
-					console.warn('Coordinate missing', a);
-				}
-				if (!bCoord) {
-					console.warn('Coordinate missing', b);
-				}
-				throw new ReferenceError('Coordinate missing');
-			}
-
-			const isInterNational = a.country !== b.country;
-			const isInterState = a.state !== b.state;
-
-			let opts = {color: 'blue'};
-			if (isInterNational) {
-				opts = {
-					color: 'orange',
-					dashArray: 16,
-				};
-			} else if (isInterState) {
-				opts = {
-					color: 'green',
-					dashArray: 4,
-				};
-			}
-
-			if (a.weight && b.weight) {
-				opts.weight = Math.min(a.weight, b.weight);
-			}
-
-			draw({
-				coords: [aCoord, bCoord],
-				opts,
-				names: [a.city, b.city],
-				routeGroup,
-			});
-		}
+		drawRoute(route, coords, routeGroup);
 		routeGroup.addTo(map);
 	}
 };
