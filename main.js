@@ -206,7 +206,7 @@ const drawZone = (zone, coords) => {
 };
 
 // btn binding
-document.querySelector('#usa-region-btn').onclick = () => {
+document.querySelector('#namr-region-btn').onclick = () => {
 	map.setView(CENTERS.USA, 4);
 };
 document.querySelector('#north-east-region-btn').onclick = () => {
