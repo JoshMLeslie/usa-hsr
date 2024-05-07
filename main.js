@@ -62,10 +62,8 @@ viewBox.on('dragend', v => {
 viewBox.on('zoom', v => {
 	map.setZoom(map.getZoom() + v.zoom);
 });
-const drawViewBox = () => {
-	const bounds = getBoundsForBox();
-	viewBox.setLatLngs(bounds);
-};
+
+const drawViewBox = () => viewBox.setLatLngs(getBoundsForBox());
 
 map.on('moveend', drawViewBox);
 map.on('zoomend', drawViewBox);
