@@ -14,41 +14,52 @@
 	</head>
 
 	<body>
+		<div id="too-small">
+			Your screen size is too small, sorry for the inconvenience. Please rotate or view on a larger display to continue.
+		</div>
 		<div id="interaction-container">
 			<div id="map-container">
 				<div id="map"></div>
-				<div id="legend">
-					<p>Legend</p>
-					<table>
-						<tbody>
-							<tr>
-								<td>Local</td>
-								<td class="legend-line"><div id="local"></div></td>
-							</tr>
-							<tr>
-								<td>Interstate</td>
-								<td class="legend-line"><div id="interstate"></div></td>
-							</tr>
-							<tr>
-								<td>Country</td>
-								<td class="legend-line"><div id="country"></div></td>
-							</tr>
-						</tbody>
-					</table>
+			</div>
+			<div id="hud-map-container">
+				<div id="hud-map"></div>
+
+				<div id="hud-map-util">
+					<div id="legend">
+						<p>Legend</p>
+						<table>
+							<tbody>
+								<tr>
+									<td>Local</td>
+									<td class="legend-line"><div id="local"></div></td>
+								</tr>
+								<tr>
+									<td>Interstate</td>
+									<td class="legend-line"><div id="interstate"></div></td>
+								</tr>
+								<tr>
+									<td>Country</td>
+									<td class="legend-line"><div id="country"></div></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div id="hud-map-actions">
+						<p>Drag + scroll the route map or view box</p>
+						<p>Zoom to:</p>
+						<div id="region-selection-container">
+							<button id="usa-region-btn">Continental US</button>
+							<button id="west-region-btn">West Region</button>
+							<button id="north-east-region-btn">NorthEast Region</button>
+						</div>
+						<div id="city-labels-container">
+							<button id="show-city-labels">Show City Labels</button>
+							<button id="hide-city-labels">Hide City Labels</button>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div id="map-hud">
-			</div>
-		</div>
-		<div id="map-actions">
-			<div id="region-selection-container">
-				<p>Zoom to:</p>
-				<button id="usa-region-btn">Continental US</button>
-				<button id="west-region-btn">West Region</button>
-				<button id="north-east-region-btn">NorthEast Region</button>
-			</div>
-			<button id="show-city-labels">Show City Labels</button>
-			<button id="hide-city-labels">Hide City Labels</button>
 		</div>
 	</body>
 	<script
@@ -56,8 +67,16 @@
 		integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 		crossorigin=""
 	></script>
-	<script src="./leaftlet-extend/leaflet-path-drag.js" type="module" defer></script>
-	<script src="./leaftlet-extend/leaflet-path-zoom.js" type="module" defer></script>
+	<script
+		src="./leaftlet-extend/leaflet-path-drag.js"
+		type="module"
+		defer
+	></script>
+	<script
+		src="./leaftlet-extend/leaflet-path-zoom.js"
+		type="module"
+		defer
+	></script>
 	<!-- <script src="./leaftlet-extend/leaftlet-path-touch_zoom.js" type="module" defer></script> -->
 	<script src="./main.js" type="module" defer></script>
 </html>

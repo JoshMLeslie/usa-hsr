@@ -21,9 +21,9 @@ if (isProd) {
 	});
 }
 
-window.mapHUD = L.map('map-hud', {
+window.mapHUD = L.map('hud-map', {
 	center: CENTERS.USA,
-	zoom: 3.5,
+	zoom: 3,
 	// NO ZOOM! ONLY LOOK!
 	zoomControl: false,
 	interactive: false,
