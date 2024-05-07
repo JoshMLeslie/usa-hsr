@@ -10,7 +10,7 @@ const isProd = false;
 let map;
 if (isProd) {
 	map = L.map('map', {
-		center: CENTERS.USA_NE,
+		center: CENTERS.USA,
 		zoom: 4,
 	});
 } else {
@@ -37,6 +37,7 @@ window.mapHUD = L.map('map-hud', {
 L.control.scale().addTo(map);
 L.control.scale().addTo(mapHUD);
 
+// START Interactive mapHUD viewbox
 const getBoundsForBox = () => {
 	const NW = map.getBounds().getNorthWest();
 	return [
@@ -48,33 +49,29 @@ const getBoundsForBox = () => {
 	];
 };
 
-let viewBox;
+const viewBox = L.rectangle(getBoundsForBox(), {
+	interactive: true,
+	draggable: true,
+	zoomable: true,
+});
+viewBox.addTo(mapHUD);
+viewBox.on('dragend', v => {
+	const draggedTo = v.target.getCenter();
+	map.setView(draggedTo);
+});
+viewBox.on('zoom', v => {
+	map.setZoom(map.getZoom() + v.zoom);
+});
 const drawViewBox = () => {
 	const bounds = getBoundsForBox();
-	if (viewBox) {
-		viewBox.setLatLngs(bounds);
-	} else {
-		const vb = L.rectangle(bounds, {
-			interactive: true,
-			draggable: true,
-			zoomable: true,
-		});
-		vb.addTo(mapHUD);
-		viewBox = vb;
-	}
-	viewBox.on('dragend', v => {
-		const draggedTo = v.target.getCenter();
-		map.setView(draggedTo);
-	});
-	viewBox.on('zoom', v => {
-		map.setZoom(map.getZoom() + v.zoom);
-	});
+	viewBox.setLatLngs(bounds);
 };
-drawViewBox(); // init
 
 map.on('moveend', drawViewBox);
 map.on('zoomend', drawViewBox);
+// END Interactive mapHUD viewbox
 
+// add Earth images
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 10,
 	attribution:
@@ -86,7 +83,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 }).addTo(mapHUD);
 
-// Captures the various routes into a leaflet object for ref
+// Captures the various train routes into a leaflet object for ref
 const RouteGroupings = new L.LayerGroup();
 
 // events
