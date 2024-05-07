@@ -11,18 +11,18 @@ const INIT_ZOOM_LEVEL = 6;
 let map;
 if (isProd) {
 	map = L.map('map', {
-		center: CENTERS.USA,
+		center: CENTERS.NA,
 		zoom: 4,
 	});
 } else {
 	map = L.map('map', {
-		center: CENTERS.USA_NE,
+		center: CENTERS.NA_NE,
 		zoom: INIT_ZOOM_LEVEL,
 	});
 }
 
 window.mapHUD = L.map('hud-map', {
-	center: CENTERS.USA,
+	center: CENTERS.NA,
 	zoom: 3,
 	// NO ZOOM! ONLY LOOK!
 	zoomControl: false,
@@ -207,14 +207,14 @@ const drawZone = (zone, coords) => {
 
 // btn binding
 document.querySelector('#namr-region-btn').onclick = () => {
-	map.setView(CENTERS.USA, 4);
+	map.setView(CENTERS.NA, 4);
 };
 document.querySelector('#north-east-region-btn').onclick = () => {
-	map.setView(CENTERS.USA_NE, 6);
+	map.setView(CENTERS.NA_NE, 6);
 	drawZone(NE_ZONE, COORDS);
 };
 document.querySelector('#west-region-btn').onclick = () => {
-	map.setView(CENTERS.USA_WEST, 4);
+	map.setView(CENTERS.NA_WEST, 4);
 	drawZone(WEST_ZONE, COORDS);
 };
 
@@ -225,7 +225,7 @@ document.querySelector('#hide-city-labels').onclick = () => {
 	document.dispatchEvent(eHIDE_CITY_LABELS);
 };
 
-map.setView(CENTERS.USA_NE, 6);
+map.setView(CENTERS.NA_NE, 6);
 drawZone(NE_ZONE, COORDS);
 drawZone(INTER_NE, COORDS);
 // startup UI
