@@ -1,3 +1,19 @@
+#interaction-container {
+	display: flex;
+}
+#interaction-container > div {
+	width: 50%;
+}
+
+#world-map-svg {
+	
+	box-sizing: border-box;
+	border: 2px solid black;
+}
+#world-map-svg svg {
+	width: 100%;
+	height: 100%;
+}
 #map-container {
 	position: relative;
 }

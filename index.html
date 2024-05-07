@@ -14,26 +14,30 @@
 	</head>
 
 	<body>
-		<div id="map-container">
-			<div id="map"></div>
-			<div id="legend">
-				<p>Legend</p>
-				<table>
-					<tbody>
-						<tr>
-							<td>Local</td>
-							<td class="legend-line"><div id="local"></div></td>
-						</tr>
-						<tr>
-							<td>Interstate</td>
-							<td class="legend-line"><div id="interstate"></div></td>
-						</tr>
-						<tr>
-							<td>Country</td>
-							<td class="legend-line"><div id="country"></div></td>
-						</tr>
-					</tbody>
-				</table>
+		<div id="interaction-container">
+			<div id="map-container">
+				<div id="map"></div>
+				<div id="legend">
+					<p>Legend</p>
+					<table>
+						<tbody>
+							<tr>
+								<td>Local</td>
+								<td class="legend-line"><div id="local"></div></td>
+							</tr>
+							<tr>
+								<td>Interstate</td>
+								<td class="legend-line"><div id="interstate"></div></td>
+							</tr>
+							<tr>
+								<td>Country</td>
+								<td class="legend-line"><div id="country"></div></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div id="map-hud">
 			</div>
 		</div>
 		<div id="map-actions">
@@ -52,5 +56,15 @@
 		integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 		crossorigin=""
 	></script>
+	<script src="./leaftlet-extend/leaflet-path-drag.js" type="module"></script>
+	<script src="./leaftlet-extend/leaflet-path-zoom.js" type="module"></script>
 	<script src="./main.js" type="module"></script>
+	<!-- <script defer>
+		// load world map SVG
+		window.addEventListener('load', async () => {
+			const container = document.querySelector('#world-map-svg');
+			const svg = await fetch("assets/svg/world-map.svg").then(r => r.text()).catch(e => console.error(e));
+			container.innerHTML = svg;
+		})
+		</script> -->
 </html>

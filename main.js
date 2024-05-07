@@ -1,21 +1,93 @@
-import {default as COORDS} from './coords.json' with { type: 'json' };
 import CENTERS from './zones/centers.js';
 import INTER_NE from './zones/inter-ne.js';
 import NE_ZONE from './zones/north-east.js';
 import WEST_ZONE from './zones/west.js';
 
-// INIT
-// var map = L.map('map').setView(CENTERS.USA, 4);
-var map = L.map('map').setView(CENTERS.USA_NE, 6);
+const COORDS = await fetch('./coords.json').then(r => r.json());
+const isProd = false;
 
-// Captures the various routes into a leaflet object for ref
-const RouteGroupings = new L.LayerGroup();
+// INIT START
+let map;
+if (isProd) {
+	map = L.map('map', {
+		center: CENTERS.USA_NE,
+		zoom: 4,
+	});
+} else {
+	map = L.map('map', {
+		center: CENTERS.USA_NE,
+		zoom: 6,
+	});
+}
+
+window.mapHUD = L.map('map-hud', {
+	center: CENTERS.USA,
+	zoom: 3.5,
+	// NO ZOOM! ONLY LOOK!
+	zoomControl: false,
+	interactive: false,
+	doubleClickZoom: false,
+	dragging: false,
+	boxZoom: false,
+	scrollWheelZoom: false,
+	tap: false,
+	touchZoom: false,
+});
+
+L.control.scale().addTo(map);
+L.control.scale().addTo(mapHUD);
+
+const getBoundsForBox = () => {
+	const NW = map.getBounds().getNorthWest();
+	return [
+		NW,
+		map.getBounds().getNorthEast(),
+		map.getBounds().getSouthEast(),
+		map.getBounds().getSouthWest(),
+		NW,
+	];
+};
+
+let viewBox;
+const drawViewBox = () => {
+	const bounds = getBoundsForBox();
+	if (viewBox) {
+		viewBox.setLatLngs(bounds);
+	} else {
+		const vb = L.rectangle(bounds, {
+			interactive: true,
+			draggable: true,
+			zoomable: true,
+		});
+		vb.addTo(mapHUD);
+		viewBox = vb;
+	}
+	viewBox.on('dragend', v => {
+		const draggedTo = v.target.getCenter();
+		map.setView(draggedTo);
+	});
+	viewBox.on('zoom', v => {
+		map.setZoom(map.getZoom() + v.zoom);
+	});
+};
+drawViewBox(); // init
+
+map.on('moveend', drawViewBox);
+map.on('zoomend', drawViewBox);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 10,
 	attribution:
 		'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 }).addTo(map);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 10,
+	attribution:
+		'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+}).addTo(mapHUD);
+
+// Captures the various routes into a leaflet object for ref
+const RouteGroupings = new L.LayerGroup();
 
 // events
 const SHOW_CITY_LABELS = 'show_city_labels';
@@ -155,7 +227,7 @@ document.querySelector('#hide-city-labels').onclick = () => {
 	document.dispatchEvent(eHIDE_CITY_LABELS);
 };
 
-// startup UI
 map.setView(CENTERS.USA_NE, 6);
 drawZone(NE_ZONE, COORDS);
 drawZone(INTER_NE, COORDS);
+// startup UI
