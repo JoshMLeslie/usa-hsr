@@ -42,7 +42,22 @@ L.Path.mergeOptions({
 
 	zoomSnap: 0,
 
+	// @option asDelta: Boolean = true
+	// Return value as the change in zoom instead of new zoom level
 	asDelta: true,
+
+	// @section Touch interaction options
+	// @option touchZoom: Boolean|String = *
+	// Whether the map can be zoomed by touch-dragging with two fingers. If
+	// passed `'center'`, it will zoom to the center of the view regardless of
+	// where the touch events (fingers) were. Enabled by default
+	// for touch-capable web browsers.
+	touchZoom: L.Browser.touch,
+
+	// @option bounceAtZoomLimits: Boolean = true
+	// Set it to false if you don't want the map to zoom beyond min/max zoom
+	// and then bounce back when pinch-zooming.
+	bounceAtZoomLimits: true,
 });
 
 L.Handler.PathScrollZoom = L.Handler.extend({
@@ -60,33 +75,13 @@ L.Handler.PathScrollZoom = L.Handler.extend({
 
 		this._delta = 0;
 	},
-
 	removeHooks() {
 		L.DomEvent.off(this._path._path, 'wheel', this._onZoom, this);
 	},
 
+	// util
 	_getZoom() {
-		return this._zoom;
-	},
-
-	_onZoom(e) {
-		const delta = L.DomEvent.getWheelDelta(e);
-
-		const debounce = this._path.options.wheelDebounceTime;
-
-		this._delta += delta;
-		this._lastMousePos = L.DomEvent.getMousePosition(e, this._container);
-
-		if (!this._startTime) {
-			this._startTime = +new Date();
-		}
-
-		const left = Math.max(debounce - (+new Date() - this._startTime), 0);
-
-		clearTimeout(this._timer);
-		this._timer = setTimeout(this._performZoom.bind(this), left);
-
-		L.DomEvent.stop(e);
+		return this._zoom || this._path._map.getZoom();
 	},
 
 	// @method getMinZoom(): Number
@@ -116,6 +111,27 @@ L.Handler.PathScrollZoom = L.Handler.extend({
 		return Math.max(min, Math.min(max, zoom));
 	},
 
+	// handling
+	_onZoom(e) {
+		const delta = L.DomEvent.getWheelDelta(e);
+
+		const debounce = this._path.options.wheelDebounceTime;
+
+		this._delta += delta;
+		this._lastMousePos = L.DomEvent.getMousePosition(e, this._container);
+
+		if (!this._startTime) {
+			this._startTime = +new Date();
+		}
+
+		const left = Math.max(debounce - (+new Date() - this._startTime), 0);
+
+		clearTimeout(this._timer);
+		this._timer = setTimeout(this._performZoom.bind(this), left);
+
+		L.DomEvent.stop(e);
+	},
+
 	_performZoom() {
 		const path = this._path,
 			zoom = this._getZoom(),
@@ -139,14 +155,10 @@ L.Handler.PathScrollZoom = L.Handler.extend({
 
 		let newZoom = zoom + delta;
 		if (path.options.asDelta) {
-			if (newZoom === 0) {
-				newZoom = delta;
-			} else if (delta < 0) {
-				newZoom *= -1;
-			}
+			newZoom = delta;
 		}
 
-		this._zoom = zoom + delta;
+		this._zoom = newZoom;
 		if (path.options.scrollWheelZoom === 'center') {
 			path.fire('zoom', newZoom);
 		} else {

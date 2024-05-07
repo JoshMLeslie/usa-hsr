@@ -5,6 +5,7 @@ import WEST_ZONE from './zones/west.js';
 
 const COORDS = await fetch('./coords.json').then(r => r.json());
 const isProd = false;
+const INIT_ZOOM_LEVEL = 6;
 
 // INIT START
 let map;
@@ -16,7 +17,7 @@ if (isProd) {
 } else {
 	map = L.map('map', {
 		center: CENTERS.USA_NE,
-		zoom: 6,
+		zoom: INIT_ZOOM_LEVEL,
 	});
 }
 
@@ -53,6 +54,8 @@ const viewBox = L.rectangle(getBoundsForBox(), {
 	interactive: true,
 	draggable: true,
 	zoomable: true,
+	asDelta: false,
+	zoom: INIT_ZOOM_LEVEL,
 });
 viewBox.addTo(mapHUD);
 viewBox.on('dragend', v => {
@@ -60,7 +63,7 @@ viewBox.on('dragend', v => {
 	map.setView(draggedTo);
 });
 viewBox.on('zoom', v => {
-	map.setZoom(map.getZoom() + v.zoom);
+	map.setZoom(v.zoom);
 });
 
 const drawViewBox = () => viewBox.setLatLngs(getBoundsForBox());
