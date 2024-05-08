@@ -8,38 +8,47 @@ const NE = [
 		{city: 'Ottawa', state: 'Ontario', country: 'Canada'},
 		{city: 'Sudbury', state: 'Ontario', country: 'Canada'},
 	],
-	// Ottawa - Toronto Jumper
+	[
+		{city: 'Montreal', state: 'Quebec', country: 'Canada'},
+		{city: 'Quebec City', state: 'Quebec', country: 'Canada'},
+		{city: 'Saguenay', state: 'Quebec', country: 'Canada'},
+	],
 	[
 		{city: 'Ottawa', state: 'Ontario', country: 'Canada'},
 		{city: 'Toronto', state: 'Ontario', country: 'Canada'},
 	],
-	// Woodstock, New Brunswick - Stamford, CT
+	// Woodstock, New Brunswick - NY, NY
 	[
 		{city: 'Woodstock', state: 'New Brunswick', country: 'Canada'},
 		{city: 'Houlton', state: 'Maine', country: 'USA'},
 		{city: 'Bangor', state: 'Maine', country: 'USA'},
 		{city: 'Portland', state: 'Maine', country: 'USA'},
+		{city: 'Portsmouth', state: 'Maine', country: 'USA'},
 		{city: 'Boston', state: 'Massachusetts', country: 'USA'},
 		{city: 'Providence', state: 'Rhode Island', country: 'USA'},
 		{city: 'Hartford', state: 'Connecticut', country: 'USA'},
-		{city: 'New Haven', state: 'Connecticut', country: 'USA'},
-		{city: 'Bridgeport', state: 'Connecticut', country: 'USA'},
-		{city: 'Stamford', state: 'Connecticut', country: 'USA'},
 	],
-	// Boston - Buffalo
 	[
 		{city: 'Boston', state: 'Massachusetts', country: 'USA'},
 		{city: 'Worcester', state: 'Massachusetts', country: 'USA'},
 		{city: 'Springfield', state: 'Massachusetts', country: 'USA'},
+		{city: 'Hartford', state: 'Connecticut', country: 'USA'},
+		{city: 'New Haven', state: 'Connecticut', country: 'USA'},
+		{city: 'Bridgeport', state: 'Connecticut', country: 'USA'},
+		{city: 'Stamford', state: 'Connecticut', country: 'USA'},
+		{city: 'NYC', state: 'New York', country: 'USA'},
+	],
+	// Boston - Buffalo
+	[
 		{city: 'Albany', state: 'New York', country: 'USA'},
 		{city: 'Syracuse', state: 'New York', country: 'USA'},
 		{city: 'Rochester', state: 'New York', country: 'USA'},
 		{city: 'Buffalo', state: 'New York', country: 'USA'},
 	],
-	// CT - MA Jumper
+	// Jumper
 	[
 		{city: 'Springfield', state: 'Massachusetts', country: 'USA'},
-		{city: 'Hartford', state: 'Connecticut', country: 'USA'},
+		{city: 'Albany', state: 'New York', country: 'USA'},
 	],
 	// Montreal - New York
 	[
@@ -71,7 +80,6 @@ const NE = [
 		{city: 'Buffalo', state: 'New York', country: 'USA'},
 	],
 	[
-		{city: 'Stamford', state: 'Connecticut', country: 'USA'},
 		{city: 'NYC', state: 'New York', country: 'USA'},
 		{city: 'Newark', state: 'New Jersey', country: 'USA'},
 		{city: 'Trenton', state: 'New Jersey', country: 'USA'},

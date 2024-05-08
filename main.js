@@ -7,6 +7,17 @@ const COORDS = await fetch('./coords.json').then(r => r.json());
 const isProd = false;
 const INIT_ZOOM_LEVEL = 6;
 
+/**
+ * @param {L.LatLng} latLng
+ * @returns {string}
+ */
+const latLngToCardinal = latLng => {
+	const {lat, lng} = latLng;
+	const NS = (lat > 0 ? 'N' : 'S') + lat.toString().replace('-', '');
+	const EW = (lng > 0 ? 'E' : 'W') + lng.toString().replace('-', '');
+	return [NS, EW];
+};
+
 // INIT START
 let map;
 if (isProd) {
@@ -72,6 +83,16 @@ map.on('moveend', drawViewBox);
 map.on('zoomend', drawViewBox);
 // END Interactive mapHUD viewbox
 
+// open LatLng popup on rightclick
+map.on('contextmenu', e => {
+	L.popup()
+		.setLatLng(e.latlng)
+		.setContent(e.latlng.toLocaleString())
+		.openOn(map);
+
+	e.originalEvent.preventDefault();
+});
+
 // add Earth images
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 10,
@@ -100,19 +121,23 @@ const drawMarkers = (coords, names) => {
 			radius: 5,
 			color: '#333333',
 		});
-		marker.bindTooltip(names[i]);
+
+		const latLng = L.latLng(coord);
+
+		// Hover tooltip
+		const elP = document.createElement('p');
+		const cardinalLatLng = latLngToCardinal(latLng);
+		elP.innerText = `${names[i]}\n${cardinalLatLng[0]}\n${cardinalLatLng[1]}`;
+		marker.bindTooltip(elP);
+
+		// toggle tooltip, just name
+		const nameTTip = L.tooltip(latLng, {content: names[i], direction: 'right'});
+
 		document.addEventListener(SHOW_CITY_LABELS, () => {
-			marker.openTooltip();
+			nameTTip.openOn(map);
 		});
 		document.addEventListener(HIDE_CITY_LABELS, () => {
-			marker.closeTooltip();
-		});
-		marker.on('mouseover', () => {
-			// interaction, in front of nearby tooltips
-			marker.bringToFront();
-		});
-		marker.on('click', () => {
-			console.log('clicked');
+			nameTTip.close();
 		});
 		// initial draw, in front of lines
 		marker.bringToFront();
@@ -120,40 +145,37 @@ const drawMarkers = (coords, names) => {
 	});
 };
 
-const drawPolyline = (coords, routeGroup, opts) => {
-	if (coords.length > 1) {
-		const poly = L.polyline(coords, {opacity: 0.5, ...opts});
-		const polyPadding = L.polyline(coords, {
-			...opts,
-			opacity: 0.25,
-			weight: 10,
-		});
-		routeGroup.addLayer(poly);
-		routeGroup.addLayer(polyPadding);
-		poly.bindTooltip('foo');
+const drawPolyline = (coords, opts) => {
+	if (coords.length < 2) return;
 
-		routeGroup.on('mouseover', () => {
-			poly.setStyle({opacity: 1});
-			polyPadding.setStyle({opacity: 0.5});
-		});
-		routeGroup.on('mouseout', () => {
-			poly.setStyle({opacity: 0.5});
-			polyPadding.setStyle({opacity: 0.25});
-		});
-	}
+	const poly = L.polyline(coords, {opacity: 0.5, ...opts});
+	const polyPadding = L.polyline(coords, {
+		...opts,
+		opacity: 0.2,
+		weight: 10,
+	});
+
+	const rawDistMeter = map.distance(...coords);
+	const distKm = (rawDistMeter / 1000)
+		.toFixed(2)
+		.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	const mToMi = 0.0006213712;
+	const distMi = (rawDistMeter * mToMi)
+		.toFixed(2)
+		.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+	// tooltip element
+	const pre = document.createElement('pre');
+	pre.innerText = `${distKm} km\n${distMi} mi`;
+	pre.style.fontSize = '0.8rem';
+	polyPadding.bindTooltip(pre);
+
+	return [poly, polyPadding];
 };
 
-const draw = ({coords, routeGroup, opts, names = ''}) => {
-	const markers = drawMarkers(coords, names);
+const drawRoute = (route, coords) => {
+	const routeGroup = L.featureGroup([]);
 
-	routeGroup.addLayer(L.layerGroup(markers));
-
-	drawPolyline(coords, routeGroup, opts);
-
-	RouteGroupings.addLayer(routeGroup);
-};
-
-const drawRoute = (route, coords, routeGroup) => {
 	for (let aIdx = 0, bIdx = 1; bIdx < route.length; aIdx++, bIdx++) {
 		const a = route[aIdx];
 		const b = route[bIdx];
@@ -191,20 +213,29 @@ const drawRoute = (route, coords, routeGroup) => {
 			opts.weight = Math.min(a.weight, b.weight);
 		}
 
-		draw({
-			coords: [aCoord, bCoord],
-			opts,
-			names: [a.city, b.city],
-			routeGroup,
+		const markers = drawMarkers([aCoord, bCoord], [a.city, b.city]);
+		const [line, padding] = drawPolyline([aCoord, bCoord], opts);
+
+		routeGroup.addLayer(L.layerGroup(markers));
+		routeGroup.addLayer(line);
+		routeGroup.addLayer(padding);
+
+		routeGroup.on('mouseover', e => {
+			line.setStyle({opacity: 1});
+			padding.setStyle({opacity: 0.4});
+		});
+		routeGroup.on('mouseout', () => {
+			line.setStyle({opacity: 0.5});
+			padding.setStyle({opacity: 0.2});
 		});
 	}
+
+	return routeGroup;
 };
 
 const drawZone = (zone, coords) => {
 	for (const route of zone) {
-		const routeGroup = L.featureGroup([], {interactive: true});
-		drawRoute(route, coords, routeGroup);
-		routeGroup.addTo(map);
+		drawRoute(route, coords).addTo(map);
 	}
 };
 
@@ -217,7 +248,7 @@ document.querySelector('#north-east-region-btn').onclick = () => {
 	drawZone(NE_ZONE, COORDS);
 };
 document.querySelector('#west-region-btn').onclick = () => {
-	map.setView(CENTERS.NA_WEST, 4);
+	map.setView(CENTERS.NA_WEST, 5);
 	drawZone(WEST_ZONE, COORDS);
 };
 
