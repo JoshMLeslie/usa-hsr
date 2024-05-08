@@ -139,8 +139,6 @@ const drawMarkers = (coords, names) => {
 		document.addEventListener(HIDE_CITY_LABELS, () => {
 			nameTTip.close();
 		});
-		// initial draw, in front of lines
-		marker.bringToFront();
 		return marker;
 	});
 };
@@ -213,12 +211,12 @@ const drawRoute = (route, coords) => {
 			opts.weight = Math.min(a.weight, b.weight);
 		}
 
-		const markers = drawMarkers([aCoord, bCoord], [a.city, b.city]);
 		const [line, padding] = drawPolyline([aCoord, bCoord], opts);
+		const markers = drawMarkers([aCoord, bCoord], [a.city, b.city]);
 
-		routeGroup.addLayer(L.layerGroup(markers));
 		routeGroup.addLayer(line);
 		routeGroup.addLayer(padding);
+		routeGroup.addLayer(L.layerGroup(markers));
 
 		routeGroup.on('mouseover', e => {
 			line.setStyle({opacity: 1});
