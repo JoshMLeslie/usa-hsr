@@ -67,8 +67,15 @@ body {
 	content:' / view box';
 }
 
+#region-selection-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
 #city-labels-container {
 	display: flex;
+	gap: 4px;
 }
 
 #legend {
