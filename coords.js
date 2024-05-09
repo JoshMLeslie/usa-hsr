@@ -1,4 +1,4 @@
-{
+export default {
 	"Canada": {
 		"British Columbia": {
 			"Prince George": [53.9171, -122.7494],

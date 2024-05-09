@@ -15,7 +15,8 @@
 
 	<body>
 		<div id="too-small">
-			Your screen size is too small, sorry for the inconvenience. Please rotate or view on a larger display to continue.
+			Your screen size is too small, sorry for the inconvenience. Please rotate
+			or view on a larger display to continue.
 		</div>
 		<div id="interaction-container">
 			<div id="map-container">
@@ -46,12 +47,26 @@
 					</div>
 
 					<div id="hud-map-actions">
-						<p>Drag + scroll the route map or view box</p>
-						<p>Zoom to:</p>
+						<span id="movement-helper-text">Drag + scroll the map</span>
+						<p>Render / Zoom to:</p>
 						<div id="region-selection-container">
-							<button id="namr-region-btn">Continental NA</button>
-							<button id="west-region-btn">West Region</button>
-							<button id="north-east-region-btn">NorthEast Region</button>
+							<button class="region-btn" id="namr">North America</button>
+							<button class="region-btn" id="usa">Only USA</button>
+							<button class="region-btn" id="canada">Only CAN</button>
+							<button class="region-btn" id="mexico">Only MX</button>
+							<button class="region-btn" id="west">Region - West</button>
+							<button class="region-btn" id="central">
+								Region - Central
+							</button>
+							<button class="region-btn" id="great-lakes">
+								Region - Great Lakes
+							</button>
+							<button class="region-btn" id="north-east">
+								Region - NorthEast
+							</button>
+							<button class="region-btn" id="south-east">
+								Region - SouthEast
+							</button>
 						</div>
 						<div id="city-labels-container">
 							<button id="show-city-labels">Show City Labels</button>

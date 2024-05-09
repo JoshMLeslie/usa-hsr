@@ -51,7 +51,7 @@ body {
 	padding: 16px;
 }
 
-#hud-map-util p {
+#hud-map-util p, #hud-map-util span {
 	margin: 0;
 	font-weight: 600;
 }
@@ -61,6 +61,10 @@ body {
 	flex-direction: column;
 	width: fit-content;
 	gap: 8px;
+}
+
+#movement-helper-text::after {
+	content:' / view box';
 }
 
 #city-labels-container {
@@ -111,6 +115,9 @@ body {
 	#hud-map-container {
 		width: 100%;
 		height: 20%;
+	}
+	#movement-helper-text::after {
+		content:'';
 	}
 }
 

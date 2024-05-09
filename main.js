@@ -1,17 +1,26 @@
+import COORDS from './coords.js';
 import CENTERS from './zones/centers.js';
-import INTER_NE from './zones/inter-ne.js';
-import NE_ZONE from './zones/north-east.js';
-import WEST_ZONE from './zones/west.js';
+import ZONE_CENTRAL from './zones/central.js';
+import ZONE_G_LAKES from './zones/great-lakes.js';
+import ZONE_NE from './zones/north-east.js';
+import ZONE_SE from './zones/south-east.js';
+import ZONE_WEST from './zones/west.js';
 
-const COORDS = await fetch('./coords.json').then(r => r.json());
+const ZOOM_LEVEL = {
+	continent: 3,
+	country: 4,
+	region: 5,
+	tristate: 6,
+};
+
 const isProd = false;
-const INIT_ZOOM_LEVEL = 6;
+const INIT_ZOOM_LEVEL = ZOOM_LEVEL.tristate;
 
 /**
  * @param {L.LatLng} latLng
  * @returns {string}
  */
-const latLngToCardinal = latLng => {
+const latLngToCardinal = (latLng) => {
 	const {lat, lng} = latLng;
 	const NS = (lat > 0 ? 'N' : 'S') + lat.toString().replace('-', '');
 	const EW = (lng > 0 ? 'E' : 'W') + lng.toString().replace('-', '');
@@ -23,7 +32,7 @@ let map;
 if (isProd) {
 	map = L.map('map', {
 		center: CENTERS.NA,
-		zoom: 4,
+		zoom: ZOOM_LEVEL.country,
 	});
 } else {
 	map = L.map('map', {
@@ -32,7 +41,7 @@ if (isProd) {
 	});
 }
 
-window.mapHUD = L.map('hud-map', {
+const mapHUD = L.map('hud-map', {
 	center: CENTERS.NA,
 	zoom: 3,
 	// NO ZOOM! ONLY LOOK!
@@ -69,11 +78,11 @@ const viewBox = L.rectangle(getBoundsForBox(), {
 	zoom: INIT_ZOOM_LEVEL,
 });
 viewBox.addTo(mapHUD);
-viewBox.on('dragend', v => {
+viewBox.on('dragend', (v) => {
 	const draggedTo = v.target.getCenter();
 	map.setView(draggedTo);
 });
-viewBox.on('zoom', v => {
+viewBox.on('zoom', (v) => {
 	map.setZoom(v.zoom);
 });
 
@@ -83,11 +92,15 @@ map.on('moveend', drawViewBox);
 map.on('zoomend', drawViewBox);
 // END Interactive mapHUD viewbox
 
-// open LatLng popup on rightclick
-map.on('contextmenu', e => {
-	L.popup()
-		.setLatLng(e.latlng)
-		.setContent(e.latlng.toLocaleString())
+// open LatLng popup on rightclick. +shift => center of map / view
+map.on('contextmenu', (e) => {
+	let useLatLng = e.latlng;
+	if (e.originalEvent.shiftKey) {
+		useLatLng = map.getCenter();
+	}
+
+	L.popup({content: useLatLng.toLocaleString()})
+		.setLatLng(useLatLng)
 		.openOn(map);
 
 	e.originalEvent.preventDefault();
@@ -218,7 +231,7 @@ const drawRoute = (route, coords) => {
 		routeGroup.addLayer(padding);
 		routeGroup.addLayer(L.layerGroup(markers));
 
-		routeGroup.on('mouseover', e => {
+		routeGroup.on('mouseover', (e) => {
 			line.setStyle({opacity: 1});
 			padding.setStyle({opacity: 0.4});
 		});
@@ -231,25 +244,50 @@ const drawRoute = (route, coords) => {
 	return routeGroup;
 };
 
+/**
+ * @param {Zone} zone
+ * @param {COORDS} coords
+ */
 const drawZone = (zone, coords) => {
 	for (const route of zone) {
 		drawRoute(route, coords).addTo(map);
 	}
 };
 
-// btn binding
-document.querySelector('#namr-region-btn').onclick = () => {
-	map.setView(CENTERS.NA, 4);
-};
-document.querySelector('#north-east-region-btn').onclick = () => {
-	map.setView(CENTERS.NA_NE, 6);
-	drawZone(NE_ZONE, COORDS);
-};
-document.querySelector('#west-region-btn').onclick = () => {
-	map.setView(CENTERS.NA_WEST, 5);
-	drawZone(WEST_ZONE, COORDS);
+/**
+ * @param {string} elID - raw id, no '#' etc. e.g. `<div id="west"></div>` => 'west'
+ * @param {keyof CENTERS} center
+ * @param {{zone: Zone, zoom: number}}
+ */
+const bindRegionBtn = (elID, center, {zone, zoom = ZOOM_LEVEL.country} = {}) => {
+	if (!elID || !center) {
+		throw ReferenceError('missing required argument(s)');
+	}
+
+	try {
+		document.querySelector('.region-btn#' + elID).onclick = () => {
+			map.setView(CENTERS[center], zoom);
+			if (zone) {
+				drawZone(zone, COORDS);
+			}
+		};
+	} catch (e) {
+		console.error('Error while binding region button', e);
+	}
 };
 
+// btn binding
+bindRegionBtn('namr', 'NA', {zoom: ZOOM_LEVEL.continent});
+bindRegionBtn('usa', 'USA');
+bindRegionBtn('canada', 'CANADA');
+bindRegionBtn('mexico', 'MEXICO');
+bindRegionBtn('west', 'NA_WEST', {zone: ZONE_WEST, zoom: ZOOM_LEVEL.region});
+bindRegionBtn('central', 'NA_CENTRAL', {zone: ZONE_CENTRAL, zoom: ZOOM_LEVEL.region});
+bindRegionBtn('great-lakes', 'NA_G_LAKES', {zone: ZONE_G_LAKES, zoom: ZOOM_LEVEL.region});
+bindRegionBtn('north-east', 'NA_NE', {zone: ZONE_NE, zoom: ZOOM_LEVEL.tristate});
+bindRegionBtn('south-east', 'NA_SE', {zone: ZONE_SE, zoom: ZOOM_LEVEL.tristate});
+
+// city labels show/hide
 document.querySelector('#show-city-labels').onclick = () => {
 	document.dispatchEvent(eSHOW_CITY_LABELS);
 };
@@ -257,7 +295,6 @@ document.querySelector('#hide-city-labels').onclick = () => {
 	document.dispatchEvent(eHIDE_CITY_LABELS);
 };
 
+// INIT UI
 map.setView(CENTERS.NA_NE, 6);
-drawZone(NE_ZONE, COORDS);
-drawZone(INTER_NE, COORDS);
-// startup UI
+drawZone(ZONE_NE, COORDS);
