@@ -73,6 +73,14 @@ export default {
 			"Springfield": [42.1015, -72.5898],
 			"Worcester": [42.2626, -71.8023]
 		},
+    "Michigan": {
+			"Gaylord": [45.0276, -84.6741],
+      "Lansing": [42.7325, -84.5555],
+      "Mackinaw City": [45.7833, -84.7333],
+      "Mt. Pleasant": [43.5978, -84.7675],
+      "Petoskey": [45.3736, -84.9553],
+			"Sault Ste. Marie": [46.4913, -84.3666]
+    },
 		"New Jersey": {
 			"Atlantic City": [39.3643, -74.4229],
 			"Camden": [39.9259, -75.1196],
