@@ -1,4 +1,4 @@
-export default {
+{
         "Baja California": {
             "Tijuana": [32.5149, -117.0382],
             "Mexicali": [32.6245, -115.4523]
@@ -18,4 +18,4 @@ export default {
         "Tamaulipas": {
             "Reynosa": [26.0923, -98.2769]
         }
-    }; 
+    } 
