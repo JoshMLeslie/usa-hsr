@@ -1,6 +1,6 @@
-import * as canada from "./coords/canada.js"; 
-import * as mexico from "./coords/mexico.js";
-import * as usa from "./coords/usa.js";
+import canada from "./coords/canada.js"; 
+import mexico from "./coords/mexico.js";
+import usa from "./coords/usa.js";
 
 export default {
 	"Canada": canada, 
