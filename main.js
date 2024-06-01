@@ -128,33 +128,31 @@ const HIDE_CITY_LABELS = 'hide_city_labels';
 const eHIDE_CITY_LABELS = new Event(HIDE_CITY_LABELS);
 // INIT END
 
-const drawMarkers = (coords, names) => {
-	return coords.map((coord, i) => {
-		const marker = L.circleMarker(coord, {
-			radius: 5,
-			color: '#333333',
-		});
-
-		const latLng = L.latLng(coord);
-
-		// Hover tooltip
-		const elP = document.createElement('p');
-		const cardinalLatLng = latLngToCardinal(latLng);
-		elP.innerText = `${names[i]}\n${cardinalLatLng[0]}\n${cardinalLatLng[1]}`;
-		marker.bindTooltip(elP);
-
-		// toggle tooltip, just name
-		const nameTTip = L.tooltip(latLng, {content: names[i], direction: 'right'});
-
-		document.addEventListener(SHOW_CITY_LABELS, () => {
-			nameTTip.openOn(map);
-		});
-		document.addEventListener(HIDE_CITY_LABELS, () => {
-			nameTTip.close();
-		});
-		return marker;
+const drawMarker = (coord, name) => {
+	const marker = L.circleMarker(coord, {
+		radius: 5,
+		color: '#333333',
 	});
-};
+
+	const latLng = L.latLng(coord);
+
+	// Hover tooltip
+	const elP = document.createElement('p');
+	const cardinalLatLng = latLngToCardinal(latLng);
+	elP.innerText = `${name}\n${cardinalLatLng[0]}\n${cardinalLatLng[1]}`;
+	marker.bindTooltip(elP);
+
+	// toggle tooltip, just name
+	const nameTTip = L.tooltip(latLng, {content: name, direction: 'right'});
+
+	document.addEventListener(SHOW_CITY_LABELS, () => {
+		nameTTip.openOn(map);
+	});
+	document.addEventListener(HIDE_CITY_LABELS, () => {
+		nameTTip.close();
+	});
+	return marker;
+}
 
 const drawPolyline = (coords, opts) => {
 	if (coords.length < 2) return;
@@ -225,7 +223,7 @@ const drawRoute = (route, coords) => {
 		}
 
 		const [line, padding] = drawPolyline([aCoord, bCoord], opts);
-		const markers = drawMarkers([aCoord, bCoord], [a.city, b.city]);
+		const markers = [drawMarker(aCoord, a.city), drawMarker(bCoord, b.city)];
 
 		routeGroup.addLayer(line);
 		routeGroup.addLayer(padding);
@@ -297,4 +295,12 @@ document.querySelector('#hide-city-labels').onclick = () => {
 
 // INIT UI
 map.setView(CENTERS.NA_NE, 6);
-drawZone(ZONE_NE, COORDS);
+// drawZone(ZONE_NE, COORDS);
+
+document.querySelector('#show-cities').onclick = async () => {	
+	const data = await fetch("./data-csv/parsed_results.json").then(r => r.json());
+	
+	data.forEach(cityData => {
+		drawMarker([cityData.lat, cityData.lon], cityData.city).addTo(map);
+	})
+}
