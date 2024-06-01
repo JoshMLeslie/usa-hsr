@@ -1,3 +1,7 @@
+'use strict';
+
+/*global L:readonly*/
+
 import COORDS from './coords.js';
 import CENTERS from './zones/centers.js';
 import ZONE_CENTRAL from './zones/central.js';
@@ -20,7 +24,7 @@ const INIT_ZOOM_LEVEL = ZOOM_LEVEL.tristate;
  * @param {L.LatLng} latLng
  * @returns {string}
  */
-const latLngToCardinal = (latLng) => {
+const latLngToCardinal = latLng => {
 	const {lat, lng} = latLng;
 	const NS = (lat > 0 ? 'N' : 'S') + lat.toString().replace('-', '');
 	const EW = (lng > 0 ? 'E' : 'W') + lng.toString().replace('-', '');
@@ -28,6 +32,9 @@ const latLngToCardinal = (latLng) => {
 };
 
 // INIT START
+document.querySelector('body').classList.add(isProd ? 'prod' : 'dev');
+
+
 let map;
 if (isProd) {
 	map = L.map('map', {
@@ -78,11 +85,11 @@ const viewBox = L.rectangle(getBoundsForBox(), {
 	zoom: INIT_ZOOM_LEVEL,
 });
 viewBox.addTo(mapHUD);
-viewBox.on('dragend', (v) => {
+viewBox.on('dragend', v => {
 	const draggedTo = v.target.getCenter();
 	map.setView(draggedTo);
 });
-viewBox.on('zoom', (v) => {
+viewBox.on('zoom', v => {
 	map.setZoom(v.zoom);
 });
 
@@ -93,7 +100,7 @@ map.on('zoomend', drawViewBox);
 // END Interactive mapHUD viewbox
 
 // open LatLng popup on rightclick. +shift => center of map / view
-map.on('contextmenu', (e) => {
+map.on('contextmenu', e => {
 	let useLatLng = e.latlng;
 	if (e.originalEvent.shiftKey) {
 		useLatLng = map.getCenter();
@@ -152,7 +159,7 @@ const drawMarker = (coord, name) => {
 		nameTTip.close();
 	});
 	return marker;
-}
+};
 
 const drawPolyline = (coords, opts) => {
 	if (coords.length < 2) return;
@@ -229,7 +236,7 @@ const drawRoute = (route, coords) => {
 		routeGroup.addLayer(padding);
 		routeGroup.addLayer(L.layerGroup(markers));
 
-		routeGroup.on('mouseover', (e) => {
+		routeGroup.on('mouseover', _ => {
 			line.setStyle({opacity: 1});
 			padding.setStyle({opacity: 0.4});
 		});
@@ -257,7 +264,11 @@ const drawZone = (zone, coords) => {
  * @param {keyof CENTERS} center
  * @param {{zone: Zone, zoom: number}}
  */
-const bindRegionBtn = (elID, center, {zone, zoom = ZOOM_LEVEL.country} = {}) => {
+const bindRegionBtn = (
+	elID,
+	center,
+	{zone, zoom = ZOOM_LEVEL.country} = {}
+) => {
 	if (!elID || !center) {
 		throw ReferenceError('missing required argument(s)');
 	}
@@ -280,10 +291,22 @@ bindRegionBtn('usa', 'USA');
 bindRegionBtn('canada', 'CANADA');
 bindRegionBtn('mexico', 'MEXICO');
 bindRegionBtn('west', 'NA_WEST', {zone: ZONE_WEST, zoom: ZOOM_LEVEL.region});
-bindRegionBtn('central', 'NA_CENTRAL', {zone: ZONE_CENTRAL, zoom: ZOOM_LEVEL.region});
-bindRegionBtn('great-lakes', 'NA_G_LAKES', {zone: ZONE_G_LAKES, zoom: ZOOM_LEVEL.region});
-bindRegionBtn('north-east', 'NA_NE', {zone: ZONE_NE, zoom: ZOOM_LEVEL.tristate});
-bindRegionBtn('south-east', 'NA_SE', {zone: ZONE_SE, zoom: ZOOM_LEVEL.tristate});
+bindRegionBtn('central', 'NA_CENTRAL', {
+	zone: ZONE_CENTRAL,
+	zoom: ZOOM_LEVEL.region,
+});
+bindRegionBtn('great-lakes', 'NA_G_LAKES', {
+	zone: ZONE_G_LAKES,
+	zoom: ZOOM_LEVEL.region,
+});
+bindRegionBtn('north-east', 'NA_NE', {
+	zone: ZONE_NE,
+	zoom: ZOOM_LEVEL.tristate,
+});
+bindRegionBtn('south-east', 'NA_SE', {
+	zone: ZONE_SE,
+	zoom: ZOOM_LEVEL.tristate,
+});
 
 // city labels show/hide
 document.querySelector('#show-city-labels').onclick = () => {
@@ -297,14 +320,13 @@ document.querySelector('#hide-city-labels').onclick = () => {
 map.setView(CENTERS.NA_NE, 6);
 // drawZone(ZONE_NE, COORDS);
 
-async function showCSVLabels () {
-	const data = await fetch("./data-csv/parsed_results.json").then(r => r.json());
-	
-	data.forEach(cityData => {
-		drawMarker([cityData.lat, cityData.lon], cityData.city).addTo(map);
-	})
-}
-
-document.querySelector('#show-cities').onclick = async () => {	
-	showCSVLabels()
-}
+document.querySelector('#show-cities').onclick = () => {
+	/** @type {{lat: number; lon: number; city: string;}[]}} data */
+	fetch('./data-csv/parsed_results.json')
+		.then(r => r.json())
+		.then(data => {
+			data.forEach(cityData => {
+				drawMarker([cityData.lat, cityData.lon], cityData.city).addTo(map);
+			});
+		});
+};

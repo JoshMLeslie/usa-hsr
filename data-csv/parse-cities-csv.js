@@ -9,10 +9,10 @@ const errors = [];
 
 function writeResultsToJson(data, type) {
 	if (!data.length) return;
-	
+
 	const jsonData = JSON.stringify(data, null, 2); // Pretty-print JSON with 2-space indentation
 	const name = 'data-csv/parsed_' + type + '.json';
-	fs.writeFile(name, jsonData, 'utf8', (err) => {
+	fs.writeFile(name, jsonData, 'utf8', err => {
 		if (err) {
 			console.error('Error writing to JSON file:', err);
 		} else {
@@ -23,7 +23,7 @@ function writeResultsToJson(data, type) {
 
 fs.createReadStream('data-csv/cities-by-pop.csv')
 	.pipe(csv({separator: '\t'})) // Assuming tab-separated values
-	.on('data', (row) => {
+	.on('data', row => {
 		const example = Object.values(row).join('\t'); // Convert the row object to a tab-separated string
 		const match = example.match(pattern);
 		if (match) {
@@ -32,8 +32,17 @@ fs.createReadStream('data-csv/cities-by-pop.csv')
 			const lat = groups[groups.length - 2];
 			const lon = groups[groups.length - 1];
 
-			const latValue = parseFloat(lat.slice(0, -1));
-			const lonValue = parseFloat(lon.slice(0, -1));
+			// Convert latitude to float and adjust sign based on direction
+			let latValue = parseFloat(lat.slice(0, -2));
+			if (lat.endsWith('S')) {
+				latValue = -latValue;
+			}
+
+			// Convert longitude to float and adjust sign based on direction
+			let lonValue = parseFloat(lon.slice(0, -2));
+			if (lon.endsWith('W')) {
+				lonValue = -lonValue;
+			}
 
 			groups[groups.length - 2] = latValue;
 			groups[groups.length - 1] = lonValue;
@@ -49,10 +58,10 @@ fs.createReadStream('data-csv/cities-by-pop.csv')
 				mi_dens_2020: groups[7],
 				km_dens_2020: groups[8],
 				lat: groups[9],
-				lon: groups[10]
+				lon: groups[10],
 			});
 		} else {
-			errors.push('No match found for row: ' + example)
+			errors.push('No match found for row: ' + example);
 		}
 	})
 	.on('end', () => {

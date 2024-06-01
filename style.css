@@ -7,6 +7,10 @@ body,
 	box-sizing: border-box;
 }
 
+body.prod .only-dev {
+	display: none;
+}
+
 body {
 	margin: 0;
 }
