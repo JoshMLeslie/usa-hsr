@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "setup": "npm i",
+    "build-csv": "node ./data-csv/parse-cities-csv.js"
+  },
   "devDependencies": {
     "@types/leaflet": "^1.9.8",
     "csv-parser": "^3.0.0"

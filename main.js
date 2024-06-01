@@ -297,10 +297,14 @@ document.querySelector('#hide-city-labels').onclick = () => {
 map.setView(CENTERS.NA_NE, 6);
 // drawZone(ZONE_NE, COORDS);
 
-document.querySelector('#show-cities').onclick = async () => {	
+async function showCSVLabels () {
 	const data = await fetch("./data-csv/parsed_results.json").then(r => r.json());
 	
 	data.forEach(cityData => {
 		drawMarker([cityData.lat, cityData.lon], cityData.city).addTo(map);
 	})
+}
+
+document.querySelector('#show-cities').onclick = async () => {	
+	showCSVLabels()
 }

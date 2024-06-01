@@ -11,7 +11,7 @@ function writeResultsToJson(data, type) {
 	if (!data.length) return;
 	
 	const jsonData = JSON.stringify(data, null, 2); // Pretty-print JSON with 2-space indentation
-	const name = 'parsed_' + type + '.json';
+	const name = 'data-csv/parsed_' + type + '.json';
 	fs.writeFile(name, jsonData, 'utf8', (err) => {
 		if (err) {
 			console.error('Error writing to JSON file:', err);
@@ -21,7 +21,7 @@ function writeResultsToJson(data, type) {
 	});
 }
 
-fs.createReadStream('cities-by-pop.csv')
+fs.createReadStream('data-csv/cities-by-pop.csv')
 	.pipe(csv({separator: '\t'})) // Assuming tab-separated values
 	.on('data', (row) => {
 		const example = Object.values(row).join('\t'); // Convert the row object to a tab-separated string
