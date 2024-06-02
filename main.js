@@ -2,6 +2,8 @@
 
 /*global L:readonly*/
 
+import DBSCAN from './dbscan.js';
+
 import COORDS from './coords.js';
 import CENTERS from './zones/centers.js';
 import ZONE_CENTRAL from './zones/central.js';
@@ -33,7 +35,6 @@ const latLngToCardinal = latLng => {
 
 // INIT START
 document.querySelector('body').classList.add(isProd ? 'prod' : 'dev');
-
 
 let map;
 if (isProd) {
@@ -145,8 +146,8 @@ const drawMarker = (coord, name) => {
 
 	// Hover tooltip
 	const elP = document.createElement('p');
-	const cardinalLatLng = latLngToCardinal(latLng);
-	elP.innerText = `${name}\n${cardinalLatLng[0]}\n${cardinalLatLng[1]}`;
+	const [lat, lng] = latLngToCardinal(latLng);
+	elP.innerText = `${name}\n${lat}\n${lng}`;
 	marker.bindTooltip(elP);
 
 	// toggle tooltip, just name
@@ -320,13 +321,16 @@ document.querySelector('#hide-city-labels').onclick = () => {
 map.setView(CENTERS.NA_NE, 6);
 // drawZone(ZONE_NE, COORDS);
 
-document.querySelector('#show-cities').onclick = () => {
+document.querySelector('#show-cities').onclick = async () => {
 	/** @type {{lat: number; lon: number; city: string;}[]}} data */
-	fetch('./data-csv/parsed_results.json')
-		.then(r => r.json())
-		.then(data => {
-			data.forEach(cityData => {
-				drawMarker([cityData.lat, cityData.lon], cityData.city).addTo(map);
-			});
-		});
+	const data = await fetch('./data-csv/parsed_results.json').then(r =>
+		r.json()
+	);
+	const markers = data.map(({lat, lon, city}) => drawMarker([lat, lon], city));
+	const clusterGroup = L.markerClusterGroup({
+		maxClusterRadius: 40,
+	});
+	clusterGroup.addLayers(markers);
+	console.log(clusterGroup);
+	map.addLayer(clusterGroup);
 };
