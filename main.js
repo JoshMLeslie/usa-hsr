@@ -126,9 +126,6 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 }).addTo(mapHUD);
 
-// Captures the various train routes into a leaflet object for ref
-const RouteGroupings = new L.LayerGroup();
-
 // events
 const SHOW_CITY_LABELS = 'show_city_labels';
 const eSHOW_CITY_LABELS = new Event(SHOW_CITY_LABELS);
@@ -136,10 +133,11 @@ const HIDE_CITY_LABELS = 'hide_city_labels';
 const eHIDE_CITY_LABELS = new Event(HIDE_CITY_LABELS);
 // INIT END
 
-const drawMarker = (coord, name) => {
+const drawMarker = (coord, name, markerOpts = {}) => {
 	const marker = L.circleMarker(coord, {
 		radius: 5,
 		color: '#333333',
+		...markerOpts
 	});
 
 	const latLng = L.latLng(coord);
@@ -326,7 +324,7 @@ document.querySelector('#show-cities').onclick = async () => {
 	const data = await fetch('./data-csv/parsed_results.json').then(r =>
 		r.json()
 	);
-	const markers = data.map(({lat, lon, city}) => drawMarker([lat, lon], city));
+	const markers = data.map(({lat, lon, city}) => drawMarker([lat, lon], city, {color: "red"}));
 	const clusterGroup = L.markerClusterGroup({
 		maxClusterRadius: 40,
 	});

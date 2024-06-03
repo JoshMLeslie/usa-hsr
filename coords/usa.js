@@ -55,6 +55,7 @@ export default {
 			"Atlantic City": [39.3643, -74.4229],
 			"Camden": [39.9259, -75.1196],
 			"Jersey City": [40.7282, -74.0776],
+			"Lakewood": [40.0771, -74.1985],
 			"Newark": [40.7357, -74.1724],
 			"Paterson": [40.9168, -74.1718],
 			"Trenton": [40.2206, -74.7597]
@@ -64,7 +65,8 @@ export default {
 			"Buffalo": [42.8864, -78.8784],
 			"NYC": [40.7128, -74.006],
 			"Rochester": [43.1566, -77.6088],
-			"Syracuse": [43.0481, -76.1474]
+			"Syracuse": [43.0481, -76.1474],
+			"Binghamton": [42.0556,-75.5439]
 		},
 		"Oregon": {
 			"Eugene": [44.0521, -123.0868],
@@ -76,6 +78,7 @@ export default {
 			"Harrisburg": [40.2732, -76.8867],
 			"Philadelphia": [39.9526, -75.1652],
 			"Pittsburgh": [40.4406, -79.9959],
+			"Allentown": [40.3606, -75.2838],
 			"Scranton": [41.408, -75.6624]
 		},
 		"Rhode Island": {

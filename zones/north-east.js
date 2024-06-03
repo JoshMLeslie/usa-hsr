@@ -59,6 +59,7 @@ const NE = [
 	],
 	[
 		{city: 'Trenton', state: 'New Jersey', country: 'USA'},
+		{city: 'Lakewood', state: 'New Jersey', country: 'USA'},
 		{city: 'Atlantic City', state: 'New Jersey', country: 'USA'},
 	],
 	[
@@ -68,6 +69,13 @@ const NE = [
 		{city: 'Burnham', state: 'Pennsylvania', country: 'USA'},
 		{city: 'Harrisburg', state: 'Pennsylvania', country: 'USA'},
 		{city: 'Philadelphia', state: 'Pennsylvania', country: 'USA'},
+	],
+	[
+		{city: 'Philadelphia', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Allentown', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Scranton', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Binghamton', state: 'New York', country: 'USA'},
+		{city: 'Syracuse', state: 'New York', country: 'USA'},
 	],
 	[
 		{city: 'Norfolk', state: 'Virginia', country: 'USA'},
