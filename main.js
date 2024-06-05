@@ -1,37 +1,16 @@
 'use strict';
-
 /*global L:readonly*/
 
-import DBSCAN from './dbscan.js';
-
-import COORDS from './coords.js';
-import CENTERS from './zones/centers.js';
-import ZONE_CENTRAL from './zones/central.js';
-import ZONE_G_LAKES from './zones/great-lakes.js';
-import ZONE_NE from './zones/north-east.js';
-import ZONE_SE from './zones/south-east.js';
-import ZONE_WEST from './zones/west.js';
-
-const ZOOM_LEVEL = {
-	continent: 3,
-	country: 4,
-	region: 5,
-	tristate: 6,
-};
-
-const isProd = false;
-const INIT_ZOOM_LEVEL = ZOOM_LEVEL.tristate;
-
-/**
- * @param {L.LatLng} latLng
- * @returns {string}
- */
-const latLngToCardinal = latLng => {
-	const {lat, lng} = latLng;
-	const NS = (lat > 0 ? 'N' : 'S') + lat.toString().replace('-', '');
-	const EW = (lng > 0 ? 'E' : 'W') + lng.toString().replace('-', '');
-	return [NS, EW];
-};
+import {
+	INIT_ZOOM_LEVEL,
+	isProd,
+	ZOOM_LEVEL
+} from './assets/js/const.js';
+import { bindRegionButtonsToMap } from './assets/js/bind-btns.js';
+import { drawMarker } from './assets/js/draw.js';
+import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './assets/js/events.js';
+import { getBoundsForBox } from './assets/js/util.js';
+import CENTERS from './assets/js/zones/centers.js';
 
 // INIT START
 document.querySelector('body').classList.add(isProd ? 'prod' : 'dev');
@@ -66,19 +45,11 @@ const mapHUD = L.map('hud-map', {
 L.control.scale().addTo(map);
 L.control.scale().addTo(mapHUD);
 
-// START Interactive mapHUD viewbox
-const getBoundsForBox = () => {
-	const NW = map.getBounds().getNorthWest();
-	return [
-		NW,
-		map.getBounds().getNorthEast(),
-		map.getBounds().getSouthEast(),
-		map.getBounds().getSouthWest(),
-		NW,
-	];
-};
+bindRegionButtonsToMap(map);
 
-const viewBox = L.rectangle(getBoundsForBox(), {
+// START Interactive mapHUD viewbox
+
+const viewBox = L.rectangle(getBoundsForBox(map), {
 	interactive: true,
 	draggable: true,
 	zoomable: true,
@@ -94,7 +65,7 @@ viewBox.on('zoom', v => {
 	map.setZoom(v.zoom);
 });
 
-const drawViewBox = () => viewBox.setLatLngs(getBoundsForBox());
+const drawViewBox = () => viewBox.setLatLngs(getBoundsForBox(map));
 
 map.on('moveend', drawViewBox);
 map.on('zoomend', drawViewBox);
@@ -126,186 +97,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 }).addTo(mapHUD);
 
-// events
-const SHOW_CITY_LABELS = 'show_city_labels';
-const eSHOW_CITY_LABELS = new Event(SHOW_CITY_LABELS);
-const HIDE_CITY_LABELS = 'hide_city_labels';
-const eHIDE_CITY_LABELS = new Event(HIDE_CITY_LABELS);
 // INIT END
-
-const drawMarker = (coord, name, markerOpts = {}) => {
-	const marker = L.circleMarker(coord, {
-		radius: 5,
-		color: '#333333',
-		...markerOpts
-	});
-
-	const latLng = L.latLng(coord);
-
-	// Hover tooltip
-	const elP = document.createElement('p');
-	const [lat, lng] = latLngToCardinal(latLng);
-	elP.innerText = `${name}\n${lat}\n${lng}`;
-	marker.bindTooltip(elP);
-
-	// toggle tooltip, just name
-	const nameTTip = L.tooltip(latLng, {content: name, direction: 'right'});
-
-	document.addEventListener(SHOW_CITY_LABELS, () => {
-		nameTTip.openOn(map);
-	});
-	document.addEventListener(HIDE_CITY_LABELS, () => {
-		nameTTip.close();
-	});
-	return marker;
-};
-
-const drawPolyline = (coords, opts) => {
-	if (coords.length < 2) return;
-
-	const poly = L.polyline(coords, {opacity: 0.5, ...opts});
-	const polyPadding = L.polyline(coords, {
-		...opts,
-		opacity: 0.2,
-		weight: 10,
-	});
-
-	const rawDistMeter = map.distance(...coords);
-	const distKm = (rawDistMeter / 1000)
-		.toFixed(2)
-		.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	const mToMi = 0.0006213712;
-	const distMi = (rawDistMeter * mToMi)
-		.toFixed(2)
-		.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-	// tooltip element
-	const pre = document.createElement('pre');
-	pre.innerText = `${distKm} km\n${distMi} mi`;
-	pre.style.fontSize = '0.8rem';
-	polyPadding.bindTooltip(pre);
-
-	return [poly, polyPadding];
-};
-
-const drawRoute = (route, coords) => {
-	const routeGroup = L.featureGroup([]);
-
-	for (let aIdx = 0, bIdx = 1; bIdx < route.length; aIdx++, bIdx++) {
-		const a = route[aIdx];
-		const b = route[bIdx];
-
-		const aCoord = coords[a.country][a.state][a.city];
-		const bCoord = coords[b.country][b.state][b.city];
-
-		if (!aCoord || !bCoord) {
-			if (!aCoord) {
-				console.warn('Coordinate missing', a);
-			}
-			if (!bCoord) {
-				console.warn('Coordinate missing', b);
-			}
-			throw new ReferenceError('Coordinate missing');
-		}
-
-		const isInterNational = a.country !== b.country;
-		const isInterState = a.state !== b.state;
-
-		let opts = {color: 'blue'};
-		if (isInterNational) {
-			opts = {
-				color: 'orange',
-				dashArray: 16,
-			};
-		} else if (isInterState) {
-			opts = {
-				color: 'green',
-				dashArray: 4,
-			};
-		}
-
-		if (a.weight && b.weight) {
-			opts.weight = Math.min(a.weight, b.weight);
-		}
-
-		const [line, padding] = drawPolyline([aCoord, bCoord], opts);
-		const markers = [drawMarker(aCoord, a.city), drawMarker(bCoord, b.city)];
-
-		routeGroup.addLayer(line);
-		routeGroup.addLayer(padding);
-		routeGroup.addLayer(L.layerGroup(markers));
-
-		routeGroup.on('mouseover', _ => {
-			line.setStyle({opacity: 1});
-			padding.setStyle({opacity: 0.4});
-		});
-		routeGroup.on('mouseout', () => {
-			line.setStyle({opacity: 0.5});
-			padding.setStyle({opacity: 0.2});
-		});
-	}
-
-	return routeGroup;
-};
-
-/**
- * @param {Zone} zone
- * @param {COORDS} coords
- */
-const drawZone = (zone, coords) => {
-	for (const route of zone) {
-		drawRoute(route, coords).addTo(map);
-	}
-};
-
-/**
- * @param {string} elID - raw id, no '#' etc. e.g. `<div id="west"></div>` => 'west'
- * @param {keyof CENTERS} center
- * @param {{zone: Zone, zoom: number}}
- */
-const bindRegionBtn = (
-	elID,
-	center,
-	{zone, zoom = ZOOM_LEVEL.country} = {}
-) => {
-	if (!elID || !center) {
-		throw ReferenceError('missing required argument(s)');
-	}
-
-	try {
-		document.querySelector('.region-btn#' + elID).onclick = () => {
-			map.setView(CENTERS[center], zoom);
-			if (zone) {
-				drawZone(zone, COORDS);
-			}
-		};
-	} catch (e) {
-		console.error('Error while binding region button', e);
-	}
-};
-
-// btn binding
-bindRegionBtn('namr', 'NA', {zoom: ZOOM_LEVEL.continent});
-bindRegionBtn('usa', 'USA');
-bindRegionBtn('canada', 'CANADA');
-bindRegionBtn('mexico', 'MEXICO');
-bindRegionBtn('west', 'NA_WEST', {zone: ZONE_WEST, zoom: ZOOM_LEVEL.region});
-bindRegionBtn('central', 'NA_CENTRAL', {
-	zone: ZONE_CENTRAL,
-	zoom: ZOOM_LEVEL.region,
-});
-bindRegionBtn('great-lakes', 'NA_G_LAKES', {
-	zone: ZONE_G_LAKES,
-	zoom: ZOOM_LEVEL.region,
-});
-bindRegionBtn('north-east', 'NA_NE', {
-	zone: ZONE_NE,
-	zoom: ZOOM_LEVEL.tristate,
-});
-bindRegionBtn('south-east', 'NA_SE', {
-	zone: ZONE_SE,
-	zoom: ZOOM_LEVEL.tristate,
-});
 
 // city labels show/hide
 document.querySelector('#show-city-labels').onclick = () => {
@@ -324,7 +116,9 @@ document.querySelector('#show-cities').onclick = async () => {
 	const data = await fetch('./data-csv/parsed_results.json').then(r =>
 		r.json()
 	);
-	const markers = data.map(({lat, lon, city}) => drawMarker([lat, lon], city, {color: "red"}));
+	const markers = data.map(({lat, lon, city}) =>
+		drawMarker(map, [lat, lon], city, {color: 'red'})
+	);
 	const clusterGroup = L.markerClusterGroup({
 		maxClusterRadius: 40,
 	});
