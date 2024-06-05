@@ -133,9 +133,12 @@ export const drawRoute = (map, route, coords) => {
 /**
  * @param {Zone} zone
  * @param {COORDS} coords
+ * @returns {L.layerGroup} LayerGroup
  */
 export const drawZone = (map, zone, coords) => {
+	const routes = [];
 	for (const route of zone) {
-		drawRoute(map, route, coords).addTo(map);
+		routes.push(drawRoute(map, route, coords));
 	}
+	return L.layerGroup(routes);
 };

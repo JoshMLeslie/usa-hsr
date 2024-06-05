@@ -10,6 +10,13 @@ import ZONE_NE from './zones/north-east.js';
 import ZONE_SE from './zones/south-east.js';
 import ZONE_WEST from './zones/west.js';
 
+/**
+ * @type {{
+ * 	[center: string]: {zoneData: any; shown: boolean}
+ * }}
+ */
+const hasDrawn = {};
+
 export const bindRegionButtonsToMap = map => {
 	/**
 	 * @param {string} elID - raw id, no '#' etc. e.g. `<div id="west"></div>` => 'west'
@@ -27,9 +34,22 @@ export const bindRegionButtonsToMap = map => {
 
 		try {
 			document.querySelector('.region-btn#' + elID).onclick = () => {
+				if (!zone) {
+					throw ReferenceError('no zoneData given for center: ' + center);
+				}
+
 				map.setView(CENTERS[center], zoom);
-				if (zone) {
-					drawZone(map, zone, COORDS);
+				if (hasDrawn[center]) {
+					if (hasDrawn[center].shown) {
+						map.removeLayer(hasDrawn[center].zoneData);
+					} else {
+						map.addLayer(hasDrawn[center].zoneData);
+					}
+					hasDrawn[center].shown = !hasDrawn[center].shown;
+				} else if (!hasDrawn[center]) {
+					const zoneData = drawZone(map, zone, COORDS);
+					hasDrawn[center] = {zoneData, shown: true}
+					map.addLayer(zoneData);
 				}
 			};
 		} catch (e) {
