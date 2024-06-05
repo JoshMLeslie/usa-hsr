@@ -1,15 +1,11 @@
 'use strict';
 /*global L:readonly*/
 
-import {
-	INIT_ZOOM_LEVEL,
-	isProd,
-	ZOOM_LEVEL
-} from './assets/js/const.js';
-import { bindRegionButtonsToMap } from './assets/js/bind-btns.js';
-import { drawMarker } from './assets/js/draw.js';
-import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './assets/js/events.js';
-import { getBoundsForBox } from './assets/js/util.js';
+import {INIT_ZOOM_LEVEL, isProd, ZOOM_LEVEL} from './assets/js/const.js';
+import {bindRegionButtonsToMap} from './assets/js/bind-btns.js';
+import {drawMarker} from './assets/js/draw.js';
+import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './assets/js/events.js';
+import {getBoundsForBox} from './assets/js/util.js';
 import CENTERS from './assets/js/zones/centers.js';
 
 // INIT START
@@ -72,9 +68,9 @@ map.on('zoomend', drawViewBox);
 // END Interactive mapHUD viewbox
 
 // open LatLng popup on rightclick. +shift => center of map / view
-map.on('contextmenu', e => {
-	let useLatLng = e.latlng;
-	if (e.originalEvent.shiftKey) {
+map.on('contextmenu', ({latlng, originalEvent}) => {
+	let useLatLng = latlng;
+	if (originalEvent.shiftKey) {
 		useLatLng = map.getCenter();
 	}
 
@@ -82,7 +78,7 @@ map.on('contextmenu', e => {
 		.setLatLng(useLatLng)
 		.openOn(map);
 
-	e.originalEvent.preventDefault();
+	originalEvent.preventDefault();
 });
 
 // add Earth images
