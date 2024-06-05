@@ -111,7 +111,7 @@ export const drawRoute = (map, route, coords) => {
 		}
 
 		const [line, padding] = drawPolyline(map, [aCoord, bCoord], opts);
-		const markers = [drawMarker(aCoord, a.city), drawMarker(bCoord, b.city)];
+		const markers = [drawMarker(map, aCoord, a.city), drawMarker(map, bCoord, b.city)];
 
 		routeGroup.addLayer(line);
 		routeGroup.addLayer(padding);
