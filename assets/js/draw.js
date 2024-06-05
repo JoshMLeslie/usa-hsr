@@ -70,7 +70,7 @@ export const drawPolyline = (map, coords, opts) => {
 	return [poly, polyPadding];
 };
 
-export const drawRoute = (route, coords) => {
+export const drawRoute = (map, route, coords) => {
 	const routeGroup = L.featureGroup([]);
 
 	for (let aIdx = 0, bIdx = 1; bIdx < route.length; aIdx++, bIdx++) {
@@ -110,7 +110,7 @@ export const drawRoute = (route, coords) => {
 			opts.weight = Math.min(a.weight, b.weight);
 		}
 
-		const [line, padding] = drawPolyline([aCoord, bCoord], opts);
+		const [line, padding] = drawPolyline(map, [aCoord, bCoord], opts);
 		const markers = [drawMarker(aCoord, a.city), drawMarker(bCoord, b.city)];
 
 		routeGroup.addLayer(line);
@@ -136,6 +136,6 @@ export const drawRoute = (route, coords) => {
  */
 export const drawZone = (map, zone, coords) => {
 	for (const route of zone) {
-		drawRoute(route, coords).addTo(map);
+		drawRoute(map, route, coords).addTo(map);
 	}
 };
