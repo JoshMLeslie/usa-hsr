@@ -25,6 +25,19 @@ export default {
 	'District of Columbia': {
 		Washington: [38.9, -77.02],
 	},
+	Indiana: {
+		Gary: [41.6022, -87.3401],
+		'Fort Wayne': [41.09, -85.14],
+		'South Bend': [41.68, -86.27],
+		Indianapolis: [39.7881, -86.1442],
+	},
+	Illinois: {
+		Chicago: [41.8534, -87.6603],
+	},
+	Kentucky: {
+		Lexington: [38.084, -84.4745],
+		Louisville: [38.1876, -85.6506],
+	},
 	Maine: {
 		Bangor: [44.8014, -68.7778],
 		Houlton: [46.1252, -67.8399],
@@ -54,6 +67,7 @@ export default {
 		'Mt. Pleasant': [43.5978, -84.7675],
 		Petoskey: [45.3736, -84.9553],
 		'Sault Ste. Marie': [46.4913, -84.3666],
+		Detroit: [42.38, -83.1],
 	},
 	'New Jersey': {
 		'Atlantic City': [39.3643, -74.4229],
@@ -72,6 +86,19 @@ export default {
 		Syracuse: [43.0481, -76.1474],
 		Binghamton: [42.0556, -75.5439],
 	},
+	Ohio: {
+		Akron: [41.08, -81.52],
+		Cambridge: [40.0153, -81.5489],
+		Cincinnati: [39.1844, -84.4877],
+		Columbus: [39.9817, -83.0102],
+		Cleveland: [41.48, -81.68],
+		Dayton: [39.81, -84.1553],
+		Lima: [40.7328, -84.1061],
+		Marion: [40.6021, -83.1783],
+		Sandusky: [41.402, -82.7166],
+		Toledo: [41.66, -83.58],
+		Wheeling: [40.0594, -80.7306],
+	},
 	Oregon: {
 		Eugene: [44.0521, -123.0868],
 		Portland: [45.5051, -122.675],
@@ -87,6 +114,10 @@ export default {
 	},
 	'Rhode Island': {
 		Providence: [41.824, -71.4128],
+	},
+	Tennessee: {
+		Bristol: [36.5871, -82.1822],
+		Knoxville: [35.9794, -83.9150]
 	},
 	Vermont: {
 		Burlington: [44.4759, -73.2121],

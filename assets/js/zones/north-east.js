@@ -1,5 +1,4 @@
 const NE = [
-	// Woodstock, New Brunswick - Sudbury, ON
 	[
 		{city: 'Woodstock', state: 'New Brunswick', country: 'Canada'},
 		{city: 'Houlton', state: 'Maine', country: 'USA'},
@@ -17,7 +16,6 @@ const NE = [
 		{city: 'Ottawa', state: 'Ontario', country: 'Canada'},
 		{city: 'Toronto', state: 'Ontario', country: 'Canada'},
 	],
-	// Woodstock, New Brunswick - NY, NY
 	[
 		{city: 'Woodstock', state: 'New Brunswick', country: 'Canada'},
 		{city: 'Houlton', state: 'Maine', country: 'USA'},
@@ -27,6 +25,11 @@ const NE = [
 		{city: 'Boston', state: 'Massachusetts', country: 'USA'},
 		{city: 'Providence', state: 'Rhode Island', country: 'USA'},
 		{city: 'Hartford', state: 'Connecticut', country: 'USA'},
+	],
+	[
+		{city: 'Quebec City', state: 'Quebec', country: 'Canada'},
+		{city: 'Jackman', state: 'Maine', country: 'USA'},
+		{city: 'Portland', state: 'Maine', country: 'USA'},
 	],
 	[
 		{city: 'Boston', state: 'Massachusetts', country: 'USA'},
@@ -86,6 +89,7 @@ const NE = [
 		{city: 'Norfolk', state: 'Virginia', country: 'USA'},
 		{city: 'Richmond', state: 'Virginia', country: 'USA'},
 		{city: 'Roanoke', state: 'Virginia', country: 'USA'},
+		{city: 'Bristol', state: 'Tennessee', country: 'USA'},
 	],
 	[
 		{city: 'Sudbury', state: 'Ontario', country: 'Canada'},

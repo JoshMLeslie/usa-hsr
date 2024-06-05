@@ -48,7 +48,7 @@ export const bindRegionButtonsToMap = map => {
 					hasDrawn[center].shown = !hasDrawn[center].shown;
 				} else if (!hasDrawn[center]) {
 					const zoneData = drawZone(map, zone, COORDS);
-					hasDrawn[center] = {zoneData, shown: true}
+					hasDrawn[center] = {zoneData, shown: true};
 					map.addLayer(zoneData);
 				}
 			};
