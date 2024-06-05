@@ -43,6 +43,7 @@ L.control.scale().addTo(map);
 L.control.scale().addTo(mapHUD);
 
 // TODO state boundary highlighting per major zone (NE, SE, GLakes, etc.)
+// see https://leafletjs.com/examples/choropleth/
 // L.geoJson(USA_StateBoundaryData).addTo(map);
 
 bindRegionButtonsToMap(map);
