@@ -7,6 +7,7 @@ import {drawMarker} from './assets/js/draw.js';
 import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './assets/js/events.js';
 import {getBoundsForBox} from './assets/js/util.js';
 import CENTERS from './assets/js/zones/centers.js';
+import USA_StateBoundaryData from './assets/js/usa-state-bounds.js';
 
 // INIT START
 document.querySelector('body').classList.add(isProd ? 'prod' : 'dev');
@@ -41,6 +42,9 @@ const mapHUD = L.map('hud-map', {
 L.control.scale().addTo(map);
 L.control.scale().addTo(mapHUD);
 
+// TODO state boundary highlighting per major zone (NE, SE, GLakes, etc.)
+// L.geoJson(USA_StateBoundaryData).addTo(map);
+
 bindRegionButtonsToMap(map);
 
 // START Interactive mapHUD viewbox
@@ -74,7 +78,13 @@ map.on('contextmenu', ({latlng, originalEvent}) => {
 		useLatLng = map.getCenter();
 	}
 
-	L.popup({content: useLatLng.toLocaleString()})
+	const content = `${useLatLng.lat.toFixed(4)}, ${useLatLng.lng.toFixed(4)}`;
+
+	if (originalEvent.ctrlKey) {
+		navigator.clipboard.writeText(content);
+	}
+	
+	L.popup({content})
 		.setLatLng(useLatLng)
 		.openOn(map);
 
@@ -104,8 +114,7 @@ document.querySelector('#hide-city-labels').onclick = () => {
 };
 
 // INIT UI
-map.setView(CENTERS.NA_NE, 6);
-// drawZone(ZONE_NE, COORDS);
+map.setView(CENTERS.NA_G_LAKES, 6);
 
 let showMajorCities = false;
 const genMajorCityMarkers = async () => {
