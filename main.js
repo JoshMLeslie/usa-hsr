@@ -107,18 +107,35 @@ document.querySelector('#hide-city-labels').onclick = () => {
 map.setView(CENTERS.NA_NE, 6);
 // drawZone(ZONE_NE, COORDS);
 
-document.querySelector('#show-cities').onclick = async () => {
+let showMajorCities = false;
+const genMajorCityMarkers = async () => {
 	/** @type {{lat: number; lon: number; city: string;}[]}} data */
 	const data = await fetch('./data-csv/parsed_results.json').then(r =>
 		r.json()
 	);
-	const markers = data.map(({lat, lon, city}) =>
-		drawMarker(map, [lat, lon], city, {color: 'red'})
-	);
+	const markers = data.map(({lat, lon, city}) => {
+		const m = drawMarker(map, [lat, lon], city, {color: 'red'});
+		const txt = `'${city}': ${[lat, lon]}`;
+		m.on('click', () => {
+			console.log(txt);
+			navigator.clipboard.writeText(txt);
+		});
+		return m;
+	});
 	const clusterGroup = L.markerClusterGroup({
 		maxClusterRadius: 40,
 	});
 	clusterGroup.addLayers(markers);
-	console.log(clusterGroup);
-	map.addLayer(clusterGroup);
+	return clusterGroup;
+};
+
+const majorCities = await genMajorCityMarkers();
+
+document.querySelector('#major-cities').onclick = () => {
+	showMajorCities = !showMajorCities;
+	if (!showMajorCities) {
+		map.removeLayer(majorCities);
+	} else {
+		map.addLayer(majorCities);
+	}
 };

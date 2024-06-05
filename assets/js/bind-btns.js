@@ -48,7 +48,7 @@ export const bindRegionButtonsToMap = map => {
 	});
 	bindRegionBtn('great-lakes', 'NA_G_LAKES', {
 		zone: ZONE_G_LAKES,
-		zoom: ZOOM_LEVEL.region,
+		zoom: ZOOM_LEVEL.tristate,
 	});
 	bindRegionBtn('north-east', 'NA_NE', {
 		zone: ZONE_NE,

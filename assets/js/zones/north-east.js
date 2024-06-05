@@ -66,9 +66,8 @@ const NE = [
 		{city: 'Buffalo', state: 'New York', country: 'USA'},
 		{city: 'Erie', state: 'Pennsylvania', country: 'USA'},
 		{city: 'Pittsburgh', state: 'Pennsylvania', country: 'USA'},
-		{city: 'Burnham', state: 'Pennsylvania', country: 'USA'},
-		{city: 'Harrisburg', state: 'Pennsylvania', country: 'USA'},
-		{city: 'Philadelphia', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Hagerstown', state: 'Maryland', country: 'USA'},
+		{city: 'Washington', state: 'District of Columbia', country: 'USA'},
 	],
 	[
 		{city: 'Philadelphia', state: 'Pennsylvania', country: 'USA'},
@@ -76,6 +75,12 @@ const NE = [
 		{city: 'Scranton', state: 'Pennsylvania', country: 'USA'},
 		{city: 'Binghamton', state: 'New York', country: 'USA'},
 		{city: 'Syracuse', state: 'New York', country: 'USA'},
+	],
+	[
+		{city: 'Pittsburgh', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Burnham', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Harrisburg', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Philadelphia', state: 'Pennsylvania', country: 'USA'},
 	],
 	[
 		{city: 'Norfolk', state: 'Virginia', country: 'USA'},
@@ -95,6 +100,7 @@ const NE = [
 		{city: 'Wilmington', state: 'Delaware', country: 'USA'},
 		{city: 'Newark', state: 'Delaware', country: 'USA'},
 		{city: 'Baltimore', state: 'Maryland', country: 'USA'},
+		{city: 'Washington', state: 'District of Columbia', country: 'USA'},
 		{city: 'Alexandria', state: 'Virginia', country: 'USA'},
 		{city: 'Richmond', state: 'Virginia', country: 'USA'},
 	],
