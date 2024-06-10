@@ -132,8 +132,18 @@ const genMajorCityMarkers = async () => {
 	);
 	const markers = data.map(({lat, lon, city}) => {
 		const m = drawMarker(map, [lat, lon], city, {color: 'red'});
-		const txt = `'${city}': ${[lat, lon]}`;
-		m.on('click', () => {
+		m.on('click', e => {
+			const {lat: layerLat, lng: layerLon} = map.layerPointToLatLng(
+				L.point(e.layerPoint)
+			);
+
+			// sanity check on layer conversion
+			const useLat =
+				layerLat.toFixed(1) == lat.toFixed(1) ? layerLat.toFixed(4) : lat;
+			const useLon =
+				layerLon.toFixed(1) == lon.toFixed(1) ? layerLon.toFixed(4) : lon;
+
+			const txt = `'${city}': [${[useLat, useLon]}],`;
 			console.log(txt);
 			navigator.clipboard.writeText(txt);
 		});
@@ -159,6 +169,20 @@ document.querySelector('#major-cities').onclick = () => {
 };
 
 const genCountyHeatmap = async () => {
+	// 	range: [43, 9663345]
+	// const rainbow = {
+	// 	966330:
+	// 	1932660: ,
+	// 	2898990: ,
+	// 	3865320: ,
+	// 	4831650: ,
+	// 	5797980: ,
+	// 	6764310: ,
+	// 	7730640: ,
+	// 	8696970: ,
+	// 	9663300: ,
+	// };
+
 	const rainbow = new Rainbow({colors: [
 		'#21d452',
 		'#21d48e',

@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-import { HIDE_CITY_LABELS, SHOW_CITY_LABELS } from "./const.js";
+import {HIDE_CITY_LABELS, SHOW_CITY_LABELS} from './const.js';
 
 /*global L:readonly*/
 
@@ -19,7 +19,7 @@ export const drawMarker = (map, coord, name, markerOpts = {}) => {
 	const marker = L.circleMarker(coord, {
 		radius: 5,
 		color: '#333333',
-		...markerOpts
+		...markerOpts,
 	});
 
 	const latLng = L.latLng(coord);
@@ -55,11 +55,11 @@ export const drawPolyline = (map, coords, opts) => {
 	const rawDistMeter = map.distance(...coords);
 	const distKm = (rawDistMeter / 1000)
 		.toFixed(2)
-		.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // pretty print
 	const mToMi = 0.0006213712;
 	const distMi = (rawDistMeter * mToMi)
 		.toFixed(2)
-		.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // pretty print
 
 	// tooltip element
 	const pre = document.createElement('pre');
@@ -106,12 +106,17 @@ export const drawRoute = (map, route, coords) => {
 			};
 		}
 
+		// TODO - remove or implement
 		if (a.weight && b.weight) {
 			opts.weight = Math.min(a.weight, b.weight);
 		}
 
 		const [line, padding] = drawPolyline(map, [aCoord, bCoord], opts);
-		const markers = [drawMarker(map, aCoord, a.city), drawMarker(map, bCoord, b.city)];
+		// TODO for route wiggling purposes: city.bypass ? ...
+		const markers = [
+			drawMarker(map, aCoord, a.city),
+			drawMarker(map, bCoord, b.city),
+		];
 
 		routeGroup.addLayer(line);
 		routeGroup.addLayer(padding);

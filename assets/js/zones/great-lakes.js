@@ -76,6 +76,11 @@ const GREAT_LAKES_STATES = [
 		{city: 'Chicago', state: 'Illinois', country: 'USA'},
 		{city: 'Gary', state: 'Indiana', country: 'USA'},
 		{city: 'Indianapolis', state: 'Indiana', country: 'USA'},
+		{city: 'Evansville', state: 'Indiana', country: 'USA'},
+		{city: 'Clarksville', state: 'Tennessee', country: 'USA'},
+	],
+	[
+		{city: 'Indianapolis', state: 'Indiana', country: 'USA'},
 		{city: 'Cincinnati', state: 'Ohio', country: 'USA'},
 	],
 	[

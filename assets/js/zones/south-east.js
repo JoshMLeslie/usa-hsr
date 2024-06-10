@@ -1,38 +1,76 @@
-const SOUTHEAST_STATES = {
-	Mississippi: {
-		cities: ['Jackson', 'Gulfport', 'Biloxi'],
-		routes: [
-			['Jackson', 'Gulfport'],
-			['Jackson', 'Biloxi'],
-			['Gulfport', 'Biloxi'],
-		],
-		phases: [['Jackson', 'Gulfport', 'Biloxi']],
-	},
-	Florida: {
-		cities: ['Miami', 'Orlando', 'Tampa'],
-		routes: [
-			['Miami', 'Orlando'],
-			['Miami', 'Tampa'],
-			['Orlando', 'Tampa'],
-		],
-		phases: [['Miami', 'Orlando', 'Tampa']],
-	},
-	// Add other relevant Southeast states and their data...
-	'West Virginia': {
-		// Data for West Virginia
-	},
-	'North Carolina': {
-		// Data for North Carolina
-	},
-	'South Carolina': {
-		// Data for South Carolina
-	},
-	Georgia: {
-		// Data for Georgia
-	},
-	Alabama: {
-		// Data for Alabama
-	},
-};
+const SOUTHEAST_STATES = [
+	[
+		{city: 'Bristol', state: 'Tennessee', country: 'USA'},
+		{city: 'Knoxville', state: 'Tennessee', country: 'USA'},
+		{city: 'Chattanooga', state: 'Georgia', country: 'USA'},
+	],
+	[
+		{city: 'Chattanooga', state: 'Georgia', country: 'USA'},
+		{city: 'Atlanta', state: 'Georgia', country: 'USA'},
+		{city: 'Macon', state: 'Georgia', country: 'USA'},
+		{city: 'Lake City', state: 'Florida', country: 'USA'},
+	],
+	[
+		{city: 'Savannah', state: 'Georgia', country: 'USA'},
+		{city: 'Macon', state: 'Georgia', country: 'USA'},
+		{city: 'Columbus', state: 'Georgia', country: 'USA'},
+		{city: 'Montgomery', state: 'Alabama', country: 'USA'},
+	],
+	[
+		{city: 'Clarksville', state: 'Tennessee', country: 'USA'},
+		{city: 'Nashville', state: 'Tennessee', country: 'USA'},
+		{city: 'Murfreesboro', state: 'Tennessee', country: 'USA'},
+		{city: 'Huntsville', state: 'Alabama', country: 'USA'},
+		{city: 'Birmingham', state: 'Alabama', country: 'USA'},
+		{city: 'Montgomery', state: 'Alabama', country: 'USA'},
+		{city: 'Mobile', state: 'Alabama', country: 'USA'},
+	],
+	// ?? {city: 'Tuscaloosa', state: 'Alabama', country: 'USA'},
+	[
+		{city: 'Jacksonville', state: 'Florida', country: 'USA'},
+		{city: 'Lake City', state: 'Florida', country: 'USA'},
+		{city: 'Tallahassee', state: 'Florida', country: 'USA'},
+		{city: 'Mobile', state: 'Alabama', country: 'USA'},
+		{city: 'Gulfport', state: 'Mississippi', country: 'USA'},
+		{city: 'Baton Rouge', state: 'Louisiana', country: 'USA'},
+		{city: 'Lafayette', state: 'Louisiana', country: 'USA'},
+		{city: 'Beaumont', state: 'Texas', country: 'USA'},
+	],
+	[
+		{city: 'Lake City', state: 'Florida', country: 'USA'},
+		{city: 'Gainesville', state: 'Florida', country: 'USA'},
+		{city: 'Lakeland', state: 'Florida', country: 'USA'},
+		{city: 'Cape Coral', state: 'Florida', country: 'USA'},
+	],
+	[
+		{city: 'Orlando', state: 'Florida', country: 'USA'},
+		{city: 'Lakeland', state: 'Florida', country: 'USA'},
+		{city: 'Tampa', state: 'Florida', country: 'USA'},
+	],
+	[
+		{city: 'Wilmington', state: 'South Carolina', country: 'USA'},
+		{city: 'Marion', state: 'South Carolina', country: 'USA'},
+		{city: 'Florence', state: 'South Carolina', country: 'USA'},
+		{city: 'Columbia', state: 'South Carolina', country: 'USA'},
+		{city: 'Augusta', state: 'Georgia', country: 'USA'},
+		{city: 'Atlanta', state: 'Georgia', country: 'USA'},
+	],
+	[
+		{city: 'Richmond', state: 'Virginia', country: 'USA'},
+		{city: 'Raleigh', state: 'North Carolina', country: 'USA'},
+		{city: 'Fayetteville', state: 'North Carolina', country: 'USA'},
+		{city: 'Marion', state: 'South Carolina', country: 'USA'},
+		{city: 'Charleston', state: 'South Carolina', country: 'USA'},
+		{city: 'Savannah', state: 'Georgia', country: 'USA'},
+		{city: 'Jacksonville', state: 'Florida', country: 'USA'},
+		{city: 'Palm Coast', state: 'Florida', country: 'USA'},
+		{city: 'Orlando', state: 'Florida', country: 'USA'},
+		{city: 'Palm Bay', state: 'Florida', country: 'USA'},
+		{city: 'Lucie', state: 'Florida', country: 'USA'},
+		{city: 'West Palm Beach', state: 'Florida', country: 'USA'},
+		{city: 'Fort Lauderdale', state: 'Florida', country: 'USA'},
+		{city: 'Miami', state: 'Florida', country: 'USA'},
+	],
+];
 
 export default SOUTHEAST_STATES;

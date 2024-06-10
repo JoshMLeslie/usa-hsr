@@ -1,4 +1,11 @@
 export default {
+	Alabama: {
+		Birmingham: [33.5322, -86.803],
+		Huntsville: [34.7777, -86.5283],
+		Mobile: [30.67, -88.1],
+		Montgomery: [32.3521, -86.2646],
+		Tuscaloosa: [33.2295, -87.5281],
+	},
 	Alaska: {
 		Anchorage: [61.2181, -149.9003],
 	},
@@ -25,11 +32,36 @@ export default {
 	'District of Columbia': {
 		Washington: [38.9, -77.02],
 	},
+	Florida: {
+		'Lake City': [30.2517, -82.6922],
+		Lakeland: [28.06, -81.95],
+		Tampa: [27.97, -82.47],
+		'Cape Coral': [26.65, -81.99],
+		Gainesville: [29.6617, -82.3406],
+		Jacksonville: [30.34, -81.66],
+		Orlando: [28.41, -81.25],
+		'Palm Coast': [29.54, -81.24],
+		'Palm Bay': [27.96, -80.66],
+		Tallahassee: [30.46, -84.25],
+		Lucie: [27.28, -80.39],
+		'West Palm Beach': [26.75, -80.13],
+		'Fort Lauderdale': [26.14, -80.15],
+		Miami: [25.78, -80.21],
+	},
+	Georgia: {
+		Augusta: [33.3957, -82.1213],
+		Chattanooga: [35.07, -85.25],
+		Columbus: [32.5016, -84.8898],
+		Atlanta: [33.76, -84.42],
+		Macon: [32.81, -83.69],
+		Savannah: [32, -81.15],
+	},
 	Indiana: {
-		Gary: [41.6022, -87.3401],
+		Evansville: [37.9875, -87.5281],
 		'Fort Wayne': [41.09, -85.14],
-		'South Bend': [41.68, -86.27],
+		Gary: [41.6022, -87.3401],
 		Indianapolis: [39.7881, -86.1442],
+		'South Bend': [41.68, -86.27],
 	},
 	Illinois: {
 		Chicago: [41.8534, -87.6603],
@@ -37,6 +69,10 @@ export default {
 	Kentucky: {
 		Lexington: [38.084, -84.4745],
 		Louisville: [38.1876, -85.6506],
+	},
+	Louisiana: {
+		'Baton Rouge': [30.44, -91.13],
+		Lafayette: [30.21, -92.03],
 	},
 	Maine: {
 		Bangor: [44.8014, -68.7778],
@@ -69,6 +105,9 @@ export default {
 		'Sault Ste. Marie': [46.4913, -84.3666],
 		Detroit: [42.38, -83.1],
 	},
+	Mississippi: {
+		Gulfport: [30.4276, -89.0882],
+	},
 	'New Jersey': {
 		'Atlantic City': [39.3643, -74.4229],
 		Camden: [39.9259, -75.1196],
@@ -85,6 +124,10 @@ export default {
 		Rochester: [43.1566, -77.6088],
 		Syracuse: [43.0481, -76.1474],
 		Binghamton: [42.0556, -75.5439],
+	},
+	'North Carolina': {
+		Fayetteville: [35.08, -78.97],
+		Raleigh: [35.83, -78.64],
 	},
 	Ohio: {
 		Akron: [41.08, -81.52],
@@ -115,9 +158,22 @@ export default {
 	'Rhode Island': {
 		Providence: [41.824, -71.4128],
 	},
+	'South Carolina': {
+		Charleston: [32.83, -79.97],
+		Columbia: [34.04, -80.91],
+		Florence: [34.1808, -79.8466],
+		Marion: [34.1789, -79.3732],
+		Wilmington: [34.2118, -77.8876],
+	},
 	Tennessee: {
 		Bristol: [36.5871, -82.1822],
-		Knoxville: [35.9794, -83.9150]
+		Clarksville: [36.5714, -87.35],
+		Knoxville: [35.9794, -83.915],
+		Murfreesboro: [35.8534, -86.4185],
+		Nashville: [36.1734, -86.792],
+	},
+	Texas: {
+		Beaumont: [30.08, -94.15],
 	},
 	Vermont: {
 		Burlington: [44.4759, -73.2121],
