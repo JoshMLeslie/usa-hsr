@@ -7,7 +7,9 @@ import {drawMarker} from './assets/js/draw.js';
 import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './assets/js/events.js';
 import {getBoundsForBox} from './assets/js/util.js';
 import CENTERS from './assets/js/zones/centers.js';
-import USA_StateBoundaryData from './assets/js/usa-state-bounds.js';
+import USA_StateBoundaryData from './assets/js/geojson/usa-state-bounds.js';
+import USA_CountyData from './assets/js/geojson/us_county_data_pop.js';
+import Rainbow from './assets/js/lib/rainbow.js';
 
 // INIT START
 document.querySelector('body').classList.add(isProd ? 'prod' : 'dev');
@@ -44,7 +46,9 @@ L.control.scale().addTo(mapHUD);
 
 // TODO state boundary highlighting per major zone (NE, SE, GLakes, etc.)
 // see https://leafletjs.com/examples/choropleth/
-// L.geoJson(USA_StateBoundaryData).addTo(map);
+L.geoJson(USA_StateBoundaryData, {
+	style: () => ({opacity: 0.5, weight: 2, fill: false}),
+}).addTo(map);
 
 bindRegionButtonsToMap(map);
 
@@ -58,7 +62,7 @@ const viewBox = L.rectangle(getBoundsForBox(map), {
 });
 const viewBoxBackground = L.polygon(
 	[getBoundsForBox(mapHUD), getBoundsForBox(viewBox)],
-	{color: '#000000'}
+	{color: '#000000', className: 'no-click'}
 );
 viewBoxBackground.addTo(mapHUD);
 viewBox.addTo(mapHUD);
@@ -91,7 +95,7 @@ map.on('contextmenu', ({latlng, originalEvent}) => {
 	const content = `${useLatLng.lat.toFixed(4)}, ${useLatLng.lng.toFixed(4)}`;
 
 	if (originalEvent.ctrlKey) {
-		navigator.clipboard.writeText(content);
+		navigator.clipboard.writeText(`[${content}],`);
 	}
 
 	L.popup({content}).setLatLng(useLatLng).openOn(map);
@@ -121,10 +125,6 @@ document.querySelector('#hide-city-labels').onclick = () => {
 	document.dispatchEvent(eHIDE_CITY_LABELS);
 };
 
-// INIT UI
-map.setView(CENTERS.NA_G_LAKES, 6);
-
-let showMajorCities = false;
 const genMajorCityMarkers = async () => {
 	/** @type {{lat: number; lon: number; city: string;}[]}} data */
 	const data = await fetch('./data-csv/parsed_results.json').then(r =>
@@ -146,8 +146,9 @@ const genMajorCityMarkers = async () => {
 	return clusterGroup;
 };
 
-const majorCities = await genMajorCityMarkers();
+const majorCities = await genMajorCityMarkers(); // todo: not await
 
+let showMajorCities = false;
 document.querySelector('#major-cities').onclick = () => {
 	showMajorCities = !showMajorCities;
 	if (!showMajorCities) {
@@ -156,3 +157,62 @@ document.querySelector('#major-cities').onclick = () => {
 		map.addLayer(majorCities);
 	}
 };
+
+const genCountyHeatmap = async () => {
+	const rainbow = new Rainbow({colors: [
+		'#21d452',
+		'#21d48e',
+		'#21d4cb',
+		'#217ad4',
+		'#3a21d4',
+		'#68d421',
+		'#b3d421',
+		'#cd21d4',
+		'#d49d21',
+		'#d46a21',
+	], range: 
+		[43, 9663345],
+});
+
+	return new Promise((res, rej) => {
+		try {
+			res(
+				L.geoJson(USA_CountyData, {
+					style: ({properties}) => {
+						if (properties.population) {
+							const color = rainbow.colorAt(properties.population);
+							console.log(color);
+							return {
+								color,
+							};
+						}
+						return {
+							color: '#000000',
+						};
+					},
+				})
+			);
+		} catch (e) {
+			console.error(e);
+			rej(e);
+		}
+	});
+};
+
+let countyHeatmap;
+
+let showCountyHeatmap = false;
+document.querySelector('#county-heatmap').onclick = async () => {
+	if (!countyHeatmap) {
+		countyHeatmap = await genCountyHeatmap();
+	}
+	showCountyHeatmap = !showCountyHeatmap;
+	if (!showCountyHeatmap) {
+		map.removeLayer(countyHeatmap);
+	} else {
+		map.addLayer(countyHeatmap);
+	}
+};
+
+// DEBUG
+map.addLayer(majorCities);

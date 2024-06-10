@@ -111,6 +111,10 @@ body {
 	border-bottom: 8px dashed orange;
 }
 
+.no-click {
+	cursor: not-allowed;
+}
+
 @media screen and (max-width: 900px) {
 	#hud-map {
 		display: none;
