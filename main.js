@@ -170,33 +170,22 @@ document.querySelector('#major-cities').onclick = () => {
 
 const genCountyHeatmap = async () => {
 	// 	range: [43, 9663345]
-	// const rainbow = {
-	// 	966330:
-	// 	1932660: ,
-	// 	2898990: ,
-	// 	3865320: ,
-	// 	4831650: ,
-	// 	5797980: ,
-	// 	6764310: ,
-	// 	7730640: ,
-	// 	8696970: ,
-	// 	9663300: ,
-	// };
 
-	const rainbow = new Rainbow({colors: [
-		'#21d452',
-		'#21d48e',
-		'#21d4cb',
-		'#217ad4',
-		'#3a21d4',
-		'#68d421',
-		'#b3d421',
-		'#cd21d4',
-		'#d49d21',
-		'#d46a21',
-	], range: 
-		[43, 9663345],
-});
+	const rainbow = new Rainbow({
+		colors: [
+			'#21d452',
+			'#21d48e',
+			'#21d4cb',
+			'#217ad4',
+			'#3a21d4',
+			'#68d421',
+			'#b3d421',
+			'#cd21d4',
+			'#d49d21',
+			'#d46a21',
+		],
+		range: [43, 9663345],
+	});
 
 	return new Promise((res, rej) => {
 		try {
