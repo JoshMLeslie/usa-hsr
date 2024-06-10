@@ -49,7 +49,6 @@ L.control.scale().addTo(mapHUD);
 bindRegionButtonsToMap(map);
 
 // START Interactive mapHUD viewbox
-
 const viewBox = L.rectangle(getBoundsForBox(map), {
 	interactive: true,
 	draggable: true,
@@ -57,7 +56,13 @@ const viewBox = L.rectangle(getBoundsForBox(map), {
 	asDelta: false,
 	zoom: INIT_ZOOM_LEVEL,
 });
+const viewBoxBackground = L.polygon(
+	[getBoundsForBox(mapHUD), getBoundsForBox(viewBox)],
+	{color: '#000000'}
+);
+viewBoxBackground.addTo(mapHUD);
 viewBox.addTo(mapHUD);
+
 viewBox.on('dragend', v => {
 	const draggedTo = v.target.getCenter();
 	map.setView(draggedTo);
@@ -66,7 +71,11 @@ viewBox.on('zoom', v => {
 	map.setZoom(v.zoom);
 });
 
-const drawViewBox = () => viewBox.setLatLngs(getBoundsForBox(map));
+const drawViewBox = () => {
+	const mapBounds = getBoundsForBox(map);
+	viewBox.setLatLngs(mapBounds);
+	viewBoxBackground.setLatLngs([getBoundsForBox(mapHUD), mapBounds]);
+};
 
 map.on('moveend', drawViewBox);
 map.on('zoomend', drawViewBox);
@@ -84,10 +93,8 @@ map.on('contextmenu', ({latlng, originalEvent}) => {
 	if (originalEvent.ctrlKey) {
 		navigator.clipboard.writeText(content);
 	}
-	
-	L.popup({content})
-		.setLatLng(useLatLng)
-		.openOn(map);
+
+	L.popup({content}).setLatLng(useLatLng).openOn(map);
 
 	originalEvent.preventDefault();
 });
