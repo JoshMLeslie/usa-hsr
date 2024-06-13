@@ -1,15 +1,14 @@
 'use strict';
 /*global L:readonly*/
 
-import {INIT_ZOOM_LEVEL, isProd, ZOOM_LEVEL} from './assets/js/const.js';
-import {bindRegionButtonsToMap} from './assets/js/bind-btns.js';
-import {drawMarker} from './assets/js/draw.js';
-import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './assets/js/events.js';
-import {getBoundsForBox} from './assets/js/util.js';
-import CENTERS from './assets/js/zones/centers.js';
+import { bindRegionButtonsToMap } from './assets/js/bind-btns.js';
+import { INIT_ZOOM_LEVEL, isProd, ZOOM_LEVEL } from './assets/js/const.js';
+import { drawMarker } from './assets/js/draw.js';
+import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './assets/js/events.js';
 import USA_StateBoundaryData from './assets/js/geojson/usa-state-bounds.js';
-import USA_CountyData from './assets/js/geojson/us_county_data_pop.js';
 import Rainbow from './assets/js/lib/rainbow.js';
+import { getBoundsForBox } from './assets/js/util.js';
+import CENTERS from './assets/js/zones/centers.js';
 
 // INIT START
 document.querySelector('body').classList.add(isProd ? 'prod' : 'dev');
@@ -67,11 +66,11 @@ const viewBoxBackground = L.polygon(
 viewBoxBackground.addTo(mapHUD);
 viewBox.addTo(mapHUD);
 
-viewBox.on('dragend', v => {
+viewBox.on('dragend', (v) => {
 	const draggedTo = v.target.getCenter();
 	map.setView(draggedTo);
 });
-viewBox.on('zoom', v => {
+viewBox.on('zoom', (v) => {
 	map.setZoom(v.zoom);
 });
 
@@ -125,51 +124,61 @@ document.querySelector('#hide-city-labels').onclick = () => {
 	document.dispatchEvent(eHIDE_CITY_LABELS);
 };
 
+const showCityMarkerPos = (lat, lon, city) => (e) => {
+	const {lat: layerLat, lng: layerLon} = map.layerPointToLatLng(
+		L.point(e.layerPoint)
+	);
+
+	// sanity check on layer conversion
+	const useLat =
+		layerLat.toFixed(1) == lat.toFixed(1) ? layerLat.toFixed(4) : lat;
+	const useLon =
+		layerLon.toFixed(1) == lon.toFixed(1) ? layerLon.toFixed(4) : lon;
+
+	const txt = `'${city}': [${[useLat, useLon]}],`;
+	console.log(txt);
+	navigator.clipboard.writeText(txt);
+};
+
 const genMajorCityMarkers = async () => {
 	/** @type {{lat: number; lon: number; city: string;}[]}} data */
-	const data = await fetch('./data-csv/parsed_results.json').then(r =>
+	const data = await fetch('./data-csv/parsed_results.json').then((r) =>
 		r.json()
 	);
-	const markers = data.map(({lat, lon, city}) => {
-		const m = drawMarker(map, [lat, lon], city, {color: 'red'});
-		m.on('click', e => {
-			const {lat: layerLat, lng: layerLon} = map.layerPointToLatLng(
-				L.point(e.layerPoint)
-			);
-
-			// sanity check on layer conversion
-			const useLat =
-				layerLat.toFixed(1) == lat.toFixed(1) ? layerLat.toFixed(4) : lat;
-			const useLon =
-				layerLon.toFixed(1) == lon.toFixed(1) ? layerLon.toFixed(4) : lon;
-
-			const txt = `'${city}': [${[useLat, useLon]}],`;
-			console.log(txt);
-			navigator.clipboard.writeText(txt);
-		});
-		return m;
-	});
 	const clusterGroup = L.markerClusterGroup({
 		maxClusterRadius: 40,
+	});
+	const markers = data.map(({lat, lon, city}) => {
+		const m = drawMarker(map, [lat, lon], city, {color: 'red'});
+		m.on('click', showCityMarkerPos(lat, lon, city));
+		return m;
 	});
 	clusterGroup.addLayers(markers);
 	return clusterGroup;
 };
 
-const majorCities = await genMajorCityMarkers(); // todo: not await
-
+let majorCities = await genMajorCityMarkers();
 let showMajorCities = false;
-document.querySelector('#major-cities').onclick = () => {
-	showMajorCities = !showMajorCities;
-	if (!showMajorCities) {
-		map.removeLayer(majorCities);
-	} else {
-		map.addLayer(majorCities);
+console.log(majorCities)
+const toggleMajorCities = () => {
+	if (!majorCities) {
+		console.log("TODO doesn't work when generated in here");
 	}
+	console.log("foo")
+	showMajorCities = !showMajorCities;
+	showMajorCities ? map.addLayer(majorCities) : map.removeLayer(majorCities);
 };
+document.querySelector('#major-cities').onclick = toggleMajorCities;
 
+let USA_CountyData;
 const genCountyHeatmap = async () => {
 	// 	range: [43, 9663345]
+
+	if (!USA_CountyData) {
+		USA_CountyData = await fetch(
+			'./assets/js/geojson/us_county_data_pop.json'
+		).then((r) => r.json());
+	}
 
 	const rainbow = new Rainbow({
 		colors: [
@@ -220,12 +229,7 @@ document.querySelector('#county-heatmap').onclick = async () => {
 		countyHeatmap = await genCountyHeatmap();
 	}
 	showCountyHeatmap = !showCountyHeatmap;
-	if (!showCountyHeatmap) {
-		map.removeLayer(countyHeatmap);
-	} else {
-		map.addLayer(countyHeatmap);
-	}
+	showCountyHeatmap
+		? map.addLayer(countyHeatmap)
+		: map.removeLayer(countyHeatmap);
 };
-
-// DEBUG
-map.addLayer(majorCities);
