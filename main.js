@@ -11,7 +11,7 @@ import USA_StateBoundaryData from './assets/js/geojson/usa-state-bounds.js';
 import Rainbow from './assets/js/lib/rainbow.js';
 
 // INIT START
-const isProd = !location.href.includes('localhost');
+const isProd = !/localhost|127.0.0.1/.test(location.href);
 document.querySelector('body').classList.add(isProd ? 'prod' : 'dev');
 
 let map;
