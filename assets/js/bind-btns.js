@@ -34,11 +34,13 @@ export const bindRegionButtonsToMap = map => {
 
 		try {
 			document.querySelector('.region-btn#' + elID).onclick = () => {
+				map.setView(CENTERS[center], zoom);
+
 				if (!zone) {
-					throw ReferenceError('no zoneData given for center: ' + center);
+					console.warn('no zoneData for: ' + center);
+					return;
 				}
 
-				map.setView(CENTERS[center], zoom);
 				if (hasDrawn[center]) {
 					if (hasDrawn[center].shown) {
 						map.removeLayer(hasDrawn[center].zoneData);
