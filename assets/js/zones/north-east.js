@@ -64,6 +64,7 @@ const NE = [
 		{city: 'Trenton', state: 'New Jersey', country: 'USA'},
 		{city: 'Lakewood', state: 'New Jersey', country: 'USA'},
 		{city: 'Atlantic City', state: 'New Jersey', country: 'USA'},
+		{city: 'Philadelphia', state: 'Pennsylvania', country: 'USA'},
 	],
 	[
 		{city: 'Buffalo', state: 'New York', country: 'USA'},
