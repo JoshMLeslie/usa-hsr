@@ -8,7 +8,7 @@ import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './assets/js/events.js';
 import {getBoundsForBox} from './assets/js/util.js';
 import CENTERS from './assets/js/zones/centers.js';
 import USA_StateBoundaryData from './assets/js/geojson/usa-state-bounds.js';
-import Rainbow from './assets/js/lib/rainbow.js';
+import genCountyHeatmap from './assets/js/county-heatmap.js';
 
 // INIT START
 const isProd = !/localhost|127.0.0.1/.test(location.href);
@@ -158,74 +158,20 @@ const genMajorCityMarkers = async () => {
 	return clusterGroup;
 };
 
-let majorCities = await genMajorCityMarkers();
+let majorCities;
 let showMajorCities = false;
-console.log(majorCities);
-const toggleMajorCities = () => {
+const toggleMajorCities = async () => {
 	if (!majorCities) {
-		console.log("TODO doesn't work when generated in here");
+		majorCities = await genMajorCityMarkers();
 	}
-	console.log('foo');
 	showMajorCities = !showMajorCities;
 	showMajorCities ? map.addLayer(majorCities) : map.removeLayer(majorCities);
 };
 document.querySelector('#major-cities').onclick = toggleMajorCities;
 
-let USA_CountyData;
-const genCountyHeatmap = async () => {
-	// 	range: [43, 9663345]
-
-	if (!USA_CountyData) {
-		USA_CountyData = await fetch(
-			'./assets/js/geojson/us_county_data_pop.json'
-		).then(r => r.json());
-	}
-
-	const rainbow = new Rainbow({
-		colors: [
-			'#21d452',
-			'#21d48e',
-			'#21d4cb',
-			'#217ad4',
-			'#3a21d4',
-			'#68d421',
-			'#b3d421',
-			'#cd21d4',
-			'#d49d21',
-			'#d46a21',
-		],
-		range: [43, 9663345],
-	});
-
-	return new Promise((res, rej) => {
-		try {
-			res(
-				L.geoJson(USA_CountyData, {
-					style: ({properties}) => {
-						if (properties.population) {
-							const color = rainbow.colorAt(properties.population);
-							console.log(color);
-							return {
-								color,
-							};
-						}
-						return {
-							color: '#000000',
-						};
-					},
-				})
-			);
-		} catch (e) {
-			console.error(e);
-			rej(e);
-		}
-	});
-};
-
 let countyHeatmap;
-
 let showCountyHeatmap = false;
-document.querySelector('#county-heatmap').onclick = async () => {
+const toggleCountyHeatmap = async () => {
 	if (!countyHeatmap) {
 		countyHeatmap = await genCountyHeatmap();
 	}
@@ -234,3 +180,4 @@ document.querySelector('#county-heatmap').onclick = async () => {
 		? map.addLayer(countyHeatmap)
 		: map.removeLayer(countyHeatmap);
 };
+document.querySelector('#county-heatmap').onclick = toggleCountyHeatmap;
