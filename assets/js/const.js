@@ -1,5 +1,3 @@
-export const isProd = false;
-
 export const ZOOM_LEVEL = {
 	continent: 3,
 	country: 4,

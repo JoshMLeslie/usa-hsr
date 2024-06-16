@@ -1,7 +1,7 @@
 'use strict';
 /*global L:readonly*/
 
-import {INIT_ZOOM_LEVEL, isProd, ZOOM_LEVEL} from './assets/js/const.js';
+import {INIT_ZOOM_LEVEL, ZOOM_LEVEL} from './assets/js/const.js';
 import {bindRegionButtonsToMap} from './assets/js/bind-btns.js';
 import {drawMarker} from './assets/js/draw.js';
 import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './assets/js/events.js';
@@ -12,6 +12,7 @@ import USA_CountyData from './assets/js/geojson/us_county_data_pop.js';
 import Rainbow from './assets/js/lib/rainbow.js';
 
 // INIT START
+const isProd = !location.href.includes('localhost');
 document.querySelector('body').classList.add(isProd ? 'prod' : 'dev');
 
 let map;
