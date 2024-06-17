@@ -181,3 +181,60 @@ const toggleCountyHeatmap = async () => {
 		: map.removeLayer(countyHeatmap);
 };
 document.querySelector('#county-heatmap').onclick = toggleCountyHeatmap;
+
+function extractCoordFrom(input) {
+	const regex = /(-?\d+\.\d+)(?:,?)\s*(-?\d+\.\d+)/;
+	const match = input.match(regex);
+	console.log(match);
+
+	if (match) {
+		const lat = parseFloat(match[1]);
+		const lng = parseFloat(match[2]);
+		return {lat, lng};
+	} else {
+		return null; // No coordinate pair found
+	}
+}
+
+const pingMarker = rawCoord => {
+	const latLng = extractCoordFrom(rawCoord);
+	if (!latLng) {
+		alert('bad input');
+		return;
+	}
+	const m = drawMarker(null, latLng, 'PING');
+	map.addLayer(m);
+	map.flyTo(latLng);
+	console.log('drawing marker', m);
+
+	let opacity = 1;
+	const intv = setInterval(() => {
+		opacity -= 0.1;
+		m.setStyle({opacity});
+	}, 500);
+	setTimeout(() => {
+		map.removeLayer(m);
+		console.log('removing marker', m);
+		clearInterval(intv);
+	}, 4000);
+	return true;
+};
+
+const pingInput = document.querySelector('#ping-coord');
+pingInput.addEventListener('keydown', e => {
+	if (e.code === 'Enter') {
+		const clearVal = pingMarker(e.target.value);
+		if (clearVal) {
+			e.target.value = '';
+		}
+	}
+});
+document.querySelector('#ping-coord-enter').onclick = () => {
+	const clearVal = pingMarker(pingInput.value);
+	if (clearVal) {
+		pingInput.value = '';
+	}
+};
+document.querySelector('#ping-coord-clear').onclick = () => {
+	pingInput.value = '';
+};
