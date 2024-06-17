@@ -9,6 +9,9 @@ export default {
 	Alaska: {
 		Anchorage: [61.2181, -149.9003],
 	},
+	Arkansas: {
+		'Little Rock': [34.7530, -92.2915],
+	},
 	California: {
 		'Los Angeles': [34.0522, -118.2437],
 		'San Diego': [32.7157, -117.1611],
@@ -114,6 +117,7 @@ export default {
 		Meridian: [32.3344, -88.7135],
 		Jackson: [32.3243, -90.2087],
 		Hattiesburg: [31.3118, -89.2967],
+		Tupelo: [34.3167, -88.6924],
 	},
 	'New Jersey': {
 		'Atlantic City': [39.3643, -74.4229],
@@ -181,11 +185,13 @@ export default {
 		Bristol: [36.5871, -82.1822],
 		Clarksville: [36.5714, -87.35],
 		Knoxville: [35.9794, -83.915],
+		Memphis: [35.2015, -90.0804],
 		Murfreesboro: [35.8534, -86.4185],
 		Nashville: [36.1734, -86.792],
 	},
 	Texas: {
 		Beaumont: [30.08, -94.15],
+		Texarkana: [33.4363, -94.0632],
 	},
 	Vermont: {
 		Burlington: [44.4759, -73.2121],

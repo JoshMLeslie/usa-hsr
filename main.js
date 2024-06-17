@@ -52,7 +52,9 @@ await fetch('./assets/js/zones/soft-regions.json')
 		// todo figure out why L.geoJson(d) won't render
 		d.features.forEach((f) => {
 			if (!f.geometry.coordinates[0].length) return;
-			const poly = L.polygon(f.geometry.coordinates[0]);
+			const poly = L.polygon(f.geometry.coordinates[0], {
+				interactive: false
+			});
 			softRegions[f.properties.region] = poly;
 		});
 		console.log('generated soft regions: ', d.features.length);

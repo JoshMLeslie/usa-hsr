@@ -3,7 +3,6 @@ const SOUTHEAST_STATES = [
 		{city: 'Bristol', state: 'Tennessee', country: 'USA'},
 		{city: 'Knoxville', state: 'Tennessee', country: 'USA'},
 		{city: 'Chattanooga', state: 'Georgia', country: 'USA'},
-		{city: 'Huntsville', state: 'Alabama', country: 'USA'},
 	],
 	[
 		{city: 'Chattanooga', state: 'Georgia', country: 'USA'},
@@ -86,6 +85,19 @@ const SOUTHEAST_STATES = [
 		{city: 'Greensboro', state: 'North Carolina', country: 'USA'},
 		{city: 'Asheville', state: 'North Carolina', country: 'USA'},
 		{city: 'Chattanooga', state: 'Georgia', country: 'USA'},
+		{city: 'Huntsville', state: 'Alabama', country: 'USA'},
+		{city: 'Tupelo', state: 'Mississippi', country: 'USA'},
+		{city: 'Memphis', state: 'Tennessee', country: 'USA'},
+	],
+	[
+		{city: 'Tupelo', state: 'Mississippi', country: 'USA'},
+		{city: 'Birmingham', state: 'Alabama', country: 'USA'},
+	],
+	[
+		{city: 'Nashville', state: 'Tennessee', country: 'USA'},
+		{city: 'Memphis', state: 'Tennessee', country: 'USA'},
+		{city: 'Little Rock', state: 'Arkansas', country: 'USA'},
+		{city: 'Texarkana', state: 'Texas', country: 'USA'},
 	],
 	[
 		{city: 'Richmond', state: 'Virginia', country: 'USA'},
@@ -115,17 +127,19 @@ const SOUTHEAST_STATES = [
 	[
 		{city: 'Meridian', state: 'Mississippi', country: 'USA'},
 		{city: 'Hattiesburg', state: 'Mississippi', country: 'USA'},
-		{city: 'Gulfport', state: 'Mississippi', country: 'USA'},
 	],
 	[
+		{city: 'Memphis', state: 'Tennessee', country: 'USA'},
 		{city: 'Jackson', state: 'Mississippi', country: 'USA'},
 		{city: 'Hattiesburg', state: 'Mississippi', country: 'USA'},
+		{city: 'Gulfport', state: 'Mississippi', country: 'USA'},
 	],
 	[
 		{city: 'Monroe', state: 'Louisiana', country: 'USA'},
 		{city: 'Alexandria', state: 'Louisiana', country: 'USA'},
 		{city: 'Lafayette', state: 'Louisiana', country: 'USA'},
 	],
+	
 ];
 
 export default SOUTHEAST_STATES;
