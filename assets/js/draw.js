@@ -15,6 +15,14 @@ const latLngToCardinal = latLng => {
 	return [NS, EW];
 };
 
+/**
+ *
+ * @param {L.Map} map - optional, for drawing the 'name' tooltip
+ * @param {[number, number]} coord
+ * @param {string} name
+ * @param {any} markerOpts
+ * @returns
+ */
 export const drawMarker = (map, coord, name, markerOpts = {}) => {
 	const marker = L.circleMarker(coord, {
 		radius: 5,
@@ -30,15 +38,16 @@ export const drawMarker = (map, coord, name, markerOpts = {}) => {
 	elP.innerText = `${name}\n${lat}\n${lng}`;
 	marker.bindTooltip(elP);
 
-	// toggle tooltip, just name
-	const nameTTip = L.tooltip(latLng, {content: name, direction: 'right'});
-
-	document.addEventListener(SHOW_CITY_LABELS, () => {
-		nameTTip.openOn(map);
-	});
-	document.addEventListener(HIDE_CITY_LABELS, () => {
-		nameTTip.close();
-	});
+	if (map && name) {
+		// toggle tooltip, just name
+		const nameTTip = L.tooltip(latLng, {content: name, direction: 'right'});
+		document.addEventListener(SHOW_CITY_LABELS, () => {
+			nameTTip.openOn(map);
+		});
+		document.addEventListener(HIDE_CITY_LABELS, () => {
+			nameTTip.close();
+		});
+	}
 	return marker;
 };
 
@@ -147,3 +156,5 @@ export const drawZone = (map, zone, coords) => {
 	}
 	return L.layerGroup(routes);
 };
+
+export const drawRegion = () => {};
