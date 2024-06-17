@@ -178,7 +178,6 @@ const dataCache = {
 
 const toggleMajorCities = () => {
 	const {majorCities} = dataCache;
-	console.log(majorCities, map.hasLayer(majorCities));
 	if (map.hasLayer(majorCities)) {
 		map.removeLayer(majorCities);
 		console.log('remove major cities');

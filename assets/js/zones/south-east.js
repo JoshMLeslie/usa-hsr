@@ -139,7 +139,10 @@ const SOUTHEAST_STATES = [
 		{city: 'Alexandria', state: 'Louisiana', country: 'USA'},
 		{city: 'Lafayette', state: 'Louisiana', country: 'USA'},
 	],
-	
+	[
+		{city: 'Little Rock', state: 'Arkansas', country: 'USA'},
+		{city: 'Fayetteville', state: 'Arkansas', country: 'USA'},
+	],
 ];
 
 export default SOUTHEAST_STATES;

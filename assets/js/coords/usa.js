@@ -10,7 +10,8 @@ export default {
 		Anchorage: [61.2181, -149.9003],
 	},
 	Arkansas: {
-		'Little Rock': [34.7530, -92.2915],
+		Fayetteville: [36.0669, -94.1748],
+		'Little Rock': [34.753, -92.2915],
 	},
 	California: {
 		'Los Angeles': [34.0522, -118.2437],
@@ -60,6 +61,12 @@ export default {
 		Savannah: [32, -81.15],
 		Valdosta: [30.818, -83.2976],
 	},
+	Iowa: {
+		'Cedar Rapids': [41.9677, -91.6809],
+		Davenport: [41.5579, -90.6042],
+		'Des Moines': [41.5744, -93.6035],
+		'Mason City': [43.1393, -93.2052],
+	},
 	Indiana: {
 		'Fort Wayne': [41.09, -85.14],
 		'South Bend': [41.68, -86.27],
@@ -68,7 +75,11 @@ export default {
 		Indianapolis: [39.7881, -86.1442],
 	},
 	Illinois: {
+		Champaign: [40.1294, -88.2514],
 		Chicago: [41.8534, -87.6603],
+		Peoria: [40.75, -89.6265],
+		Rockford: [42.261, -89.0552],
+		Springfield: [39.7917, -89.6484],
 	},
 	Kentucky: {
 		Lexington: [38.084, -84.4745],
@@ -112,6 +123,20 @@ export default {
 		Lansing: [42.7325, -84.5555],
 		Petoskey: [45.3736, -84.9553],
 	},
+	Minnesota: {
+		'Fargo': [46.8602,-96.8335],
+		'Saint Paul': [44.95, -93.1009],
+		Duluth: [46.7705, -92.1517],
+		Minneapolis: [44.9609, -93.2712],
+		Rochester: [44.0165, -92.4829],
+		'Saint Cloud': [45.5584, -94.1691],
+	},
+	Missouri: {
+		'Saint Louis': [38.6426, -90.2417],
+		Columbia: [38.9509, -92.3291],
+		'Kansas City': [39.1194, -94.5593],
+		Springfield: [37.1866, -93.2849],
+	},
 	Mississippi: {
 		Gulfport: [30.4276, -89.0882],
 		Meridian: [32.3344, -88.7135],
@@ -137,7 +162,7 @@ export default {
 		Binghamton: [42.0556, -75.5439],
 	},
 	'North Carolina': {
-		Asheville: [35.5780, -82.5608],
+		Asheville: [35.578, -82.5608],
 		Charlotte: [35.2097, -80.8292],
 		Concord: [35.389, -80.6396],
 		Fayetteville: [35.08, -78.97],
@@ -212,5 +237,12 @@ export default {
 	},
 	'West Virginia': {
 		Charleston: [38.3498, -81.6326],
+	},
+	Wisconsin: {
+		'Eau Claire': [44.8939, -91.4116],
+		'Green Bay': [44.52, -87.9895],
+		'Madison': [43.0849,-89.4287],
+		Milwaukee: [43.0609, -87.9675],
+		Wausau: [44.9497, -89.6368],
 	},
 };

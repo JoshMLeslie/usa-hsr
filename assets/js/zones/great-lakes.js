@@ -94,6 +94,79 @@ const GREAT_LAKES_STATES = [
 		{city: 'Charleston', state: 'West Virginia', country: 'USA'},
 		{city: 'Roanoke', state: 'Virginia', country: 'USA'},
 	],
+	[
+		{city: 'Fayetteville', state: 'Arkansas', country: 'USA'},
+		{city: 'Kansas City', state: 'Missouri', country: 'USA'},
+		{city: 'Des Moines', state: 'Iowa', country: 'USA'},
+		{city: 'Mason City', state: 'Iowa', country: 'USA'},
+		{city: 'Minneapolis', state: 'Minnesota', country: 'USA'},
+	],
+	[
+		{city: 'Minneapolis', state: 'Minnesota', country: 'USA'},
+		{city: 'Saint Paul', state: 'Minnesota', country: 'USA'},
+		{city: 'Eau Claire', state: 'Wisconsin', country: 'USA'},
+		{city: 'Wausau', state: 'Wisconsin', country: 'USA'},
+		{city: 'Green Bay', state: 'Wisconsin', country: 'USA'},
+	],
+	[
+		{city: 'Green Bay', state: 'Wisconsin', country: 'USA'},
+		{city: 'Milwaukee', state: 'Wisconsin', country: 'USA'},
+		{city: 'Chicago', state: 'Illinois', country: 'USA'},
+	],
+	[
+		{city: 'Fayetteville', state: 'Arkansas', country: 'USA'},
+		{city: 'Springfield', state: 'Missouri', country: 'USA'},
+		{city: 'Saint Louis', state: 'Missouri', country: 'USA'},
+		{city: 'Springfield', state: 'Illinois', country: 'USA'},
+		{city: 'Peoria', state: 'Illinois', country: 'USA'},
+		{city: 'Chicago', state: 'Illinois', country: 'USA'},
+	],
+	[
+		{city: 'Des Moines', state: 'Iowa', country: 'USA'},
+		{city: 'Davenport', state: 'Iowa', country: 'USA'},
+		{city: 'Chicago', state: 'Illinois', country: 'USA'},
+	],
+	[
+		{city: 'Chicago', state: 'Illinois', country: 'USA'},
+		{city: 'Rockford', state: 'Illinois', country: 'USA'},
+		{city: 'Madison', state: 'Wisconsin', country: 'USA'},
+		{city: 'Eau Claire', state: 'Wisconsin', country: 'USA'},
+	],
+	[
+		{city: 'Evansville', state: 'Indiana', country: 'USA'},
+		{city: 'Saint Louis', state: 'Missouri', country: 'USA'},
+		{city: 'Columbia', state: 'Missouri', country: 'USA'},
+		{city: 'Kansas City', state: 'Missouri', country: 'USA'},
+	],
+	[
+		{city: 'Peoria', state: 'Illinois', country: 'USA'},
+		{city: 'Davenport', state: 'Iowa', country: 'USA'},
+	],
+	[
+		{city: 'Indianapolis', state: 'Indiana', country: 'USA'},
+		{city: 'Champaign', state: 'Illinois', country: 'USA'},
+		{city: 'Springfield', state: 'Illinois', country: 'USA'},
+	],
+	[
+		{city: 'Milwaukee', state: 'Wisconsin', country: 'USA'},
+		{city: 'Madison', state: 'Wisconsin', country: 'USA'},
+		{city: 'Cedar Rapids', state: 'Iowa', country: 'USA'},
+		{city: 'Des Moines', state: 'Iowa', country: 'USA'},
+	],
+	[
+		{city: 'Fargo', state: 'Minnesota', country: 'USA'},
+		{city: 'Duluth', state: 'Minnesota', country: 'USA'},
+	],
+	[
+		{city: 'Minneapolis', state: 'Minnesota', country: 'USA'},
+		{city: 'Duluth', state: 'Minnesota', country: 'USA'},
+		{city: 'Thunder Bay', state: 'Ontario', country: 'Canada'},
+	],
+	[
+		{city: 'Minneapolis', state: 'Minnesota', country: 'USA'},
+		{city: 'Saint Cloud', state: 'Minnesota', country: 'USA'},
+		{city: 'Fargo', state: 'Minnesota', country: 'USA'},
+	],
 ];
 
 export default GREAT_LAKES_STATES;
