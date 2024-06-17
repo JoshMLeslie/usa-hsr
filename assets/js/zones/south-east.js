@@ -3,12 +3,19 @@ const SOUTHEAST_STATES = [
 		{city: 'Bristol', state: 'Tennessee', country: 'USA'},
 		{city: 'Knoxville', state: 'Tennessee', country: 'USA'},
 		{city: 'Chattanooga', state: 'Georgia', country: 'USA'},
+		{city: 'Huntsville', state: 'Alabama', country: 'USA'},
 	],
 	[
 		{city: 'Chattanooga', state: 'Georgia', country: 'USA'},
 		{city: 'Atlanta', state: 'Georgia', country: 'USA'},
 		{city: 'Macon', state: 'Georgia', country: 'USA'},
+		{city: 'Valdosta', state: 'Georgia', country: 'USA'},
 		{city: 'Lake City', state: 'Florida', country: 'USA'},
+	],
+	[
+		{city: 'Savannah', state: 'Georgia', country: 'USA'},
+		{city: 'Valdosta', state: 'Georgia', country: 'USA'},
+		{city: 'Tallahassee', state: 'Florida', country: 'USA'},
 	],
 	[
 		{city: 'Savannah', state: 'Georgia', country: 'USA'},
@@ -56,6 +63,31 @@ const SOUTHEAST_STATES = [
 		{city: 'Atlanta', state: 'Georgia', country: 'USA'},
 	],
 	[
+		{city: 'Roanoke', state: 'Virginia', country: 'USA'},
+		{city: 'Greensboro', state: 'North Carolina', country: 'USA'},
+		{city: 'Concord', state: 'North Carolina', country: 'USA'},
+		{city: 'Charlotte', state: 'North Carolina', country: 'USA'},
+		{city: 'Columbia', state: 'South Carolina', country: 'USA'},
+	],
+	[
+		{city: 'Charlotte', state: 'North Carolina', country: 'USA'},
+		{city: 'Greenville', state: 'South Carolina', country: 'USA'},
+		{city: 'Atlanta', state: 'Georgia', country: 'USA'},
+	],
+	[
+		{city: 'Bristol', state: 'Tennessee', country: 'USA'},
+		{city: 'Asheville', state: 'North Carolina', country: 'USA'},
+		{city: 'Greenville', state: 'South Carolina', country: 'USA'},
+		{city: 'Columbia', state: 'South Carolina', country: 'USA'},
+		{city: 'Charleston', state: 'South Carolina', country: 'USA'},
+	],
+	[
+		{city: 'Raleigh', state: 'North Carolina', country: 'USA'},
+		{city: 'Greensboro', state: 'North Carolina', country: 'USA'},
+		{city: 'Asheville', state: 'North Carolina', country: 'USA'},
+		{city: 'Chattanooga', state: 'Georgia', country: 'USA'},
+	],
+	[
 		{city: 'Richmond', state: 'Virginia', country: 'USA'},
 		{city: 'Raleigh', state: 'North Carolina', country: 'USA'},
 		{city: 'Fayetteville', state: 'North Carolina', country: 'USA'},
@@ -70,6 +102,29 @@ const SOUTHEAST_STATES = [
 		{city: 'West Palm Beach', state: 'Florida', country: 'USA'},
 		{city: 'Fort Lauderdale', state: 'Florida', country: 'USA'},
 		{city: 'Miami', state: 'Florida', country: 'USA'},
+	],
+	[
+		{city: 'Atlanta', state: 'Georgia', country: 'USA'},
+		{city: 'Birmingham', state: 'Alabama', country: 'USA'},
+		{city: 'Tuscaloosa', state: 'Alabama', country: 'USA'},
+		{city: 'Meridian', state: 'Mississippi', country: 'USA'},
+		{city: 'Jackson', state: 'Mississippi', country: 'USA'},
+		{city: 'Monroe', state: 'Louisiana', country: 'USA'},
+		{city: 'Shreveport', state: 'Louisiana', country: 'USA'},
+	],
+	[
+		{city: 'Meridian', state: 'Mississippi', country: 'USA'},
+		{city: 'Hattiesburg', state: 'Mississippi', country: 'USA'},
+		{city: 'Gulfport', state: 'Mississippi', country: 'USA'},
+	],
+	[
+		{city: 'Jackson', state: 'Mississippi', country: 'USA'},
+		{city: 'Hattiesburg', state: 'Mississippi', country: 'USA'},
+	],
+	[
+		{city: 'Monroe', state: 'Louisiana', country: 'USA'},
+		{city: 'Alexandria', state: 'Louisiana', country: 'USA'},
+		{city: 'Lafayette', state: 'Louisiana', country: 'USA'},
 	],
 ];
 
