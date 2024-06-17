@@ -50,16 +50,16 @@ export const bindRegionButtonsToMap = (map, softRegions) => {
 				}
 
 				const isCentered = map.getCenter().equals(CENTERS[center], 2);
-				const flyTo = () => map.flyTo(CENTERS[center], zoom);
+				const panTo = () => map.panTo(CENTERS[center], {duration: 0.5});
 				if (hasDrawn[center].shown && isCentered) {
 					map.removeLayer(hasDrawn[center].zoneData);
 					map.removeLayer(softRegions[elID]);
 					hasDrawn[center].shown = false;
 				} else if (hasDrawn[center].shown && !isCentered) {
-					flyTo();
+					panTo();
 				} else {
 					map.addLayer(hasDrawn[center].zoneData);
-					flyTo();
+					panTo();
 					hasDrawn[center].shown = true;
 				}
 			};
