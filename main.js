@@ -1,14 +1,14 @@
 'use strict';
 /*global L:readonly*/
 
-import {INIT_ZOOM_LEVEL, ZOOM_LEVEL} from './assets/js/const.js';
-import {bindRegionButtonsToMap} from './assets/js/bind-btns.js';
-import {drawMarker} from './assets/js/draw.js';
-import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './assets/js/events.js';
-import {getBoundsForBox} from './assets/js/util.js';
-import CENTERS from './assets/js/zones/centers.js';
-import USA_StateBoundaryData from './assets/js/geojson/usa-state-bounds.js';
+import { bindRegionButtonsToMap } from './assets/js/bind-btns.js';
+import { INIT_ZOOM_LEVEL, ZOOM_LEVEL } from './assets/js/const.js';
 import genCountyHeatmap from './assets/js/county-heatmap.js';
+import { drawMarker } from './assets/js/draw.js';
+import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './assets/js/events.js';
+import USA_StateBoundaryData from './assets/js/geojson/usa-state-bounds.js';
+import { getBoundsForBox } from './assets/js/util.js';
+import CENTERS from './assets/js/zones/centers.js';
 
 // INIT START
 const isProd = !/localhost|127.0.0.1/.test(location.href);
@@ -47,15 +47,15 @@ L.control.scale().addTo(mapHUD);
 // generate soft regions
 const softRegions = {};
 await fetch('./assets/js/zones/soft-regions.json')
-	.then(r => r.json())
-	.then(d => {
+	.then((r) => r.json())
+	.then((d) => {
 		// todo figure out why L.geoJson(d) won't render
-		d.features.forEach(f => {
+		d.features.forEach((f) => {
 			if (!f.geometry.coordinates[0].length) return;
 			const poly = L.polygon(f.geometry.coordinates[0]);
 			softRegions[f.properties.region] = poly;
 		});
-		console.log('added soft regions');
+		console.log('generated soft regions: ', d.features.length);
 	});
 
 L.geoJson(USA_StateBoundaryData, {
@@ -79,11 +79,11 @@ const viewBoxBackground = L.polygon(
 viewBoxBackground.addTo(mapHUD);
 viewBox.addTo(mapHUD);
 
-viewBox.on('dragend', v => {
+viewBox.on('dragend', (v) => {
 	const draggedTo = v.target.getCenter();
 	map.setView(draggedTo);
 });
-viewBox.on('zoom', v => {
+viewBox.on('zoom', (v) => {
 	map.setZoom(v.zoom);
 });
 
@@ -137,7 +137,7 @@ document.querySelector('#hide-city-labels').onclick = () => {
 	document.dispatchEvent(eHIDE_CITY_LABELS);
 };
 
-const showCityMarkerPos = (lat, lon, city) => e => {
+const showCityMarkerPos = (lat, lon, city) => (e) => {
 	const {lat: layerLat, lng: layerLon} = map.layerPointToLatLng(
 		L.point(e.layerPoint)
 	);
@@ -155,7 +155,7 @@ const showCityMarkerPos = (lat, lon, city) => e => {
 
 const genMajorCityMarkers = async () => {
 	/** @type {{lat: number; lon: number; city: string;}[]}} data */
-	const data = await fetch('./data-csv/parsed_results.json').then(r =>
+	const data = await fetch('./data-csv/parsed_results.json').then((r) =>
 		r.json()
 	);
 	const clusterGroup = L.markerClusterGroup({
@@ -170,14 +170,20 @@ const genMajorCityMarkers = async () => {
 	return clusterGroup;
 };
 
-let majorCities;
-let showMajorCities = false;
-const toggleMajorCities = async () => {
-	if (!majorCities) {
-		majorCities = await genMajorCityMarkers();
+const dataCache = {
+	majorCities: await genMajorCityMarkers(),
+};
+
+const toggleMajorCities = () => {
+	const {majorCities} = dataCache;
+	console.log(majorCities, map.hasLayer(majorCities));
+	if (map.hasLayer(majorCities)) {
+		map.removeLayer(majorCities);
+		console.log('remove major cities');
+	} else {
+		map.addLayer(majorCities);
+		console.log('add major cities');
 	}
-	showMajorCities = !showMajorCities;
-	showMajorCities ? map.addLayer(majorCities) : map.removeLayer(majorCities);
 };
 document.querySelector('#major-cities').onclick = toggleMajorCities;
 
@@ -208,7 +214,7 @@ function extractCoordFrom(input) {
 	}
 }
 
-const pingMarker = rawCoord => {
+const pingMarker = (rawCoord) => {
 	const latLng = extractCoordFrom(rawCoord);
 	if (!latLng) {
 		alert('bad input');
@@ -233,7 +239,7 @@ const pingMarker = rawCoord => {
 };
 
 const pingInput = document.querySelector('#ping-coord');
-pingInput.addEventListener('keydown', e => {
+pingInput.addEventListener('keydown', (e) => {
 	if (e.code === 'Enter') {
 		const clearVal = pingMarker(e.target.value);
 		if (clearVal) {
