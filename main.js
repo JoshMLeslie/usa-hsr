@@ -44,13 +44,25 @@ const mapHUD = L.map('hud-map', {
 L.control.scale().addTo(map);
 L.control.scale().addTo(mapHUD);
 
-// TODO state boundary highlighting per major zone (NE, SE, GLakes, etc.)
-// see https://leafletjs.com/examples/choropleth/
+// generate soft regions
+const softRegions = {};
+await fetch('./assets/js/zones/soft-regions.json')
+	.then(r => r.json())
+	.then(d => {
+		// todo figure out why L.geoJson(d) won't render
+		d.features.forEach(f => {
+			if (!f.geometry.coordinates[0].length) return;
+			const poly = L.polygon(f.geometry.coordinates[0]);
+			softRegions[f.properties.region] = poly;
+		});
+		console.log('added soft regions');
+	});
+
 L.geoJson(USA_StateBoundaryData, {
 	style: () => ({opacity: 0.5, weight: 2, fill: false}),
 }).addTo(map);
 
-bindRegionButtonsToMap(map);
+bindRegionButtonsToMap(map, softRegions);
 
 // START Interactive mapHUD viewbox
 const viewBox = L.rectangle(getBoundsForBox(map), {

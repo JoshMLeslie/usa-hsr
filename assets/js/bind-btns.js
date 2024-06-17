@@ -1,4 +1,5 @@
 'use strict';
+/* global L:readonly */
 
 import {ZOOM_LEVEL} from './const.js';
 import COORDS from './coords.js';
@@ -17,7 +18,7 @@ import ZONE_WEST from './zones/west.js';
  */
 const hasDrawn = {};
 
-export const bindRegionButtonsToMap = map => {
+export const bindRegionButtonsToMap = (map, softRegions) => {
 	/**
 	 * @param {string} elID - raw id, no '#' etc. e.g. `<div id="west"></div>` => 'west'
 	 * @param {keyof CENTERS} center
@@ -34,24 +35,33 @@ export const bindRegionButtonsToMap = map => {
 
 		try {
 			document.querySelector('.region-btn#' + elID).onclick = () => {
-				map.setView(CENTERS[center], zoom);
-
 				if (!zone) {
 					console.warn('no zoneData for: ' + center);
 					return;
 				}
 
-				if (hasDrawn[center]) {
-					if (hasDrawn[center].shown) {
-						map.removeLayer(hasDrawn[center].zoneData);
-					} else {
-						map.addLayer(hasDrawn[center].zoneData);
-					}
-					hasDrawn[center].shown = !hasDrawn[center].shown;
-				} else if (!hasDrawn[center]) {
+				if (document.querySelector('#show-soft-regions').checked) {
+					map.addLayer(softRegions[elID]);
+				}
+
+				if (!hasDrawn[center]) {
 					const zoneData = drawZone(map, zone, COORDS);
-					hasDrawn[center] = {zoneData, shown: true};
-					map.addLayer(zoneData);
+					hasDrawn[center] = {zoneData, shown: false};
+				}
+
+				const isCentered = map.getCenter().equals(CENTERS[center]);
+				console.log(isCentered)
+				const flyTo = () => map.flyTo(CENTERS[center], zoom);
+				if (hasDrawn[center].shown && isCentered) {
+					map.removeLayer(hasDrawn[center].zoneData);
+					map.removeLayer(softRegions[elID]);
+					hasDrawn[center].shown = false;
+				} else if (hasDrawn[center].shown && !isCentered) {
+					flyTo();
+				} else {
+					map.addLayer(hasDrawn[center].zoneData);
+					flyTo();
+					hasDrawn[center].shown = true;
 				}
 			};
 		} catch (e) {
