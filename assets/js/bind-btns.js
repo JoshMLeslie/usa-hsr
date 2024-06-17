@@ -49,7 +49,7 @@ export const bindRegionButtonsToMap = (map, softRegions) => {
 					hasDrawn[center] = {zoneData, shown: false};
 				}
 
-				const isCentered = map.getCenter().equals(CENTERS[center]);
+				const isCentered = map.getCenter().equals(CENTERS[center], 2);
 				const flyTo = () => map.flyTo(CENTERS[center], zoom);
 				if (hasDrawn[center].shown && isCentered) {
 					map.removeLayer(hasDrawn[center].zoneData);
