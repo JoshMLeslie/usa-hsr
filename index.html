@@ -4,7 +4,11 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>USA HSR</title>
-		<link rel="icon" type="image/x-icon" href="/assets/img/icon/bullet-train.png">
+		<link
+			rel="icon"
+			type="image/x-icon"
+			href="/assets/img/icon/bullet-train.png"
+		/>
 		<link
 			rel="stylesheet"
 			href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -57,10 +61,12 @@
 					</div>
 
 					<div id="hud-map-actions">
-						<span id="movement-helper-text">Drag + scroll the map</span>
-						<p>Ping Coordinate (Lat, Lng)</p>
+						<div style="display: flex; justify-content: space-between">
+							<p>Ping Coordinate (Lat,&nbsp;Lng)</p>
+							<button id="help-dialog-open" class="icon-button">?</button>
+						</div>
 						<div>
-							<input id="ping-coord">
+							<input id="ping-coord" />
 							<button id="ping-coord-enter">Go to</button>
 							<button id="ping-coord-clear">Clear</button>
 						</div>
@@ -94,13 +100,31 @@
 							<button id="hide-city-labels">Hide City Labels</button>
 						</div>
 						<div>
-							<input type="checkbox" id="show-soft-regions" name="show-soft-regions" />
+							<input
+								type="checkbox"
+								id="show-soft-regions"
+								name="show-soft-regions"
+							/>
 							<label for="show-soft-regions">Show Soft Regions</label>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<dialog id="help-dialog">
+			<button id="help-dialog-close" class="icon-button">X</button>
+			<div id="help-dialog-content">
+				<span
+					>Use <strong>arrows keys</strong> or
+					<strong>drag + scroll</strong> the visible area to navigate</span
+				>
+			</div>
+			<span
+				>Close this dialog with the button or ctrl + clicking anywhere. It can
+				also be opened by typing a question mark</span
+			>
+		</dialog>
 	</body>
 
 	<script

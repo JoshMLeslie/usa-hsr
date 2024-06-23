@@ -55,7 +55,8 @@ body {
 	padding: 16px;
 }
 
-#hud-map-util p, #hud-map-util span {
+#hud-map-util p,
+#hud-map-util span {
 	margin: 0;
 	font-weight: 600;
 }
@@ -65,10 +66,6 @@ body {
 	flex-direction: column;
 	width: fit-content;
 	gap: 8px;
-}
-
-#movement-helper-text::after {
-	content:' / view box';
 }
 
 #region-selection-container {
@@ -111,6 +108,49 @@ body {
 	border-bottom: 8px dashed orange;
 }
 
+#help-dialog {
+	position: relative;
+	height: 200px;
+	width: 400px;
+	background-color: #f5f5f5;
+	z-index: 1000;
+	padding: 2rem 1rem 1rem 1rem;
+}
+
+#help-dialog[open] {
+	display: flex;
+	flex-direction: column;
+}
+
+#help-dialog::backdrop {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+#help-dialog-content {
+	height: 100%;
+}
+
+#help-dialog-close {
+	position: absolute;
+	right: 1rem;
+	top: 1rem;
+}
+
+.icon-button {
+	background: none;
+	border: 2px solid black;
+	border-radius: 100px;
+	padding: 6px 10px;
+	user-select: none;
+	font-family: sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+}
+.icon-button:hover {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
 .no-click {
 	cursor: not-allowed;
 }
@@ -133,7 +173,7 @@ body {
 		overflow: auto;
 	}
 	#movement-helper-text::after {
-		content:'';
+		content: '';
 	}
 }
 

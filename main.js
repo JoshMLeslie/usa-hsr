@@ -28,6 +28,7 @@ if (isProd) {
 }
 
 const mapHUD = L.map('hud-map', {
+	keyboard: false,
 	center: CENTERS.NA,
 	zoom: 3,
 	// NO ZOOM! ONLY LOOK!
@@ -44,6 +45,26 @@ const mapHUD = L.map('hud-map', {
 L.control.scale().addTo(map);
 L.control.scale().addTo(mapHUD);
 
+// HELP DIALOG CONFIG
+const helpDialog = document.querySelector('dialog#help-dialog');
+document.addEventListener('keydown', ({key}) => {
+	if (key === '?') {
+		helpDialog.showModal();
+	}
+})
+document.querySelector('#help-dialog-open').addEventListener('click', () => {
+	helpDialog.showModal();
+});
+helpDialog.addEventListener('click', ({ctrlKey}) => {
+	if (ctrlKey) {
+		helpDialog.close();
+	}
+});
+document.querySelector('#help-dialog-close').addEventListener('click', () => {
+	helpDialog.close();
+});
+// HELP DIALOG CONFIG END
+
 // generate soft regions
 const softRegions = {};
 await fetch('./assets/js/zones/soft-regions.json')
@@ -53,7 +74,7 @@ await fetch('./assets/js/zones/soft-regions.json')
 		d.features.forEach((f) => {
 			if (!f.geometry.coordinates[0].length) return;
 			const poly = L.polygon(f.geometry.coordinates[0], {
-				interactive: false
+				interactive: false,
 			});
 			softRegions[f.properties.region] = poly;
 		});
