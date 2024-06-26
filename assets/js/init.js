@@ -2,7 +2,7 @@
 /* global L:readonly */
 
 import {bindRegionButtonsToMap} from './bind-btns.js';
-import {INIT_ZOOM_LEVEL, ZOOM_LEVEL} from './const.js';
+import {INIT_ZOOM_LEVEL, ZOOM_LEVEL, PROD_CENTER} from './const.js';
 import USA_StateBoundaryData from './geojson/usa-state-bounds.js';
 import {getBoundsForBox} from './util.js';
 import CENTERS from './zones/centers.js';
@@ -14,7 +14,7 @@ const initMaps = () => {
 	let map;
 	if (isProd) {
 		map = L.map('map', {
-			center: CENTERS.NA,
+			center: PROD_CENTER,
 			zoom: INIT_ZOOM_LEVEL,
 			wasdKeyboard: true
 		});
@@ -36,7 +36,7 @@ const initMaps = () => {
 
 	const mapHUD = L.map('hud-map', {
 		keyboard: false,
-		center: CENTERS.NA,
+		center: PROD_CENTER,
 		zoom: 3,
 		// NO ZOOM! ONLY LOOK!
 		zoomControl: false,
