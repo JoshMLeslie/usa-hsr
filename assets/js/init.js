@@ -15,16 +15,24 @@ const initMaps = () => {
 	if (isProd) {
 		map = L.map('map', {
 			center: CENTERS.NA,
-			zoom: ZOOM_LEVEL.country,
+			zoom: INIT_ZOOM_LEVEL,
 			wasdKeyboard: true
 		});
 	} else {
 		map = L.map('map', {
-			center: CENTERS.NA_NE,
-			zoom: INIT_ZOOM_LEVEL,
+			center: CENTERS.NA,
+			zoom: ZOOM_LEVEL.country,
 			wasdKeyboard: true
 		});
 	}
+
+// 	let lastZoom = INIT_ZOOM_LEVEL;
+// 	map.on('zoomend', (e) => {
+// 		// TODO route specificity relative to zoom level alike ClusterMarkers
+// 		const newZoom = e.target.getZoom()
+// 		const zoomDiff = newZoom - lastZoom;
+// 		console.log(e, lastZoom, newZoom, zoomDiff)
+// })
 
 	const mapHUD = L.map('hud-map', {
 		keyboard: false,

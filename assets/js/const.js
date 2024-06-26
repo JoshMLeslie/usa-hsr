@@ -5,7 +5,7 @@ export const ZOOM_LEVEL = {
 	tristate: 6,
 };
 
-export const INIT_ZOOM_LEVEL = ZOOM_LEVEL.tristate;
+export const INIT_ZOOM_LEVEL = ZOOM_LEVEL.continent;
 
 export const SHOW_CITY_LABELS = 'show_city_labels';
 export const HIDE_CITY_LABELS = 'hide_city_labels';
