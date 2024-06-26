@@ -16,11 +16,13 @@ const initMaps = () => {
 		map = L.map('map', {
 			center: CENTERS.NA,
 			zoom: ZOOM_LEVEL.country,
+			wasdKeyboard: true
 		});
 	} else {
 		map = L.map('map', {
 			center: CENTERS.NA_NE,
 			zoom: INIT_ZOOM_LEVEL,
+			wasdKeyboard: true
 		});
 	}
 
