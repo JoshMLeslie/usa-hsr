@@ -16,23 +16,23 @@ const initMaps = () => {
 		map = L.map('map', {
 			center: PROD_CENTER,
 			zoom: INIT_ZOOM_LEVEL,
-			wasdKeyboard: true
+			wasdKeyboard: true,
 		});
 	} else {
 		map = L.map('map', {
 			center: CENTERS.NA,
 			zoom: ZOOM_LEVEL.country,
-			wasdKeyboard: true
+			wasdKeyboard: true,
 		});
 	}
 
-// 	let lastZoom = INIT_ZOOM_LEVEL;
-// 	map.on('zoomend', (e) => {
-// 		// TODO route specificity relative to zoom level alike ClusterMarkers
-// 		const newZoom = e.target.getZoom()
-// 		const zoomDiff = newZoom - lastZoom;
-// 		console.log(e, lastZoom, newZoom, zoomDiff)
-// })
+	// 	let lastZoom = INIT_ZOOM_LEVEL;
+	// 	map.on('zoomend', (e) => {
+	// 		// TODO route specificity relative to zoom level alike ClusterMarkers
+	// 		const newZoom = e.target.getZoom()
+	// 		const zoomDiff = newZoom - lastZoom;
+	// 		console.log(e, lastZoom, newZoom, zoomDiff)
+	// })
 
 	const mapHUD = L.map('hud-map', {
 		keyboard: false,
@@ -154,16 +154,37 @@ const configRightClick = map => {
 
 /** add Earth images from OSM */
 const addOSMTiles = (map, mapHUD) => {
-	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	const mapTile = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 10,
 		attribution:
 			'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-	}).addTo(map);
+	});
+	mapTile.setOpacity(0.3);
+	mapTile.addTo(map)
 	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 10,
 		attribution:
 			'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 	}).addTo(mapHUD);
+};
+
+const loadWikimedia = async map => {
+	console.log('loading wikimedia');
+	const {data: lehighValley} = await fetch(
+		'./assets/js/geojson/wikimedia_lehigh-valley.json'
+	).then(r => r.json());
+	const {data: centralNJ} = await fetch(
+		'./assets/js/geojson/wikimedia_central-railroad-of-new-jersey.json'
+	).then(r => r.json());
+	console.log(lehighValley, centralNJ);
+	map.addLayer(L.featureGroup([
+		L.geoJson(lehighValley, {
+			style: () => ({opacity: 0.5, weight: 4, color: "#ffa500"}),
+		}),
+		L.geoJson(centralNJ, {
+			style: () => ({opacity: 0.5, weight: 4}),
+		})
+	]));
 };
 
 /** @returns {L.Map} map */
@@ -174,5 +195,6 @@ export default async function () {
 	initMapHUDViewbox(map, mapHUD);
 	configRightClick(map);
 	addOSMTiles(map, mapHUD);
+	loadWikimedia(map);
 	return map;
 }
