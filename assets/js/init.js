@@ -154,7 +154,7 @@ const measurePointToPoint = (map, useLatLng) => {
 	if (distancePointers.length === 2) {
 		let distance = useLatLng.distanceTo(distancePointers[0].getLatLng());
 		let unit = 'meters';
-		if (map.getZoom() < 7) {
+		if (distance >= 10000) {
 			distance /= 1000;
 			unit = 'km';
 		}
