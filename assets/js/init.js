@@ -16,23 +16,23 @@ const initMaps = () => {
 		map = L.map('map', {
 			center: PROD_CENTER,
 			zoom: INIT_ZOOM_LEVEL,
-			wasdKeyboard: true
+			wasdKeyboard: true,
 		});
 	} else {
 		map = L.map('map', {
 			center: CENTERS.NA,
 			zoom: ZOOM_LEVEL.country,
-			wasdKeyboard: true
+			wasdKeyboard: true,
 		});
 	}
 
-// 	let lastZoom = INIT_ZOOM_LEVEL;
-// 	map.on('zoomend', (e) => {
-// 		// TODO route specificity relative to zoom level alike ClusterMarkers
-// 		const newZoom = e.target.getZoom()
-// 		const zoomDiff = newZoom - lastZoom;
-// 		console.log(e, lastZoom, newZoom, zoomDiff)
-// })
+	// 	let lastZoom = INIT_ZOOM_LEVEL;
+	// 	map.on('zoomend', (e) => {
+	// 		// TODO route specificity relative to zoom level alike ClusterMarkers
+	// 		const newZoom = e.target.getZoom()
+	// 		const zoomDiff = newZoom - lastZoom;
+	// 		console.log(e, lastZoom, newZoom, zoomDiff)
+	// })
 
 	const mapHUD = L.map('hud-map', {
 		keyboard: false,
@@ -132,33 +132,89 @@ const initMapHUDViewbox = (map, mapHUD) => {
 	map.on('zoomend', drawViewBox);
 };
 
+let distancePointers = [];
+let lastMeasurementLine = null;
+const cleanupMeasurement = () => {
+	if (lastMeasurementLine) {
+		lastMeasurementLine.remove();
+		lastMeasurementLine = null;
+	}
+	if (distancePointers) {
+		distancePointers.forEach(dp => dp.remove());
+		distancePointers = [];
+	}
+};
+const measurePointToPoint = (map, useLatLng) => {
+	let content;
+	if (distancePointers.length === 2) {
+		cleanupMeasurement();
+	}
+	distancePointers.push(L.circleMarker(useLatLng, {radius: 10}).addTo(map));
+
+	if (distancePointers.length === 2) {
+		let distance = useLatLng.distanceTo(distancePointers[0].getLatLng());
+		let unit = 'meters';
+		if (distance >= 10000) {
+			distance /= 1000;
+			unit = 'km';
+		}
+		content = `Distance: ${distance.toFixed(2)} ${unit}`;
+		lastMeasurementLine = L.polyline(
+			[distancePointers[0].getLatLng(), useLatLng],
+			{color: 'red'}
+		).addTo(map);
+	} else {
+		content = 'Select second point';
+	}
+	return content;
+};
 /** open LatLng popup on rightclick. +shift => center of map / view */
-const configRightClick = map => {
+const configContextMenu = map => {
+	map.on('click', () => {
+		cleanupMeasurement();
+	});
 	map.on('contextmenu', ({latlng, originalEvent}) => {
+		originalEvent.preventDefault();
 		let useLatLng = latlng;
+		/** @type {string} */
+		let content;
+
 		if (originalEvent.shiftKey) {
 			useLatLng = map.getCenter();
 		}
 
-		const content = `${useLatLng.lat.toFixed(4)}, ${useLatLng.lng.toFixed(4)}`;
-
-		if (originalEvent.ctrlKey) {
-			navigator.clipboard.writeText(`[${content}],`);
+		if (originalEvent.altKey) {
+			content = measurePointToPoint(map, useLatLng);
+		} else {
+			content = `${useLatLng.lat.toFixed(4)}, ${useLatLng.lng.toFixed(4)}`;
 		}
 
-		L.popup({content}).setLatLng(useLatLng).openOn(map);
-
-		originalEvent.preventDefault();
+		// copy to clipboard handling
+		if (originalEvent.ctrlKey && originalEvent.altKey) {
+			// copy raw distance value
+			navigator.clipboard.writeText(`${content.match(/\d+.\d+/)[0]}`);
+		} else if (originalEvent.ctrlKey) {
+			// copy latlng to clipboard as '[lat, lng]'
+			navigator.clipboard.writeText(`[${content}],`);
+		}
+		if (content) {
+			L.popup({content}).setLatLng(useLatLng).openOn(map);
+		}
 	});
 };
 
 /** add Earth images from OSM */
 const addOSMTiles = (map, mapHUD) => {
-	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		maxZoom: 10,
-		attribution:
-			'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
-	}).addTo(map);
+	const mapTile = L.tileLayer(
+		'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+		{
+			maxZoom: 10,
+			attribution:
+				'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+		}
+	);
+	mapTile.setOpacity(0.3);
+	mapTile.addTo(map);
 	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 10,
 		attribution:
@@ -172,7 +228,7 @@ export default async function () {
 	initHelpDialog();
 	await initSoftRegions(map);
 	initMapHUDViewbox(map, mapHUD);
-	configRightClick(map);
+	configContextMenu(map);
 	addOSMTiles(map, mapHUD);
 	return map;
 }
