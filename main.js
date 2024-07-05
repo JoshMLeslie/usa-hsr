@@ -2,9 +2,10 @@
 /*global L:readonly*/
 
 import genCountyHeatmap from './assets/js/county-heatmap.js';
-import {drawMarker} from './assets/js/draw.js';
-import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './assets/js/events.js';
+import { drawMarker } from './assets/js/draw.js';
+import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './assets/js/events.js';
 import init from './assets/js/init.js';
+import NominatimJS from './assets/js/nominatim.js';
 
 const map = await init();
 
@@ -16,7 +17,7 @@ document.querySelector('#hide-city-labels').onclick = () => {
 	document.dispatchEvent(eHIDE_CITY_LABELS);
 };
 
-const showCityMarkerPos = (lat, lon, city) => e => {
+const showCityMarkerPos = (lat, lon, city) => (e) => {
 	const {lat: layerLat, lng: layerLon} = map.layerPointToLatLng(
 		L.point(e.layerPoint)
 	);
@@ -34,7 +35,7 @@ const showCityMarkerPos = (lat, lon, city) => e => {
 
 const genMajorCityMarkers = async () => {
 	/** @type {{lat: number; lon: number; city: string;}[]}} data */
-	const data = await fetch('./data-csv/parsed_results.json').then(r =>
+	const data = await fetch('./data-csv/parsed_results.json').then((r) =>
 		r.json()
 	);
 	const clusterGroup = L.markerClusterGroup({
@@ -92,8 +93,16 @@ function extractCoordFrom(input) {
 	}
 }
 
-const pingMarker = rawCoord => {
-	const latLng = extractCoordFrom(rawCoord);
+/**
+ * @param {string} rawCoord
+ * @param isJSON - tells the function to expect json instead of a string input
+ * @returns {boolean} true on success
+ */
+const pingMarker = (rawCoord, isJSON = false) => {
+	const latLng = isJSON
+		? {lat: rawCoord.lat, lng: rawCoord.lng || rawCoord.lon}
+		: extractCoordFrom(rawCoord);
+	console.log(latLng);
 	if (!latLng) {
 		alert('bad input');
 		return;
@@ -117,7 +126,7 @@ const pingMarker = rawCoord => {
 };
 
 const pingInput = document.querySelector('#ping-coord');
-pingInput.addEventListener('keydown', e => {
+pingInput.addEventListener('keydown', (e) => {
 	if (e.code === 'Enter') {
 		const clearVal = pingMarker(e.target.value);
 		if (clearVal) {
@@ -132,5 +141,43 @@ document.querySelector('#ping-coord-enter').onclick = () => {
 	}
 };
 document.querySelector('#ping-coord-clear').onclick = () => {
+	pingInput.value = '';
+};
+
+let nominatim;
+
+const nominatimMarker = async (search) => {
+	let clearVal;
+	try {
+		const results = await nominatim.search({q: search});
+		if (results) {
+			clearVal = true;
+		}
+		results.forEach((r) => {
+			pingMarker(r, true);
+		});
+	} catch (e) {
+		console.warn(e);
+	}
+	return clearVal;
+};
+
+const locationInput = document.querySelector('#lookup-location');
+locationInput.addEventListener('keydown', async (e) => {
+	if (!nominatim) {
+		nominatim = new NominatimJS();
+	}
+	if (e.code === 'Enter') {
+		if (await nominatimMarker(e.target.value)) {
+			e.target.value = '';
+		}
+	}
+});
+document.querySelector('#lookup-location-enter').onclick = async () => {
+	if (await nominatimMarker(locationInput.value)) {
+		locationInput.value = '';
+	}
+};
+document.querySelector('#lookup-location-clear').onclick = () => {
 	pingInput.value = '';
 };
