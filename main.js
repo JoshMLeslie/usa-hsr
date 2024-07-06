@@ -145,13 +145,18 @@ document.querySelector('#ping-coord-clear').onclick = () => {
 };
 
 let nominatim;
-
 const nominatimMarker = async (search) => {
 	let clearVal;
 	try {
 		const results = await nominatim.search({q: search});
 		if (results) {
 			clearVal = true;
+		}
+		if (results.length === 1) {
+			map.panTo([results[0].lat, results[0].lng || results[0].lon])
+		} else {
+			const group = L.featureGroup(markers);
+			map.fitBounds(group.getBounds().pad(0.5))
 		}
 		results.forEach((r) => {
 			pingMarker(r, true);
