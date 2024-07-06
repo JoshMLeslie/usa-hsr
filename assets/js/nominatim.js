@@ -147,7 +147,9 @@ export default class NominatimJS {
 			url.searchParams.append('countrycodes', countryCodes);
 		}
 
-		return fetch(url.toString()).then((res) => res.json());
+		return fetch(url.toString())
+			.then((r) => r.json())
+			.then((r) => (r.length ? r.map((data) => ({...data, lng: data.lon})) : []));
 	}
 
 	/**

@@ -1,4 +1,5 @@
 'use strict';
+import { ZOOM_LEVEL } from './assets/js/const.js';
 /*global L:readonly*/
 
 import genCountyHeatmap from './assets/js/county-heatmap.js';
@@ -96,13 +97,12 @@ function extractCoordFrom(input) {
 /**
  * @param {string} rawCoord
  * @param isJSON - tells the function to expect json instead of a string input
- * @returns {boolean} true on success
+ * @returns {boolean} marker on success
  */
 const pingMarker = (rawCoord, isJSON = false) => {
 	const latLng = isJSON
-		? {lat: rawCoord.lat, lng: rawCoord.lng || rawCoord.lon}
+		? {lat: rawCoord.lat, lng: rawCoord.lng}
 		: extractCoordFrom(rawCoord);
-	console.log(latLng);
 	if (!latLng) {
 		alert('bad input');
 		return;
@@ -122,7 +122,7 @@ const pingMarker = (rawCoord, isJSON = false) => {
 		console.log('removing marker', m);
 		clearInterval(intv);
 	}, 4000);
-	return true;
+	return m;
 };
 
 const pingInput = document.querySelector('#ping-coord');
@@ -152,15 +152,16 @@ const nominatimMarker = async (search) => {
 		if (results) {
 			clearVal = true;
 		}
+		const markers = results.map((r) => pingMarker(r, true));
 		if (results.length === 1) {
-			map.panTo([results[0].lat, results[0].lng || results[0].lon])
-		} else {
+			map.panTo([results[0].lat, results[0].lng]);
+			map.setZoom(ZOOM_LEVEL.tristate)
+		} else if (results.length > 1) {
 			const group = L.featureGroup(markers);
-			map.fitBounds(group.getBounds().pad(0.5))
+			map.fitBounds(group.getBounds().pad(0.5));
+		} else {
+			alert("no results")
 		}
-		results.forEach((r) => {
-			pingMarker(r, true);
-		});
 	} catch (e) {
 		console.warn(e);
 	}
