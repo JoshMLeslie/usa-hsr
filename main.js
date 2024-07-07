@@ -185,5 +185,5 @@ document.querySelector('#lookup-location-enter').onclick = async () => {
 	}
 };
 document.querySelector('#lookup-location-clear').onclick = () => {
-	pingInput.value = '';
+	locationInput.value = '';
 };
