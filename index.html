@@ -65,17 +65,21 @@
 							<p>Interactions</p>
 							<button id="help-dialog-open" class="icon-button">?</button>
 						</div>
-						<div>
+						<div class="input-set">
 							<label for="ping-coord">Ping Coordinate (Lat,&nbsp;Lng)</label>
 							<input id="ping-coord" />
-							<button id="ping-coord-enter">Go to</button>
-							<button id="ping-coord-clear">Clear</button>
+							<div class="input-actions">
+								<button id="ping-coord-enter">Go to</button>
+								<button id="ping-coord-clear">Clear</button>
+							</div>
 						</div>
-						<div>
-							<label for="lookup-location">Address Lookup</label>
+						<div class="input-set">
+							<label for="lookup-location">Location Search</label>
 							<input id="lookup-location" />
-							<button id="lookup-location-enter">Search</button>
-							<button id="lookup-location-clear">Clear</button>
+							<div class="input-actions">
+								<button id="lookup-location-enter">Search</button>
+								<button id="lookup-location-clear">Clear</button>
+							</div>
 						</div>
 						<p>Data views:</p>
 						<button class="region-btn only-dev" id="major-cities">

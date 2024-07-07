@@ -155,6 +155,16 @@ body {
 	cursor: not-allowed;
 }
 
+.input-set {
+	display: flex;
+	flex-direction: column;
+	max-width: 200px;
+}
+
+.input-actions {
+	display: flex;
+}
+
 @media screen and (max-width: 900px) {
 	#hud-map {
 		display: none;
