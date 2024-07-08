@@ -1,6 +1,6 @@
 'use strict';
 
-import {HIDE_CITY_LABELS, SHOW_CITY_LABELS} from './const.js';
+import {HIDE_CITY_LABELS, SHOW_CITY_LABELS} from '../const.js';
 
 /*global L:readonly*/
 

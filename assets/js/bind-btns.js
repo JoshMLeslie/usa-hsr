@@ -3,7 +3,7 @@
 
 import {ZOOM_LEVEL} from './const.js';
 import COORDS from './coords.js';
-import {drawZone} from './draw.js';
+import {drawZone} from './mapping/draw.js';
 import CENTERS from './zones/centers.js';
 import ZONE_CENTRAL from './zones/central.js';
 import ZONE_G_LAKES from './zones/great-lakes.js';
