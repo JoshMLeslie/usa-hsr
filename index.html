@@ -40,51 +40,59 @@
 				<div id="hud-map"></div>
 
 				<div id="hud-map-util">
-					<div id="legend">
-						<p>Legend</p>
-						<table>
-							<tbody>
-								<tr>
-									<td>Local</td>
-									<td class="legend-line"><div id="local"></div></td>
-								</tr>
-								<tr>
-									<td>Interstate</td>
-									<td class="legend-line"><div id="interstate"></div></td>
-								</tr>
-								<tr>
-									<td>Country</td>
-									<td class="legend-line"><div id="country"></div></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					<div id="hud-map-interactions">
+						<div id="legend">
+							<div>
+								<p>Legend</p>
+								<button id="help-dialog-open" class="icon-button">?</button>
+							</div>
+							<table>
+								<tbody>
+									<tr>
+										<td>Local</td>
+										<td class="legend-line"><div id="local"></div></td>
+									</tr>
+									<tr>
+										<td>Interstate</td>
+										<td class="legend-line"><div id="interstate"></div></td>
+									</tr>
+									<tr>
+										<td>Country</td>
+										<td class="legend-line"><div id="country"></div></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
-					<div id="hud-map-actions">
-						<div style="display: flex; justify-content: space-between">
-							<p>Interactions</p>
-							<button id="help-dialog-open" class="icon-button">?</button>
+						<div id="hud-map-actions">
+							<p>Actions</p>
+							<div class="input-set">
+								<label for="ping-coord">Ping Coordinate (Lat,&nbsp;Lng)</label>
+								<input id="ping-coord" />
+								<div class="input-actions">
+									<button id="ping-coord-enter">Go to</button>
+									<button id="ping-coord-clear">Clear</button>
+								</div>
+							</div>
+							<div class="input-set">
+								<label for="lookup-location">Location Search</label>
+								<input id="lookup-location" />
+								<div class="input-actions">
+									<button id="lookup-location-enter">Search</button>
+									<button id="lookup-location-clear">Clear</button>
+								</div>
+							</div>
 						</div>
-						<div>
-							<label for="ping-coord">Ping Coordinate (Lat,&nbsp;Lng)</label>
-							<input id="ping-coord" />
-							<button id="ping-coord-enter">Go to</button>
-							<button id="ping-coord-clear">Clear</button>
-						</div>
-						<div>
-							<label for="lookup-location">Address Lookup</label>
-							<input id="lookup-location" />
-							<button id="lookup-location-enter">Search</button>
-							<button id="lookup-location-clear">Clear</button>
-						</div>
-						<p>Data views:</p>
+					</div>
+					<div id="hud-map-data-sets">
+						<p>Data views</p>
 						<button class="region-btn only-dev" id="major-cities">
 							336 Highest Pop Cities
 						</button>
 						<button class="region-btn only-dev" id="county-heatmap">
 							County Heatmap
 						</button>
-						<p>Show route:</p>
+						<p>Show route</p>
 						<div id="region-selection-container">
 							<button disabled class="region-btn" id="namr">North America</button>
 							<button disabled class="region-btn" id="usa">Only USA</button>

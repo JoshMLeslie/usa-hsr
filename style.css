@@ -48,11 +48,20 @@ body {
 
 #hud-map-util {
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
 	width: calc(100% - 32px);
 	gap: 8px;
 	margin: 0 auto;
 	padding: 16px;
+}
+
+#hud-map-util > div {
+	display: flex;
+	gap: 8px;
+}
+#hud-map-util > div#hud-map-data-sets {
+	flex-direction: column;
 }
 
 #hud-map-util p,
@@ -84,6 +93,7 @@ body {
 	background-color: whitesmoke;
 	z-index: 1000;
 	border: 2px solid gray;
+	box-sizing: border-box;
 	border-radius: 8px;
 	padding: 8px;
 	font-family: sans-serif;
@@ -92,6 +102,11 @@ body {
 	padding: 0;
 	margin: 0;
 	font-weight: 700;
+}
+#legend > div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 #legend table tr td.legend-line {
 	width: 100%;
@@ -155,7 +170,31 @@ body {
 	cursor: not-allowed;
 }
 
-@media screen and (max-width: 900px) {
+.input-set {
+	display: flex;
+	flex-direction: column;
+	max-width: 200px;
+}
+
+.input-actions {
+	display: flex;
+}
+
+@media screen and (min-width: 1400px) {
+	#map-container {
+		width: 75%;
+	}
+	#hud-map-container {
+		width: 25%;
+	}
+}
+@media screen and (max-width: 1000px) {
+	#map-container,
+	#hud-map-container {
+		width: 50%;
+	}
+}
+@media screen and (max-width: 650px) {
 	#hud-map {
 		display: none;
 	}
@@ -165,15 +204,12 @@ body {
 	}
 	#map-container {
 		width: 100%;
-		height: 80%;
+		height: 65%;
 	}
 	#hud-map-container {
 		width: 100%;
-		height: 30%;
+		height: 35%;
 		overflow: auto;
-	}
-	#movement-helper-text::after {
-		content: '';
 	}
 }
 

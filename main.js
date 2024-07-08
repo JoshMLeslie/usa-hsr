@@ -100,6 +100,7 @@ function extractCoordFrom(input) {
  * @returns {boolean} marker on success
  */
 const pingMarker = (rawCoord, isJSON = false) => {
+	if (!rawCoord) return;
 	const latLng = isJSON
 		? {lat: rawCoord.lat, lng: rawCoord.lng}
 		: extractCoordFrom(rawCoord);
@@ -146,6 +147,7 @@ document.querySelector('#ping-coord-clear').onclick = () => {
 
 let nominatim;
 const nominatimMarker = async (search) => {
+	if (!search) return;
 	let clearVal;
 	try {
 		const results = await nominatim.search({q: search});
@@ -185,5 +187,5 @@ document.querySelector('#lookup-location-enter').onclick = async () => {
 	}
 };
 document.querySelector('#lookup-location-clear').onclick = () => {
-	pingInput.value = '';
+	locationInput.value = '';
 };
