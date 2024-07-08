@@ -1,3 +1,4 @@
+/* INIT */
 html,
 body,
 #interaction-container,
@@ -15,6 +16,7 @@ body {
 	margin: 0;
 }
 
+/* IDS */
 #interaction-container {
 	display: flex;
 }
@@ -151,6 +153,40 @@ body {
 	top: 1rem;
 }
 
+#route-data-header {
+	display: flex;
+	justify-content: space-between;
+}
+
+#popup-container {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.5);
+}
+#popup-container.hidden {
+	display: none;
+}
+#lookup-location-advanced-popup {
+	display: block;
+	min-width: 300px;
+	max-width: 400px;
+	min-height: 400px;
+	max-height: 600px;
+	overflow-y: auto;
+}
+#lookup-location-advanced-popup li {
+	list-style-type: none;
+}
+#lookup-location-advanced-popup button {
+	padding: 8px 16px;
+}
+
+/* CLASSES */
 .icon-button {
 	background: none;
 	border: 2px solid black;

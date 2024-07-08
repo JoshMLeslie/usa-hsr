@@ -1,10 +1,9 @@
 'use strict';
-import { ZOOM_LEVEL } from './assets/js/const.js';
 /*global L:readonly*/
 
 import genCountyHeatmap from './assets/js/county-heatmap.js';
-import { drawMarker } from './assets/js/draw.js';
-import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './assets/js/events.js';
+import {drawMarker} from './assets/js/draw.js';
+import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './assets/js/events.js';
 import init from './assets/js/init.js';
 import NominatimJS from './assets/js/nominatim.js';
 
@@ -18,7 +17,7 @@ document.querySelector('#hide-city-labels').onclick = () => {
 	document.dispatchEvent(eHIDE_CITY_LABELS);
 };
 
-const showCityMarkerPos = (lat, lon, city) => (e) => {
+const showCityMarkerPos = (lat, lon, city) => e => {
 	const {lat: layerLat, lng: layerLon} = map.layerPointToLatLng(
 		L.point(e.layerPoint)
 	);
@@ -36,7 +35,7 @@ const showCityMarkerPos = (lat, lon, city) => (e) => {
 
 const genMajorCityMarkers = async () => {
 	/** @type {{lat: number; lon: number; city: string;}[]}} data */
-	const data = await fetch('./data-csv/parsed_results.json').then((r) =>
+	const data = await fetch('./data-csv/parsed_results.json').then(r =>
 		r.json()
 	);
 	const clusterGroup = L.markerClusterGroup({
@@ -81,7 +80,8 @@ const toggleCountyHeatmap = async () => {
 document.querySelector('#county-heatmap').onclick = toggleCountyHeatmap;
 
 function extractCoordFrom(input) {
-	const regex = /(-?\d+\.\d+)(?:,?)\s*(-?\d+\.\d+)/;
+	console.log(input);
+	const regex = /(-?\d+\.\d+)(?:,\s)(-?\d+\.\d+)/;
 	const match = input.match(regex);
 	console.log(match);
 
@@ -99,9 +99,9 @@ function extractCoordFrom(input) {
  * @param isJSON - tells the function to expect json instead of a string input
  * @returns {boolean} marker on success
  */
-const pingMarker = (rawCoord, isJSON = false) => {
+const pingMarker = (rawCoord, opts = {isJSON: false, flyTo: true}) => {
 	if (!rawCoord) return;
-	const latLng = isJSON
+	const latLng = opts.isJSON
 		? {lat: rawCoord.lat, lng: rawCoord.lng}
 		: extractCoordFrom(rawCoord);
 	if (!latLng) {
@@ -110,7 +110,9 @@ const pingMarker = (rawCoord, isJSON = false) => {
 	}
 	const m = drawMarker(null, latLng, 'PING');
 	map.addLayer(m);
-	map.flyTo(latLng);
+	if (opts.flyTo) {
+		map.flyTo(latLng);
+	}
 	console.log('drawing marker', m);
 
 	let opacity = 1;
@@ -127,7 +129,7 @@ const pingMarker = (rawCoord, isJSON = false) => {
 };
 
 const pingInput = document.querySelector('#ping-coord');
-pingInput.addEventListener('keydown', (e) => {
+pingInput.addEventListener('keydown', e => {
 	if (e.code === 'Enter') {
 		const clearVal = pingMarker(e.target.value);
 		if (clearVal) {
@@ -146,32 +148,34 @@ document.querySelector('#ping-coord-clear').onclick = () => {
 };
 
 let nominatim;
-const nominatimMarker = async (search) => {
-	if (!search) return;
+const nominatimMarker = async (search, results) => {
+	if (!search && !results) return;
 	let clearVal;
+	console.log(results);
 	try {
-		const results = await nominatim.search({q: search});
+		results ||= await nominatim.search({q: search});
 		if (results) {
 			clearVal = true;
 		}
-		const markers = results.map((r) => pingMarker(r, true));
-		if (results.length === 1) {
-			map.panTo([results[0].lat, results[0].lng]);
-			map.setZoom(ZOOM_LEVEL.tristate)
-		} else if (results.length > 1) {
-			const group = L.featureGroup(markers);
-			map.fitBounds(group.getBounds().pad(0.5));
+		if (results.length) {
+			const markers = results.map(r =>
+				pingMarker(r, {isJSON: true, flyTo: false})
+			);
+			const bounds = L.featureGroup(markers).getBounds().pad(0.5);
+			map.fitBounds(bounds);
 		} else {
-			alert("no results")
+			alert('no results');
+			return;
 		}
 	} catch (e) {
 		console.warn(e);
+		alert(e);
 	}
 	return clearVal;
 };
 
 const locationInput = document.querySelector('#lookup-location');
-locationInput.addEventListener('keydown', async (e) => {
+locationInput.addEventListener('keydown', async e => {
 	if (!nominatim) {
 		nominatim = new NominatimJS();
 	}
@@ -188,4 +192,36 @@ document.querySelector('#lookup-location-enter').onclick = async () => {
 };
 document.querySelector('#lookup-location-clear').onclick = () => {
 	locationInput.value = '';
+};
+const popupContainer = document.querySelector('#popup-container');
+document.querySelector('#lookup-location-advanced').onclick = async () => {
+	try {
+		const query = locationInput.value;
+		locationInput.value = 'Loading';
+		const results = await nominatim.search({q: query});
+		if (results) {
+			popupContainer.classList.toggle('hidden');
+			locationInput.value = 'Select an option';
+			const list = document.createElement('ul');
+			list.id = 'lookup-location-advanced-popup';
+			results.forEach(r => {
+				const li = document.createElement('li');
+				const btn = document.createElement('button');
+				btn.textContent = r.display_name;
+				btn.onclick = () => {
+					console.log(r);
+					nominatimMarker(null, [r]);
+					locationInput.value = '';
+					popupContainer.innerHTML = '';
+					popupContainer.classList.toggle('hidden');
+				};
+				li.appendChild(btn);
+				list.appendChild(li);
+			});
+			popupContainer.appendChild(list);
+		}
+	} catch (e) {
+		console.warn(e);
+		alert(e);
+	}
 };

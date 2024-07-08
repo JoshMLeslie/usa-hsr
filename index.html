@@ -68,7 +68,7 @@
 							<p>Actions</p>
 							<div class="input-set">
 								<label for="ping-coord">Ping Coordinate (Lat,&nbsp;Lng)</label>
-								<input id="ping-coord" />
+								<input id="ping-coord" type="search" />
 								<div class="input-actions">
 									<button id="ping-coord-enter">Go to</button>
 									<button id="ping-coord-clear">Clear</button>
@@ -76,10 +76,11 @@
 							</div>
 							<div class="input-set">
 								<label for="lookup-location">Location Search</label>
-								<input id="lookup-location" />
+								<input id="lookup-location" type="search" />
 								<div class="input-actions">
 									<button id="lookup-location-enter">Search</button>
 									<button id="lookup-location-clear">Clear</button>
+									<button id="lookup-location-advanced">Advanced</button>
 								</div>
 							</div>
 						</div>
@@ -92,9 +93,21 @@
 						<button class="region-btn only-dev" id="county-heatmap">
 							County Heatmap
 						</button>
-						<p>Show route</p>
+						<div id="route-data-header">
+							<p>Show route</p>
+							<div>
+								<input
+									type="checkbox"
+									id="show-soft-regions"
+									name="show-soft-regions"
+								/>
+								<label for="show-soft-regions">Show Soft Regions</label>
+							</div>
+						</div>
 						<div id="region-selection-container">
-							<button disabled class="region-btn" id="namr">North America</button>
+							<button disabled class="region-btn" id="namr">
+								North America
+							</button>
 							<button disabled class="region-btn" id="usa">Only USA</button>
 							<button disabled class="region-btn" id="canada">Only CAN</button>
 							<button disabled class="region-btn" id="mexico">Only MX</button>
@@ -114,17 +127,10 @@
 							<button id="show-city-labels">Show City Labels</button>
 							<button id="hide-city-labels">Hide City Labels</button>
 						</div>
-						<div>
-							<input
-								type="checkbox"
-								id="show-soft-regions"
-								name="show-soft-regions"
-							/>
-							<label for="show-soft-regions">Show Soft Regions</label>
-						</div>
 					</div>
 				</div>
 			</div>
+			<div id="popup-container" class="hidden"></div>
 		</div>
 
 		<dialog id="help-dialog">
