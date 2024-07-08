@@ -1,10 +1,10 @@
 'use strict';
 /* global L:readonly */
 
-import { bindRegionButtonsToMap } from './bind-btns.js';
-import { INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL } from './const.js';
+import {bindRegionButtonsToMap} from './bind-btns.js';
+import {INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL} from './const.js';
 import USA_StateBoundaryData from './geojson/usa-state-bounds.js';
-import { getBoundsForBox } from './util.js';
+import {getBoundsForBox} from './util.js';
 import CENTERS from './zones/centers.js';
 
 const initMaps = () => {
@@ -213,6 +213,7 @@ const addOSMTiles = (map, mapHUD) => {
 				'&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 		}
 	);
+	mapTile.on('loaderror', console.warn);
 	mapTile.addTo(map);
 	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 10,
@@ -223,6 +224,10 @@ const addOSMTiles = (map, mapHUD) => {
 
 /** @returns {L.Map} map */
 export default async function () {
+	// todo - caching
+	// if ('serviceWorker' in navigator) {
+	// 	navigator.serviceWorker.register('assets/js/service-worker/service-worker.js');
+	// }
 	const [map, mapHUD] = initMaps();
 	initHelpDialog();
 	await initSoftRegions(map);
