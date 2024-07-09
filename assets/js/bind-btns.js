@@ -40,14 +40,13 @@ export const bindRegionButtonsToMap = (map, softRegions) => {
 					return;
 				}
 
-				if (
-					softRegions[elID] &&
-					document.querySelector('#show-soft-regions').checked
-				) {
-					map.addLayer(softRegions[elID]);
-				} else {
-					console.warn('soft-region DNE');
-					alert('Missing soft-region data');
+				if (document.querySelector('#show-soft-regions').checked) {
+					if (softRegions[elID]) {
+						map.addLayer(softRegions[elID]);
+					} else {
+						console.warn('soft-region DNE');
+						alert('Missing soft-region data');
+					}
 				}
 
 				if (!hasDrawn[center]) {
