@@ -1,4 +1,5 @@
 'use strict';
+import abbreviatedStateNames from './assets/js/abbreviated-state-names.mjs';
 /*global L:readonly*/
 
 import genCountyHeatmap from './assets/js/county-heatmap.js';
@@ -48,3 +49,20 @@ const toggleCountyHeatmap = async () => {
 		: map.removeLayer(countyHeatmap);
 };
 document.querySelector('#county-heatmap').onclick = toggleCountyHeatmap;
+
+let selectedState;
+const stateSelector = document.querySelector('#state-route-selector');
+const stateSelectorEnter = document.querySelector('#state-route-show');
+abbreviatedStateNames.forEach(name => {
+	const option = document.createElement('option');
+	option.value = name;
+	option.textContent = name;
+	stateSelector.appendChild(option);
+});
+stateSelector.addEventListener('change', (e) => {
+	selectedState = e.target.value;
+})
+stateSelectorEnter.onclick = () => {
+	alert("todo: routes for specific states: " + selectedState)
+	// todo SHOW STATE ROUTE
+}
