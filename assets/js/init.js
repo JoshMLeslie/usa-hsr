@@ -4,6 +4,8 @@
 import {bindRegionButtonsToMap} from './bind-btns.js';
 import {INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL} from './const.js';
 import USA_StateBoundaryData from './geojson/usa-state-bounds.js';
+import initAddressLookup from './interactions/address-lookup.js';
+import initPingCoord from './interactions/ping-coord.js';
 import {getBoundsForBox} from './util.js';
 import CENTERS from './zones/centers.js';
 
@@ -78,19 +80,17 @@ const initHelpDialog = () => {
 const initSoftRegions = async map => {
 	// generate soft regions
 	const softRegions = {};
-	await fetch('./assets/js/zones/soft-regions.json')
+	const data = await fetch('./assets/js/zones/soft-regions.json')
 		.then(r => r.json())
-		.then(d => {
-			// todo figure out why L.geoJson(d) won't render
-			d.features.forEach(f => {
-				if (!f.geometry.coordinates[0].length) return;
-				const poly = L.polygon(f.geometry.coordinates[0], {
-					interactive: false,
-				});
-				softRegions[f.properties.region] = poly;
-			});
-			console.log('generated soft regions: ', d.features.length);
+	// todo figure out why L.geoJson(d) won't render
+	data.features.forEach(f => {
+		if (!f.geometry.coordinates[0].length) return;
+		const poly = L.polygon(f.geometry.coordinates[0], {
+			interactive: false,
 		});
+		softRegions[f.properties.region] = poly;
+	});
+	console.log('generated soft regions: ', data.features.length);
 
 	L.geoJson(USA_StateBoundaryData, {
 		style: () => ({opacity: 0.5, weight: 2, fill: false}),
@@ -168,7 +168,11 @@ const measurePointToPoint = (map, useLatLng) => {
 	}
 	return content;
 };
-/** open LatLng popup on rightclick. +shift => center of map / view */
+/** open LatLng popup on rightclick.
+ * +shift => center of map / view
+ * +alt => measure
+ * +ctrl => copy latlng to clipboard
+ */
 const configContextMenu = map => {
 	map.on('click', () => {
 		cleanupMeasurement();
@@ -234,5 +238,7 @@ export default async function () {
 	initMapHUDViewbox(map, mapHUD);
 	configContextMenu(map);
 	addOSMTiles(map, mapHUD);
+	initPingCoord(map);
+	initAddressLookup(map);
 	return map;
 }
