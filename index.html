@@ -134,7 +134,10 @@
 		</div>
 
 		<dialog id="help-dialog">
-			<button id="help-dialog-close" class="icon-button">X</button>
+			<header>
+				<h2>Help</h2>
+				<button id="help-dialog-close" class="icon-button">X</button>
+			</header>
 			<div id="help-dialog-content">
 				<p>
 					<strong>Arrows keys</strong>, <strong>WASD</strong>, or
@@ -142,12 +145,20 @@
 				</p>
 				<p>
 					<strong>Right Click</strong> the main map to see [Lat, Lng] at that
-					position. <strong>+ Shift</strong>to see center of view
+					position.<strong>Click anywhere to clear.</strong>
 				</p>
+				<ul id="help-list-modifiers">
+					<li><strong>+ Shift</strong> to see center of view</li>
+					<li><strong>+ Ctrl</strong> to copy the result to your clipboard</li>
+					<li>
+						<strong>+ Alt</strong> to set a start / end point for distance
+						measurement. 
+					</li>
+				</ul>
 			</div>
 			<p>
-				Close this dialog with the button or ctrl + clicking anywhere. It can
-				also be opened by typing a question mark
+				<strong>Close this dialog</strong> with the <strong>button</strong> or <strong>ctrl + clicking</strong> anywhere. It can
+				also be <strong>opened by typing a question mark.</strong>
 			</p>
 		</dialog>
 	</body>
