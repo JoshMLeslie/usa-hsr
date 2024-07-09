@@ -1,6 +1,7 @@
 
 /* global L:readonly */
 
+import { fetchJSON } from "../util.js";
 import { drawMarker } from "./draw.js";
 
 const showCityMarkerPos = (map, lat, lon, city) => e => {
@@ -21,9 +22,7 @@ const showCityMarkerPos = (map, lat, lon, city) => e => {
 
 export default async function genMajorCityMarkers (map) {
 	/** @type {{lat: number; lon: number; city: string;}[]}} data */
-	const data = await fetch('./data-csv/parsed_results.json').then(r =>
-		r.json()
-	);
+	const data = await fetchJSON('./data-csv/parsed_results.json');
 	const clusterGroup = L.markerClusterGroup({
 		maxClusterRadius: 40,
 	});

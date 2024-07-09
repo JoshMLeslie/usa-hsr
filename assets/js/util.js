@@ -15,3 +15,12 @@ export const getBoundsForBox = el => [
 	el.getBounds().getSouthEast(),
 	el.getBounds().getSouthWest(),
 ];
+
+/**
+ * @param {RequestInfo | URL} url
+ * @param {RequestInit} [opts]
+ * @see fetch
+ * @returns {Promise<Object>}
+ */
+export const fetchJSON = async (url, opts = {}) =>
+	fetch(url, opts).then(r => r.json());

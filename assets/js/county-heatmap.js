@@ -1,3 +1,5 @@
+import {fetchJSON} from './util';
+
 /* global L:readonly */
 let USA_CountyData;
 const steps = [
@@ -56,9 +58,9 @@ const genCountyHeatmap = async () => {
 	// 	range: [43, 9663345]
 
 	if (!USA_CountyData) {
-		USA_CountyData = await fetch(
+		USA_CountyData = await fetchJSON(
 			'./assets/js/geojson/us_county_data_pop.json'
-		).then(r => r.json());
+		);
 	}
 
 	return new Promise((res, rej) => {

@@ -1,5 +1,7 @@
 'use strict';
 
+import { fetchJSON } from "../util";
+
 // adapted from https://www.npmjs.com/package/nominatim-js
 
 /**
@@ -147,8 +149,7 @@ export default class NominatimJS {
 			url.searchParams.append('countrycodes', countryCodes);
 		}
 
-		return fetch(url.toString())
-			.then((r) => r.json())
+		return fetchJSON(url.toString())
 			.then((r) => (r.length ? r.map((data) => ({...data, lng: data.lon})) : []));
 	}
 

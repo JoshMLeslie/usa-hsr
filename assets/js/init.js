@@ -6,7 +6,7 @@ import {INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL} from './const.js';
 import USA_StateBoundaryData from './geojson/usa-state-bounds.js';
 import initAddressLookup from './interactions/address-lookup.js';
 import initPingCoord from './interactions/ping-coord.js';
-import {getBoundsForBox} from './util.js';
+import {fetchJSON, getBoundsForBox} from './util.js';
 import CENTERS from './zones/centers.js';
 
 const initMaps = () => {
@@ -80,8 +80,7 @@ const initHelpDialog = () => {
 const initSoftRegions = async map => {
 	// generate soft regions
 	const softRegions = {};
-	const data = await fetch('./assets/js/zones/soft-regions.json')
-		.then(r => r.json())
+	const data = await fetchJSON('./assets/js/zones/soft-regions.json');
 	// todo figure out why L.geoJson(d) won't render
 	data.features.forEach(f => {
 		if (!f.geometry.coordinates[0].length) return;
