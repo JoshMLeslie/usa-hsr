@@ -58,13 +58,13 @@ const initMaps = () => {
 };
 
 const initHelpDialog = () => {
-	const helpDialog = document.querySelector('dialog#help-dialog');
+	const helpDialog = document.querySelector('dialog#support-dialog');
 	document.addEventListener('keydown', ({key}) => {
 		if (key === '?') {
 			helpDialog.showModal();
 		}
 	});
-	document.querySelector('#help-dialog-open').addEventListener('click', () => {
+	document.querySelector('#support-dialog-open').addEventListener('click', () => {
 		helpDialog.showModal();
 	});
 	helpDialog.addEventListener('click', ({ctrlKey}) => {
@@ -72,7 +72,7 @@ const initHelpDialog = () => {
 			helpDialog.close();
 		}
 	});
-	document.querySelector('#help-dialog-close').addEventListener('click', () => {
+	document.querySelector('#support-dialog-close').addEventListener('click', () => {
 		helpDialog.close();
 	});
 };

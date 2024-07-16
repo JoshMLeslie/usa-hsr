@@ -125,7 +125,7 @@ body {
 	border-bottom: 8px dashed orange;
 }
 
-#help-dialog {
+#support-dialog {
 	position: relative;
 	height: 200px;
 	width: 400px;
@@ -134,20 +134,20 @@ body {
 	padding: 0 1rem 1rem 1rem;
 }
 
-#help-dialog[open] {
+#support-dialog[open] {
 	display: flex;
 	flex-direction: column;
 }
 
-#help-dialog::backdrop {
+#support-dialog::backdrop {
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
-#help-dialog-content {
+#support-dialog-content {
 	height: 100%;
 }
 
-#help-dialog header {
+#support-dialog header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -158,11 +158,25 @@ body {
 	margin: 0 -16px;
 	box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.25);
 }
-#help-dialog header h2 {
+#support-dialog_header_actions {
+	display: flex;
+	gap: 8px;
+}
+#support-dialog_header_actions button {
+	border: none;
+	padding: 16px 8px;
+	margin: -16px 0;
+	cursor: pointer;
+}
+#support-dialog_header_actions button.active,
+#support-dialog_header_actions button:hover {
+	opacity: 0.5;
+}
+#support-dialog header h2 {
 	margin: 0;
 }
 
-#help-dialog #help-list-modifiers {
+#support-dialog #help-list-modifiers {
 	list-style: none;
 	margin-left: 0;
 	padding-left: 1em;
@@ -184,9 +198,7 @@ body {
 	width: 100%;
 	background: rgba(0, 0, 0, 0.5);
 }
-#popup-container.hidden {
-	display: none;
-}
+
 #lookup-location-advanced-popup {
 	display: block;
 	min-width: 300px;
@@ -203,6 +215,9 @@ body {
 }
 
 /* CLASSES */
+.hidden {
+	display: none !important;
+}
 .icon-button {
 	background: none;
 	border: 2px solid black;

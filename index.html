@@ -44,7 +44,7 @@
 						<div id="legend">
 							<div>
 								<p>Legend</p>
-								<button id="help-dialog-open" class="icon-button">?</button>
+								<button id="support-dialog-open" class="icon-button">?</button>
 							</div>
 							<table>
 								<tbody>
@@ -115,26 +115,30 @@
 								<label for="state-route-selector">Select a State:</label>
 								<select id="state-route-selector"></select>
 								<button id="state-route-show">Show Route</button>
-						</div>
-						<div>
-							<button disabled class="region-btn" id="namr">
-								North America
-							</button>
-							<button disabled class="region-btn" id="usa">Only USA</button>
-							<button disabled class="region-btn" id="canada">Only CAN</button>
-							<button disabled class="region-btn" id="mexico">Only MX</button>
-							<button class="region-btn" id="west">Region - West</button>
-							<button class="region-btn" id="central">Region - Central</button>
-							<button class="region-btn" id="great-lakes">
-								Region - Great Lakes
-							</button>
-							<button class="region-btn" id="north-east">
-								Region - NorthEast
-							</button>
-							<button class="region-btn" id="south-east">
-								Region - SouthEast
-							</button>
-						</div>
+							</div>
+							<div>
+								<button disabled class="region-btn" id="namr">
+									North America
+								</button>
+								<button disabled class="region-btn" id="usa">Only USA</button>
+								<button disabled class="region-btn" id="canada">
+									Only CAN
+								</button>
+								<button disabled class="region-btn" id="mexico">Only MX</button>
+								<button class="region-btn" id="west">Region - West</button>
+								<button class="region-btn" id="central">
+									Region - Central
+								</button>
+								<button class="region-btn" id="great-lakes">
+									Region - Great Lakes
+								</button>
+								<button class="region-btn" id="north-east">
+									Region - NorthEast
+								</button>
+								<button class="region-btn" id="south-east">
+									Region - SouthEast
+								</button>
+							</div>
 						</div>
 						<div id="city-labels-container">
 							<button id="show-city-labels">Show City Labels</button>
@@ -146,12 +150,23 @@
 			<div id="popup-container" class="hidden"></div>
 		</div>
 
-		<dialog id="help-dialog">
+		<dialog id="support-dialog">
 			<header>
-				<h2>Help</h2>
-				<button id="help-dialog-close" class="icon-button">X</button>
+				<div id="support-dialog_header_actions">
+					<button data-tab="help" class="active">
+						<h2>Help</h2>
+					</button>
+					<button data-tab="about">
+						<h2>About</h2>
+					</button>
+				</div>
+				<button id="support-dialog-close" class="icon-button">X</button>
 			</header>
-			<div id="help-dialog-content">
+			<div
+				id="help-dialog-content"
+				class="support-dialog-content"
+				data-for-tab="help"
+			>
 				<p>
 					<strong>Arrows keys</strong>, <strong>WASD</strong>, or
 					<strong>drag + scroll</strong> the visible area to navigate
@@ -165,13 +180,35 @@
 					<li><strong>+ Ctrl</strong> to copy the result to your clipboard</li>
 					<li>
 						<strong>+ Alt</strong> to set a start / end point for distance
-						measurement. 
+						measurement.
 					</li>
 				</ul>
 			</div>
+			<div
+				id="about-dialog-content"
+				class="support-dialog-content hidden"
+				data-for-tab="about"
+			>
+				<p>
+					I've started mapping routes between major cities for high-speed rail,
+					eventually I'd like it to show true routes and associated data
+					(tunnels, elevations, passenger projections, development costs, etc.)
+					instead of theoretical straight lines. Additionally I want to add data
+					views such as population heat-maps, terrain maps, etc.
+				</p>
+				<p>
+					View the code on
+					<a
+						target="_blank"
+						href="https://github.com/JoshMLeslie/americas-high-speed-rail"
+						>Github</a
+					>
+				</p>
+			</div>
 			<p>
-				<strong>Close this dialog</strong> with the <strong>button</strong> or <strong>ctrl + clicking</strong> anywhere. It can
-				also be <strong>opened by typing a question mark.</strong>
+				<strong>Close this dialog</strong> with the <strong>button</strong> or
+				<strong>ctrl + clicking</strong> anywhere. It can also be
+				<strong>opened by typing a question mark.</strong>
 			</p>
 		</dialog>
 	</body>

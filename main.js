@@ -19,7 +19,7 @@ document.querySelector('#hide-city-labels').onclick = () => {
 
 const dataCache = {
 	majorCities: null,
-	countyHeatmap: null
+	countyHeatmap: null,
 };
 
 const toggleMajorCities = async () => {
@@ -59,10 +59,33 @@ abbreviatedStateNames.forEach(name => {
 	option.textContent = name;
 	stateSelector.appendChild(option);
 });
-stateSelector.addEventListener('change', (e) => {
+stateSelector.addEventListener('change', e => {
 	selectedState = e.target.value;
-})
+});
 stateSelectorEnter.onclick = () => {
-	alert("todo: routes for specific states: " + selectedState)
+	alert('todo: routes for specific states: ' + selectedState);
 	// todo SHOW STATE ROUTE
+};
+
+const supportDialogActions = document.querySelector(
+	'#support-dialog_header_actions'
+);
+const supportDialogContent = document.querySelectorAll(
+	'.support-dialog-content'
+);
+for (const action of supportDialogActions.children) {
+	const tab = action.getAttribute('data-tab');
+	action.onclick = () => {
+		for (const action of supportDialogActions.children) {
+			action.classList.remove('active');
+		}
+		action.classList.add('active');
+		for (const content of supportDialogContent) {
+			if (content.getAttribute('data-for-tab') === tab) {
+				content.classList.remove('hidden');
+			} else {
+				content.classList.add('hidden');
+			}
+		}
+	};
 }
