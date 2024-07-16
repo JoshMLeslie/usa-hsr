@@ -1,13 +1,22 @@
 'use strict';
 /* global L:readonly */
 
+import abbreviatedStateNames from './abbreviated-state-names.mjs';
+import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './events.js';
 import {bindRegionButtonsToMap} from './bind-btns.js';
 import {INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL} from './const.js';
+import genCountyHeatmap from './county-heatmap.js';
 import USA_StateBoundaryData from './geojson/usa-state-bounds.js';
 import initAddressLookup from './interactions/address-lookup.js';
 import initPingCoord from './interactions/ping-coord.js';
+import genMajorCityMarkers from './mapping/major-city-markers.js';
 import {fetchJSON, getBoundsForBox} from './util.js';
 import CENTERS from './zones/centers.js';
+
+const simpleDataCache = {
+	majorCities: null,
+	countyHeatmap: null,
+};
 
 const initMaps = () => {
 	const isProd = !/localhost|127.0.0.1/.test(location.href);
@@ -57,24 +66,51 @@ const initMaps = () => {
 	return [map, mapHUD];
 };
 
-const initHelpDialog = () => {
+const initSupportDialog = () => {
 	const helpDialog = document.querySelector('dialog#support-dialog');
 	document.addEventListener('keydown', ({key}) => {
 		if (key === '?') {
 			helpDialog.showModal();
 		}
 	});
-	document.querySelector('#support-dialog-open').addEventListener('click', () => {
-		helpDialog.showModal();
-	});
+	document
+		.querySelector('#support-dialog-open')
+		.addEventListener('click', () => {
+			helpDialog.showModal();
+		});
 	helpDialog.addEventListener('click', ({ctrlKey}) => {
 		if (ctrlKey) {
 			helpDialog.close();
 		}
 	});
-	document.querySelector('#support-dialog-close').addEventListener('click', () => {
-		helpDialog.close();
-	});
+	document
+		.querySelector('#support-dialog-close')
+		.addEventListener('click', () => {
+			helpDialog.close();
+		});
+	// support dialog tab actions
+	const supportDialogActions = document.querySelector(
+		'#support-dialog_header_actions'
+	);
+	const supportDialogContent = document.querySelectorAll(
+		'.support-dialog-content'
+	);
+	for (const action of supportDialogActions.children) {
+		const tab = action.getAttribute('data-tab');
+		action.onclick = () => {
+			for (const action of supportDialogActions.children) {
+				action.classList.remove('active');
+			}
+			action.classList.add('active');
+			for (const content of supportDialogContent) {
+				if (content.getAttribute('data-for-tab') === tab) {
+					content.classList.remove('hidden');
+				} else {
+					content.classList.add('hidden');
+				}
+			}
+		};
+	}
 };
 
 const initSoftRegions = async map => {
@@ -225,6 +261,67 @@ const addOSMTiles = (map, mapHUD) => {
 	}).addTo(mapHUD);
 };
 
+function bindCityLabelEvents() {
+	// city labels show/hide
+	document.querySelector('#show-city-labels').onclick = () => {
+		document.dispatchEvent(eSHOW_CITY_LABELS);
+	};
+	document.querySelector('#hide-city-labels').onclick = () => {
+		document.dispatchEvent(eHIDE_CITY_LABELS);
+	};
+}
+
+function initMajorCities(map) {
+	const toggleMajorCities = async map => {
+		const {majorCities} = simpleDataCache;
+		if (!simpleDataCache.majorCities) {
+			simpleDataCache.majorCities = await genMajorCityMarkers();
+		}
+		if (map.hasLayer(majorCities)) {
+			map.removeLayer(majorCities);
+			console.log('remove major cities');
+		} else {
+			map.addLayer(majorCities);
+			console.log('add major cities');
+		}
+	};
+	document.querySelector('#major-cities').onclick = toggleMajorCities;
+}
+
+function initCountyHeatmap() {
+	let countyHeatmap;
+	let showCountyHeatmap = false;
+	const toggleCountyHeatmap = async map => {
+		if (!simpleDataCache.countyHeatmap) {
+			simpleDataCache.countyHeatmap = await genCountyHeatmap();
+		}
+		showCountyHeatmap = !showCountyHeatmap;
+		showCountyHeatmap
+			? map.addLayer(countyHeatmap)
+			: map.removeLayer(countyHeatmap);
+	};
+	document.querySelector('#county-heatmap').onclick = toggleCountyHeatmap;
+}
+
+function initStateRoutes() {
+	let selectedState;
+	const stateSelector = document.querySelector('#state-route-selector');
+	const stateSelectorEnter = document.querySelector('#state-route-show');
+	abbreviatedStateNames.forEach(name => {
+		const option = document.createElement('option');
+		option.value = name;
+		option.textContent = name;
+		stateSelector.appendChild(option);
+	});
+	stateSelector.addEventListener('change', e => {
+		selectedState = e.target.value;
+	});
+	stateSelectorEnter.onclick = () => {
+		alert('todo: routes for specific states: ' + selectedState);
+		// todo SHOW STATE ROUTE
+	};
+}
+
 /** @returns {L.Map} map */
 export default async function () {
 	// todo - caching
@@ -232,12 +329,19 @@ export default async function () {
 	// 	navigator.serviceWorker.register('assets/js/service-worker/service-worker.js');
 	// }
 	const [map, mapHUD] = initMaps();
-	initHelpDialog();
 	await initSoftRegions(map);
 	initMapHUDViewbox(map, mapHUD);
 	configContextMenu(map);
 	addOSMTiles(map, mapHUD);
+
+	// Support
+	bindCityLabelEvents();
 	initPingCoord(map);
 	initAddressLookup(map);
+	initMajorCities(map);
+	initCountyHeatmap();
+	initStateRoutes();
+	initSupportDialog();
+
 	return map;
 }
