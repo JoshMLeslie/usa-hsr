@@ -16,6 +16,12 @@ body {
 	margin: 0;
 }
 
+hr {
+	height: 4px;
+	width: 100%;
+	background-color: lightgray;
+}
+
 /* IDS */
 #interaction-container {
 	display: flex;
@@ -42,10 +48,21 @@ body {
 	flex-direction: column;
 	box-sizing: border-box;
 	border: 2px solid black;
+	container-type: inline-size;
+}
+
+@container (max-width: 320px) {
+	#hud-map-util {
+		overflow-y: auto;
+	}
+	#hud-map-interactions {
+		flex-direction: column;
+	}
 }
 
 #hud-map {
 	border-bottom: 2px solid black;
+	min-height: 200px;
 }
 
 #hud-map-util {
@@ -56,16 +73,6 @@ body {
 	gap: 8px;
 	margin: 0 auto;
 	padding: 16px;
-	container-type: inline-size;
-}
-
-@container (max-width: 300px) {
-	#hud-map-util {
-		overflow-y: scroll;
-	}
-	#hud-map-util #hud-map-interactions {
-		flex-direction: column;
-	}
 }
 
 #hud-map-util > div {

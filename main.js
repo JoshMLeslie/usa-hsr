@@ -14,10 +14,9 @@ resizeDiv.ondrag = ({offsetX}) => {
 	// defend against last drag event having an errant offset
 	if (Math.abs(offsetX) > 50) return;
 	// defend against compressing the divs too small
-	// using js because @container wasn't behaving as expected
 	if (
-		(hudMapCont.clientWidth < 200 && offsetX > 0) ||
-		(mapCont.clientWidth < 200 && offsetX < 0)
+		(hudMapCont.clientWidth < 220 && offsetX > 0) ||
+		(mapCont.clientWidth < 220 && offsetX < 0)
 	)
 		return;
 
