@@ -56,6 +56,16 @@ body {
 	gap: 8px;
 	margin: 0 auto;
 	padding: 16px;
+	container-type: inline-size;
+}
+
+@container (max-width: 300px) {
+	#hud-map-util {
+		overflow-y: scroll;
+	}
+	#hud-map-util #hud-map-interactions {
+		flex-direction: column;
+	}
 }
 
 #hud-map-util > div {
@@ -123,6 +133,17 @@ body {
 }
 #legend #country {
 	border-bottom: 8px dashed orange;
+}
+
+#resize-divider {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 16px;
+	background-color: gray;
+	cursor: ew-resize;
+	color: white;
 }
 
 #support-dialog {
@@ -264,6 +285,9 @@ body {
 	}
 }
 @media screen and (max-width: 650px) {
+	#resize-divider {
+		display: none;
+	}
 	#hud-map {
 		display: none;
 	}

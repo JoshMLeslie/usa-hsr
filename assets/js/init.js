@@ -2,15 +2,15 @@
 /* global L:readonly */
 
 import abbreviatedStateNames from './abbreviated-state-names.mjs';
-import {eHIDE_CITY_LABELS, eSHOW_CITY_LABELS} from './events.js';
-import {bindRegionButtonsToMap} from './bind-btns.js';
-import {INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL} from './const.js';
+import { bindRegionButtonsToMap } from './bind-btns.js';
+import { INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL } from './const.js';
 import genCountyHeatmap from './county-heatmap.js';
+import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './events.js';
 import USA_StateBoundaryData from './geojson/usa-state-bounds.js';
 import initAddressLookup from './interactions/address-lookup.js';
 import initPingCoord from './interactions/ping-coord.js';
 import genMajorCityMarkers from './mapping/major-city-markers.js';
-import {fetchJSON, getBoundsForBox} from './util.js';
+import { fetchJSON, getBoundsForBox } from './util.js';
 import CENTERS from './zones/centers.js';
 
 const simpleDataCache = {
@@ -18,6 +18,9 @@ const simpleDataCache = {
 	countyHeatmap: null,
 };
 
+/**
+ * @returns [L.Map, L.Map] - base map and HUD map
+ */
 const initMaps = () => {
 	const isProd = !/localhost|127.0.0.1/.test(location.href);
 	document.querySelector('body').classList.add(isProd ? 'prod' : 'dev');
@@ -362,5 +365,5 @@ export default async function () {
 	// todo - caching
 	// initServiceWorker();
 
-	return map;
+	return [map, mapHUD];
 }
