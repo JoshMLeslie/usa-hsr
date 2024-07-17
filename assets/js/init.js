@@ -345,6 +345,12 @@ function initServiceWorker() {
 	});
 }
 
+function bindHomeIcon() {
+	document.querySelector("#home-icon").onclick = () => {
+		window.location.href = '/';
+	}
+}
+
 /** @returns {L.Map} map */
 export default async function () {
 	const [map, mapHUD] = initMaps();
@@ -361,6 +367,7 @@ export default async function () {
 	initCountyHeatmap();
 	initStateRoutes();
 	initSupportDialog();
+	bindHomeIcon();
 	
 	// todo - caching
 	// initServiceWorker();

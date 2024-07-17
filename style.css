@@ -47,17 +47,7 @@ hr {
 	display: flex;
 	flex-direction: column;
 	box-sizing: border-box;
-	border: 2px solid black;
 	container-type: inline-size;
-}
-
-@container (max-width: 320px) {
-	#hud-map-util {
-		overflow-y: auto;
-	}
-	#hud-map-interactions {
-		flex-direction: column;
-	}
 }
 
 #hud-map {
@@ -105,6 +95,17 @@ hr {
 #city-labels-container {
 	display: flex;
 	gap: 4px;
+}
+
+#home-icon {
+	position: fixed;
+	top: 1px;
+	right: 1px;
+	padding: 8px;
+	border-bottom-left-radius: 32px;
+	background-color: white;
+	cursor: pointer;
+	z-index: 10000;
 }
 
 #legend {
@@ -276,6 +277,20 @@ hr {
 .input-actions {
 	display: flex;
 }
+
+@container (max-width: 320px) {
+	/* relative to hud-map-container & children */
+	#hud-map-util {
+		overflow-y: auto;
+	}
+	#hud-map-interactions {
+		flex-direction: column;
+	}
+	#legend {
+		width: 100%;
+	}
+}
+
 
 @media screen and (min-width: 1400px) {
 	#map-container {
