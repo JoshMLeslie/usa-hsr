@@ -168,9 +168,11 @@ body {
 	margin: -16px 0;
 	cursor: pointer;
 }
-#support-dialog_header_actions button.active,
-#support-dialog_header_actions button:hover {
+#support-dialog_header_actions button:not(.active) {
 	opacity: 0.5;
+}
+#support-dialog_header_actions button:not(.active):hover {
+	opacity: 1;
 }
 #support-dialog header h2 {
 	margin: 0;
