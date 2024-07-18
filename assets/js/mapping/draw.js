@@ -201,7 +201,11 @@ export const drawRoute = (map, route, coords) => {
 export const drawZone = (map, zone, coords) => {
 	const routes = [];
 	for (const route of zone) {
-		routes.push(drawRoute(map, route, coords));
+		if (route.length === 1) {
+			console.warn('Isolated node in route', ...route);
+		} else {
+			routes.push(drawRoute(map, route, coords));
+		}
 	}
 	return L.layerGroup(routes);
 };
