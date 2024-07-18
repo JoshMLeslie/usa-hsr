@@ -1,6 +1,6 @@
 'use strict';
 
-import {HIDE_CITY_LABELS, SHOW_CITY_LABELS} from '../const.js';
+import { HIDE_CITY_LABELS, SHOW_CITY_LABELS } from '../const.js';
 
 /*global L:readonly*/
 
@@ -8,7 +8,7 @@ import {HIDE_CITY_LABELS, SHOW_CITY_LABELS} from '../const.js';
  * @param {L.LatLng} latLng
  * @returns {string}
  */
-const latLngToCardinal = latLng => {
+const latLngToCardinal = (latLng) => {
 	const {lat, lng} = latLng;
 	const NS = (lat > 0 ? 'N' : 'S') + lat.toString().replace('-', '');
 	const EW = (lng > 0 ? 'E' : 'W') + lng.toString().replace('-', '');
@@ -72,15 +72,19 @@ export const drawPolyline = (map, coords, opts) => {
 
 	// tooltip element
 	const pre = document.createElement('pre');
-	pre.innerText = `${distKm} km\n${distMi} mi`;
+	pre.innerText = `Section\n${distKm} km\n${distMi} mi`;
 	pre.style.fontSize = '0.8rem';
-	polyPadding.bindTooltip(pre);
+	polyPadding.bindTooltip(pre, {direction: 'left'});
 
-	return [poly, polyPadding];
+	return [poly, polyPadding, distKm, distMi];
 };
 
 export const drawRoute = (map, route, coords) => {
-	const routeGroup = L.featureGroup([]);
+	const lineGroup = L.featureGroup([]);
+	const paddingGroup = L.featureGroup([]);
+	const markerGroup = L.featureGroup([]);
+	let totalDistKm = 0;
+	let totalDistMi = 0;
 
 	for (let aIdx = 0, bIdx = 1; bIdx < route.length; aIdx++, bIdx++) {
 		const a = route[aIdx];
@@ -120,27 +124,41 @@ export const drawRoute = (map, route, coords) => {
 			opts.weight = Math.min(a.weight, b.weight);
 		}
 
-		const [line, padding] = drawPolyline(map, [aCoord, bCoord], opts);
+		const [line, padding, distKm, distMi] = drawPolyline(
+			map,
+			[aCoord, bCoord],
+			opts
+		);
+
+		totalDistKm += +distKm;
+		totalDistMi += +distMi;
+
 		// TODO for route wiggling purposes: city.bypass ? ...
 		const markers = [
 			drawMarker(map, aCoord, a.city),
 			drawMarker(map, bCoord, b.city),
 		];
 
-		routeGroup.addLayer(line);
-		routeGroup.addLayer(padding);
-		routeGroup.addLayer(L.layerGroup(markers));
-
-		routeGroup.on('mouseover', _ => {
-			line.setStyle({opacity: 1});
-			padding.setStyle({opacity: 0.4});
-		});
-		routeGroup.on('mouseout', () => {
-			line.setStyle({opacity: 0.5});
-			padding.setStyle({opacity: 0.2});
-		});
+		lineGroup.addLayer(line);
+		paddingGroup.addLayer(padding);
+		markerGroup.addLayer(L.layerGroup(markers));
 	}
+	const routeGroup = L.featureGroup([lineGroup, paddingGroup, markerGroup]);
 
+	const totalTooltip = document.createElement('pre');
+	totalTooltip.innerText = `Corridor\n${totalDistKm} km\n${totalDistMi} mi`;
+	totalTooltip.style.fontSize = '0.8rem';
+	routeGroup.bindTooltip(totalTooltip, {direction: 'right'});
+
+	routeGroup.on('mouseover', (e) => {
+		lineGroup.setStyle({opacity: 1});
+		paddingGroup.setStyle({opacity: 0.4});
+	});
+	routeGroup.on('mouseout', () => {
+		lineGroup.setStyle({opacity: 0.5});
+		paddingGroup.setStyle({opacity: 0.2});
+	});
+	console.log(routeGroup);
 	return routeGroup;
 };
 
