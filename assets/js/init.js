@@ -288,7 +288,7 @@ function initMajorCities(map) {
 			console.log('add major cities');
 		}
 	};
-	document.querySelector('#major-cities').onclick = toggleMajorCities;
+	document.querySelector('#highest-pop-cities').onclick = toggleMajorCities;
 }
 
 function initCountyHeatmap() {

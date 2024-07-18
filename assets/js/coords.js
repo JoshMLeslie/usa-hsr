@@ -1,4 +1,4 @@
-import canada from "./coords/canada.js"; 
+import canada from "./coords/canada.js";
 import mexico from "./coords/mexico.js";
 import usa from "./coords/usa.js";
 
