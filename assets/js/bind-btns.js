@@ -7,7 +7,7 @@ import { drawZone } from './mapping/draw.js';
 import CENTERS from './zones/centers.js';
 import ZONE_CENTRAL from './zones/central.js';
 import ZONE_G_LAKES from './zones/great-lakes.js';
-import ZONE_MAJOR_CITIES from './zones/major-cities.js';
+import ZONE_INTERCONTINENTAL from './zones/intercontinental.js';
 import ZONE_NE from './zones/north-east.js';
 import ZONE_SE from './zones/south-east.js';
 import ZONE_WEST from './zones/west.js';
@@ -74,8 +74,8 @@ export const bindRegionButtonsToMap = (map, softRegions) => {
 		}
 	};
 
-	bindRegionBtn('major-cities', 'NA', {
-		zone: ZONE_MAJOR_CITIES,
+	bindRegionBtn('intercontinental', 'NA', {
+		zone: ZONE_INTERCONTINENTAL,
 		zoom: ZOOM_LEVEL.continent
 	});
 	bindRegionBtn('namr', 'NA', {zoom: ZOOM_LEVEL.continent});
