@@ -132,7 +132,6 @@ export default [
 		{city: 'Calgary', state: 'Alberta', country: 'Canada'},
 		{city: 'Edmonton', state: 'Alberta', country: 'Canada'},
 	],
-	[{city: 'Victoria', state: 'British Columbia', country: 'Canada'}],
 	[
 		{city: 'Mexico City', state: 'Mexico City', country: 'Mexico'},
 		{city: 'Toluca', state: 'State of Mexico', country: 'Mexico'},
