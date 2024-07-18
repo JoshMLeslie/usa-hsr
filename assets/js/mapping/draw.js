@@ -51,6 +51,50 @@ export const drawMarker = (map, coord, name, markerOpts = {}) => {
 	return marker;
 };
 
+/**
+ *
+ * @param {{distM?: number; distKm?: number;}} distance
+ * @param {L.FeatureGroup} groupToBindTooltip
+ * @param {'Section' | 'Corridor'} segmentType
+ * @param {'left' | 'right'} direction
+ * @returns {{distKm: number; distMi: number}}
+ */
+const drawRouteTooltip = (
+	{distM = 0, distKm = 0},
+	groupToBindTooltip,
+	segmentType = 'Section',
+	direction = 'left'
+) => {
+	if (!distM && !distKm) {
+		throw ReferenceError('must provide a distance value, either meters or km');
+	}
+	const useDistKm = distKm || distM / 1000;
+	const prettyDistKm = useDistKm
+		.toFixed(2)
+		.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // pretty print
+	const kmToMi = 0.6213712;
+	const distMi = useDistKm * kmToMi;
+	const prettyDistMi = distMi.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); // pretty print
+
+	const tooltipContainer = document.createElement('div');
+
+	const totalTooltip = document.createElement('pre');
+	totalTooltip.innerText = `${segmentType}\n${prettyDistKm} km\n${prettyDistMi} mi`;
+	totalTooltip.style.fontSize = '0.8rem';
+
+	const costPerKmInfo = document.createElement('pre');
+	const estimatedCostPerKm = 0.135; // per Alon Levy's article, 'Metcalfe's law for high-speed rail' c.2024
+	costPerKmInfo.innerText = `2024 est. cost\nUSD: $${(
+		useDistKm * estimatedCostPerKm
+	).toFixed(2)} Mil`;
+
+	tooltipContainer.appendChild(totalTooltip);
+	tooltipContainer.appendChild(costPerKmInfo);
+	groupToBindTooltip.bindTooltip(tooltipContainer, {direction});
+
+	return {distKm: useDistKm, distMi};
+};
+
 export const drawPolyline = (map, coords, opts) => {
 	if (coords.length < 2) return;
 
@@ -61,20 +105,10 @@ export const drawPolyline = (map, coords, opts) => {
 		weight: 10,
 	});
 
-	const rawDistMeter = map.distance(...coords);
-	const distKm = (rawDistMeter / 1000)
-		.toFixed(2)
-		.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // pretty print
-	const mToMi = 0.0006213712;
-	const distMi = (rawDistMeter * mToMi)
-		.toFixed(2)
-		.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // pretty print
-
-	// tooltip element
-	const pre = document.createElement('pre');
-	pre.innerText = `Section\n${distKm} km\n${distMi} mi`;
-	pre.style.fontSize = '0.8rem';
-	polyPadding.bindTooltip(pre, {direction: 'left'});
+	const {distKm, distMi} = drawRouteTooltip(
+		{distM: map.distance(...coords)},
+		polyPadding
+	);
 
 	return [poly, polyPadding, distKm, distMi];
 };
@@ -130,8 +164,8 @@ export const drawRoute = (map, route, coords) => {
 			opts
 		);
 
-		totalDistKm += +distKm;
-		totalDistMi += +distMi;
+		totalDistKm += distKm;
+		totalDistMi += distMi;
 
 		// TODO for route wiggling purposes: city.bypass ? ...
 		const markers = [
@@ -145,12 +179,9 @@ export const drawRoute = (map, route, coords) => {
 	}
 	const routeGroup = L.featureGroup([lineGroup, paddingGroup, markerGroup]);
 
-	const totalTooltip = document.createElement('pre');
-	totalTooltip.innerText = `Corridor\n${totalDistKm} km\n${totalDistMi} mi`;
-	totalTooltip.style.fontSize = '0.8rem';
-	routeGroup.bindTooltip(totalTooltip, {direction: 'right'});
+	drawRouteTooltip({distKm: totalDistKm}, routeGroup, 'Corridor', 'right');
 
-	routeGroup.on('mouseover', (e) => {
+	routeGroup.on('mouseover', () => {
 		lineGroup.setStyle({opacity: 1});
 		paddingGroup.setStyle({opacity: 0.4});
 	});
@@ -158,7 +189,7 @@ export const drawRoute = (map, route, coords) => {
 		lineGroup.setStyle({opacity: 0.5});
 		paddingGroup.setStyle({opacity: 0.2});
 	});
-	console.log(routeGroup);
+
 	return routeGroup;
 };
 
