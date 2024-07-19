@@ -197,7 +197,7 @@ const initMapHUDViewbox = (map, mapHUD) => {
 
 	mapHUD.on('resize', (e) => {
 		resetMapHUDZoom(e.sourceTarget);
-		setTimeout(() => drawViewBox());
+		setTimeout(drawViewBox);
 	});
 };
 
