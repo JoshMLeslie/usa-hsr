@@ -111,6 +111,10 @@ const countryBoundaryData = {
 		showing: [],
 		data: [],
 	},
+	Mexico: {
+		showing: [],
+		data: [],
+	},
 };
 /**
  * @param {number} mapZoom
@@ -180,9 +184,13 @@ function handleBoundaryZoomChange(map, boundaryData) {
 	});
 }
 
+// Called by init.js to pass down map and boundaryData
+// When adding a new country, be sure to add its getter in boundaryData
+// as well as a key in the countryBoundaryData cache
 export const setupBoundaryButtons = (map, boundaryData) => {
 	map.on('zoomend', (e) => {
 		handleBoundaryZoomChange(e.sourceTarget, boundaryData);
+		console.log(countryBoundaryData)
 	});
 
 	document
@@ -202,5 +210,11 @@ export const setupBoundaryButtons = (map, boundaryData) => {
 		map,
 		boundaryData.getUSA,
 		'USA'
+	);
+	bindBtnCountryBoundary(
+		'highlight-boundary-mexico',
+		map,
+		boundaryData.getMexico,
+		'Mexico'
 	);
 };

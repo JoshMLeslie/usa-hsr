@@ -148,6 +148,7 @@ function initBoundaryButtons(map) {
 	setupBoundaryButtons(map, {
 		getCanada: loadGeojsonBounds('canada'),
 		getUSA: loadGeojsonBounds('usa'),
+		getMexico: loadGeojsonBounds('mexico'),
 	});
 }
 
