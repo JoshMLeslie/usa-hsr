@@ -28,7 +28,7 @@
 	</head>
 
 	<body>
-		<button  id="home-icon">
+		<button id="home-icon">
 			<img src="https://v1.icons.run/32/material-symbols/home.svg" alt="home" />
 		</button>
 		<div id="too-small">
@@ -39,7 +39,7 @@
 			<div id="map-container">
 				<div id="map"></div>
 			</div>
-			<div id="resize-divider" draggable="true">-<br/>-<br/>-</div>
+			<div id="resize-divider" draggable="true">-<br />-<br />-</div>
 			<div id="hud-map-container">
 				<div id="hud-map"></div>
 
@@ -91,12 +91,45 @@
 					</div>
 					<div id="hud-map-data-sets">
 						<p>Data views</p>
-						<button class="region-btn only-dev" id="highest-pop-cities">
-							336 Highest Pop Cities
-						</button>
-						<button class="region-btn only-dev" id="county-heatmap">
-							County Heatmap
-						</button>
+						<div>
+							<button class="region-btn only-dev" id="highest-pop-cities">
+								336 Highest Pop Cities
+							</button>
+							<button class="region-btn only-dev" id="county-heatmap">
+								County Heatmap
+							</button>
+						</div>
+						<div>
+							<div style="display: flex; justify-content: space-between;">
+								<p>Highlight boundaries</p>
+								<label>Zoom for higher resolutions</label>
+							</div>
+							<div>
+								<label for="max-boundary-resolution"
+									>Set maximum boundary resolution</label
+								>
+								<select id="max-boundary-resolution">
+									<option value="0">Country</option>
+									<option value="1" selected>State</option>
+									<option value="2">Town</option>
+								</select>
+							</div>
+							<button class="region-btn" id="highlight-boundary-canada">
+								Canada
+							</button>
+							<button class="region-btn" id="highlight-boundary-usa">
+								USA
+							</button>
+							<button class="region-btn" id="highlight-boundary-mexico">
+								Mexico
+							</button>
+							<button class="region-btn" id="highlight-boundary-ca">
+								Central America
+							</button>
+							<button class="region-btn" id="highlight-boundary-sa">
+								South America
+							</button>
+						</div>
 						<div id="route-data-header">
 							<p>Show route</p>
 							<div>
@@ -108,6 +141,7 @@
 								<label for="show-soft-regions">Show Soft Regions</label>
 							</div>
 						</div>
+
 						<div id="region-selection-container">
 							<div id="state-selector-container">
 								<label for="country-route-selector">Select a Country:</label>
@@ -124,7 +158,9 @@
 							</div>
 							<hr />
 							<div>
-								<button class="region-btn" id="intercontinental">Rough Intercontinental Routes</button>
+								<button class="region-btn" id="intercontinental">
+									Rough Intercontinental Routes
+								</button>
 								<button disabled class="region-btn" id="namr">
 									North America
 								</button>
@@ -221,8 +257,7 @@
 		</dialog>
 	</body>
 
-	<!-- <script href="https://unpkg.com/workbox-build@7.1.1/build/index.js" type="module"> -->
-	</script>
+	<!-- <script href="https://unpkg.com/workbox-build@7.1.1/build/index.js" type="module"></script> -->
 	<script
 		src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
 		integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="

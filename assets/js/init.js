@@ -1,12 +1,11 @@
 'use strict';
 /* global L:readonly */
 
-import { bindRegionButtonsToMap } from './bind-btns.js';
+import { bindRegionButtonsToMap, setupBoundaryButtons } from './bind-btns.js';
 import { INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL } from './const/const.js';
 import abbreviatedStateNames from './const/usa-states/abbreviated-state-names.mjs';
 import genCountyHeatmap from './county-heatmap.js';
 import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './events.js';
-import USA_StateBoundaryData from './geojson/usa-state-bounds.js';
 import initAddressLookup from './interactions/address-lookup.js';
 import initPingCoord from './interactions/ping-coord.js';
 import genMajorCityMarkers from './mapping/major-city-markers.js';
@@ -129,13 +128,28 @@ const initSoftRegions = async (map) => {
 		softRegions[f.properties.region] = poly;
 	});
 	console.log('generated soft regions: ', data.features.length);
-
-	L.geoJson(USA_StateBoundaryData, {
-		style: () => ({opacity: 0.5, weight: 2, fill: false}),
-	}).addTo(map);
-
 	bindRegionButtonsToMap(map, softRegions);
 };
+
+/** data from https://gadm.org/download_country.html */
+const loadGeojsonBounds = (country) => async (useLayer) => {
+	const path =
+		`/assets/js/geojson/${country}-state-bounds_${useLayer}.json`;
+	return fetch(path)
+		.then((r) => r.json())
+		.then((d) =>
+			L.geoJson(d, {
+				style: () => ({opacity: 0.5, weight: 2, fill: false}),
+			})
+		)
+		.catch((e) => console.warn(e));
+};
+function initBoundaryButtons(map) {
+	setupBoundaryButtons(map, {
+		getCanada: loadGeojsonBounds('canada'),
+		getUSA: loadGeojsonBounds('usa'),
+	});
+}
 
 const initMapHUDViewbox = (map, mapHUD) => {
 	const viewBox = L.rectangle(getBoundsForBox(map), {
@@ -396,6 +410,7 @@ export default async function () {
 	initStateRoutes();
 	initSupportDialog();
 	bindHomeIcon();
+	initBoundaryButtons(map);
 
 	// todo - caching
 	// initServiceWorker();
