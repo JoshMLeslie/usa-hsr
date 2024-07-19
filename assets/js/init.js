@@ -17,6 +17,16 @@ const simpleDataCache = {
 	countyHeatmap: null,
 };
 
+const resetMapHUDZoom = (mapHUD) => {
+	/** @type {DOMRect} */
+	const mapHudBounds = mapHUD.getContainer().getBoundingClientRect();
+	if (mapHudBounds.height <= 300 || mapHudBounds.width <= 300) {
+		mapHUD.setZoom(1);
+	} else {
+		mapHUD.setZoom(2);
+	}
+};
+
 /**
  * @returns [L.Map, L.Map] - base map and HUD map
  */
@@ -50,7 +60,7 @@ const initMaps = () => {
 	const mapHUD = L.map('hud-map', {
 		keyboard: false,
 		center: PROD_CENTER,
-		zoom: 3,
+		zoom: 2,
 		// NO ZOOM! ONLY LOOK!
 		zoomControl: false,
 		interactive: false,
@@ -61,6 +71,8 @@ const initMaps = () => {
 		tap: false,
 		touchZoom: false,
 	});
+
+	resetMapHUDZoom(mapHUD);
 
 	L.control.scale().addTo(map);
 	L.control.scale().addTo(mapHUD);
@@ -133,8 +145,7 @@ const initSoftRegions = async (map) => {
 
 /** data from https://gadm.org/download_country.html */
 const loadGeojsonBounds = (country) => async (useLayer) => {
-	const path =
-		`/assets/js/geojson/${country}-state-bounds_${useLayer}.json`;
+	const path = `/assets/js/geojson/${country}-state-bounds_${useLayer}.json`;
 	return fetch(path)
 		.then((r) => r.json())
 		.then((d) =>
@@ -183,6 +194,11 @@ const initMapHUDViewbox = (map, mapHUD) => {
 
 	map.on('moveend', drawViewBox);
 	map.on('zoomend', drawViewBox);
+
+	mapHUD.on('resize', (e) => {
+		resetMapHUDZoom(e.sourceTarget);
+		setTimeout(() => drawViewBox());
+	});
 };
 
 let distancePointers = [];

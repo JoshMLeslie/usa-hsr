@@ -9,7 +9,7 @@ export const ZOOM_LEVEL = {
 
 export const INIT_ZOOM_LEVEL = ZOOM_LEVEL.continent;
 
-export const PROD_CENTER = CENTERS.NA;
+export const PROD_CENTER = CENTERS.AMERICAS;
 
 export const SHOW_CITY_LABELS = 'show_city_labels';
 export const HIDE_CITY_LABELS = 'hide_city_labels';
