@@ -1,19 +1,62 @@
 <!DOCTYPE html>
 <html>
-	<head></head>
+	<head>
+		<style>
+			#intro-container {
+				display: flex;
+				flex-direction: column;
+				max-width: 800px;
+			}
+			button {
+				background: none;
+				cursor: pointer;
+				margin: 0 auto;
+				padding: 16px 32px;
+			}
+		</style>
+	</head>
 	<body>
 		<h2>Welcome</h2>
-		<p>
-			The intention of this page is to document a multi-country/continent
-			high-speed rail system, connecting Canada, The USA, Mexico, and South
-			America with the goal of enhancing socio-economic conditions across these
-			regions and, in turn, globally.
-		</p>
-		<p>
-			Please click below to view the map of routes; the primary focus of this
-			site.
-		</p>
-		<button onclick="window.location.href = '/map.html'">View map</button>
+		<div id="intro-container">
+			<p>
+				The intention of this page is to document, with sufficient information
+				to leverage in construction planning, a multi-country/continent
+				high-speed rail system, connecting Canada, The USA, Mexico, and South
+				America with the goal of enhancing socio-economic conditions across
+				these regions and, in turn, globally.
+			</p>
+			<p>
+				While passenger rail is a major focus of HSR, for conventional rail,
+				freight shipping overshadows it 4 to 1 [<a
+					href="https://www.aar.org/data-center/"
+					>AAR</a
+				>, proper citation needed] and should be examined as the major source of
+				investment for long distance HSR while passenger rail requirements are
+				reserved for intercity/state transit. In other words, long distances for
+				freight, short distances for passengers.
+			</p>
+			<blockquote
+				cite="https://www.slate.com/business/2024/07/high-speed-rail-amtrak-transportation-policy-china-japan-europe.html"
+			>
+				“We don't need more maps. That is not our problem. What we need is
+				someone who has the power to translate map into steel and concrete—a
+				five- and 10-year plan with funding and someone saying what's
+				happening.”
+				<br />
+				Prof. Eric Goldwyn via Slate <br /><a
+					href="https://www.slate.com/business/2024/07/high-speed-rail-amtrak-transportation-policy-china-japan-europe.html"
+				>
+					Grabar, Henry. “How to Build High-Speed Rail in America.”, Slate
+					Magazine, 12 July 2024</a
+				>
+			</blockquote>
+			<p>
+				That said, please click below to view the map of routes. As this is in
+				active development, significant data and resolution of plans is missing.
+			</p>
+			<button onclick="window.location.href = '/map.html'">View map</button>
+		</div>
+
 		<footer style="position: absolute; bottom: 1rem; left: 1rem">
 			<a href="https://www.joshmleslie.com" target="_blank"
 				>A project by Josh Leslie</a
