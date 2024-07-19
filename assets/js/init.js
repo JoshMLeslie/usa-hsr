@@ -2,8 +2,8 @@
 /* global L:readonly */
 
 import { bindRegionButtonsToMap } from './bind-btns.js';
-import abbreviatedStateNames from './const/abbreviated-state-names.mjs';
 import { INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL } from './const/const.js';
+import abbreviatedStateNames from './const/usa-states/abbreviated-state-names.mjs';
 import genCountyHeatmap from './county-heatmap.js';
 import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './events.js';
 import USA_StateBoundaryData from './geojson/usa-state-bounds.js';
@@ -116,12 +116,12 @@ const initSupportDialog = () => {
 	}
 };
 
-const initSoftRegions = async map => {
+const initSoftRegions = async (map) => {
 	// generate soft regions
 	const softRegions = {};
 	const data = await fetchJSON('./assets/js/zones/soft-regions.json');
 	// todo figure out why L.geoJson(d) won't render
-	data.features.forEach(f => {
+	data.features.forEach((f) => {
 		if (!f.geometry.coordinates[0].length) return;
 		const poly = L.polygon(f.geometry.coordinates[0], {
 			interactive: false,
@@ -152,11 +152,11 @@ const initMapHUDViewbox = (map, mapHUD) => {
 	viewBoxBackground.addTo(mapHUD);
 	viewBox.addTo(mapHUD);
 
-	viewBox.on('dragend', v => {
+	viewBox.on('dragend', (v) => {
 		const draggedTo = v.target.getCenter();
 		map.setView(draggedTo);
 	});
-	viewBox.on('zoom', v => {
+	viewBox.on('zoom', (v) => {
 		map.setZoom(v.zoom);
 	});
 
@@ -178,7 +178,7 @@ const cleanupMeasurement = () => {
 		lastMeasurementLine = null;
 	}
 	if (distancePointers) {
-		distancePointers.forEach(dp => dp.remove());
+		distancePointers.forEach((dp) => dp.remove());
 		distancePointers = [];
 	}
 };
@@ -211,7 +211,7 @@ const measurePointToPoint = (map, useLatLng) => {
  * +alt => measure
  * +ctrl => copy latlng to clipboard
  */
-const configContextMenu = map => {
+const configContextMenu = (map) => {
 	map.on('click', () => {
 		cleanupMeasurement();
 	});
@@ -275,7 +275,7 @@ function bindCityLabelEvents() {
 }
 
 function initMajorCities(map) {
-	const toggleMajorCities = async map => {
+	const toggleMajorCities = async (map) => {
 		const {majorCities} = simpleDataCache;
 		if (!simpleDataCache.majorCities) {
 			simpleDataCache.majorCities = await genMajorCityMarkers();
@@ -294,7 +294,7 @@ function initMajorCities(map) {
 function initCountyHeatmap() {
 	let countyHeatmap;
 	let showCountyHeatmap = false;
-	const toggleCountyHeatmap = async map => {
+	const toggleCountyHeatmap = async (map) => {
 		if (!simpleDataCache.countyHeatmap) {
 			simpleDataCache.countyHeatmap = await genCountyHeatmap();
 		}
@@ -306,26 +306,49 @@ function initCountyHeatmap() {
 	document.querySelector('#county-heatmap').onclick = toggleCountyHeatmap;
 }
 
-function initStateRoutes() {
-	let selectedState = 'PA';
+/**
+ * @param {string[]} states
+ */
+function setStateSelector(states) {
 	const stateSelector = document.querySelector('#state-route-selector');
-	const stateSelectorEnter = document.querySelector('#state-route-show');
-	abbreviatedStateNames.forEach(name => {
+	stateSelector.innerHTML = '';
+
+	states.forEach((name) => {
 		const option = document.createElement('option');
 		option.value = name;
 		option.textContent = name;
-		if (name !== 'PA') {
-			option.disabled = true;
-		}
 		stateSelector.appendChild(option);
 	});
-	stateSelector.addEventListener('change', e => {
+}
+function initStateRoutes() {
+	const stateSelector = document.querySelector('#state-route-selector');
+	const countrySelector = document.querySelector('#country-route-selector');
+	const stateSelectorEnter = document.querySelector('#state-route-show');
+
+	// init values / html
+	let selectedState = 'PA';
+	let selectedCountry = 'USA';
+	setStateSelector(abbreviatedStateNames);
+	stateSelector.value = selectedState;
+
+	countrySelector.addEventListener('change', (e) => {
+		selectedCountry = e.target.value;
+		switch (selectedCountry) {
+			case 'USA':
+				setStateSelector(abbreviatedStateNames);
+				break;
+		}
+	});
+	stateSelector.addEventListener('change', (e) => {
 		selectedState = e.target.value;
 	});
 	stateSelectorEnter.onclick = () => {
-		const selectedCountry = document.querySelector("#country-route-selector").value;
-
-		alert('todo: routes for specific states: ' + selectedCountry + ',' + selectedState);
+		alert(
+			'todo: routes for specific states: ' +
+				selectedCountry +
+				',' +
+				selectedState
+		);
 		// todo SHOW STATE ROUTE
 	};
 }
@@ -335,13 +358,13 @@ function initServiceWorker() {
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker
 				.register('/assets/js/service-worker/service-worker.js')
-				.then(registration => {
+				.then((registration) => {
 					console.log(
 						'Service Worker registered with scope:',
 						registration.scope
 					);
 				})
-				.catch(error => {
+				.catch((error) => {
 					console.error('Service Worker registration failed:', error);
 				});
 		} else {
@@ -351,9 +374,9 @@ function initServiceWorker() {
 }
 
 function bindHomeIcon() {
-	document.querySelector("#home-icon").onclick = () => {
+	document.querySelector('#home-icon').onclick = () => {
 		window.location.href = '/';
-	}
+	};
 }
 
 /** @returns {L.Map} map */
@@ -363,7 +386,7 @@ export default async function () {
 	initMapHUDViewbox(map, mapHUD);
 	configContextMenu(map);
 	addOSMTiles(map, mapHUD);
-	
+
 	// Support
 	bindCityLabelEvents();
 	initPingCoord(map);
@@ -373,7 +396,7 @@ export default async function () {
 	initStateRoutes();
 	initSupportDialog();
 	bindHomeIcon();
-	
+
 	// todo - caching
 	// initServiceWorker();
 
