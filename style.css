@@ -16,8 +16,13 @@ body {
 	margin: 0;
 }
 
+h3 {
+	margin: 0;
+	padding: 0;
+}
+
 hr {
-	height: 4px;
+	height: 2px;
 	width: 100%;
 	background-color: lightgray;
 }
@@ -63,6 +68,7 @@ hr {
 	gap: 8px;
 	margin: 0 auto;
 	padding: 16px;
+	overflow-y: auto;
 }
 
 #hud-map-util > div {
