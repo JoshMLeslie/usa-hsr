@@ -182,6 +182,7 @@ export default {
 	},
 	Oregon: {Eugene: [44.0521, -123.0868], Portland: [45.5051, -122.675]},
 	Pennsylvania: {
+		_CENTER: [40.9716, -77.7238],
 		Allentown: [40.3606, -75.2838],
 		Burnham: [40.6366, -77.5675],
 		Erie: [42.1292, -80.0851],

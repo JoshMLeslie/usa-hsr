@@ -1,4 +1,4 @@
-import CENTERS from './zones/centers.js';
+import CENTERS from '../zones/centers.js';
 
 export const ZOOM_LEVEL = {
 	continent: 3,

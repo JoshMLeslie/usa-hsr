@@ -1,9 +1,9 @@
 'use strict';
 /* global L:readonly */
 
-import abbreviatedStateNames from './abbreviated-state-names.mjs';
 import { bindRegionButtonsToMap } from './bind-btns.js';
-import { INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL } from './const.js';
+import abbreviatedStateNames from './const/abbreviated-state-names.mjs';
+import { INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL } from './const/const.js';
 import genCountyHeatmap from './county-heatmap.js';
 import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './events.js';
 import USA_StateBoundaryData from './geojson/usa-state-bounds.js';
@@ -307,20 +307,25 @@ function initCountyHeatmap() {
 }
 
 function initStateRoutes() {
-	let selectedState;
+	let selectedState = 'PA';
 	const stateSelector = document.querySelector('#state-route-selector');
 	const stateSelectorEnter = document.querySelector('#state-route-show');
 	abbreviatedStateNames.forEach(name => {
 		const option = document.createElement('option');
 		option.value = name;
 		option.textContent = name;
+		if (name !== 'PA') {
+			option.disabled = true;
+		}
 		stateSelector.appendChild(option);
 	});
 	stateSelector.addEventListener('change', e => {
 		selectedState = e.target.value;
 	});
 	stateSelectorEnter.onclick = () => {
-		alert('todo: routes for specific states: ' + selectedState);
+		const selectedCountry = document.querySelector("#country-route-selector").value;
+
+		alert('todo: routes for specific states: ' + selectedCountry + ',' + selectedState);
 		// todo SHOW STATE ROUTE
 	};
 }

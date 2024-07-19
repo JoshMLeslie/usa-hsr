@@ -1,7 +1,7 @@
 'use strict';
 /* global L:readonly */
 
-import { ZOOM_LEVEL } from './const.js';
+import { ZOOM_LEVEL } from './const/const.js';
 import COORDS from './coords.js';
 import { drawZone } from './mapping/draw.js';
 import CENTERS from './zones/centers.js';
