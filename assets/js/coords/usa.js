@@ -183,13 +183,17 @@ export default {
 	Oregon: {Eugene: [44.0521, -123.0868], Portland: [45.5051, -122.675]},
 	Pennsylvania: {
 		_CENTER: [40.9716, -77.7238],
-		Allentown: [40.3606, -75.2838],
+		Allentown: [40.6037, -75.4748],
 		Burnham: [40.6366, -77.5675],
 		Erie: [42.1292, -80.0851],
 		Harrisburg: [40.2732, -76.8867],
+		Hazleton: [40.9645, -75.9855],
+		'Jim Thorpe': [40.8690, -75.7248],
 		Philadelphia: [39.9526, -75.1652],
 		Pittsburgh: [40.4406, -79.9959],
 		Scranton: [41.408, -75.6624],
+		'Wilkes-Barre': [41.2469, -75.8839],
+		York: [39.9657, -76.7313],
 	},
 	'Rhode Island': {Providence: [41.824, -71.4128]},
 	'South Carolina': {

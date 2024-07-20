@@ -81,6 +81,14 @@ const NE = [
 		{city: 'Syracuse', state: 'New York', country: 'USA'},
 	],
 	[
+		{city: 'Scranton', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Wilkes-Barre', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Hazleton', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Harrisburg', state: 'Pennsylvania', country: 'USA'},
+		{city: 'York', state: 'Pennsylvania', country: 'USA'},
+		{city: 'Baltimore', state: 'Maryland', country: 'USA'},
+	],
+	[
 		{city: 'Pittsburgh', state: 'Pennsylvania', country: 'USA'},
 		{city: 'Burnham', state: 'Pennsylvania', country: 'USA'},
 		{city: 'Harrisburg', state: 'Pennsylvania', country: 'USA'},
