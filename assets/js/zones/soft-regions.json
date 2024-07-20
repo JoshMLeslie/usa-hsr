@@ -4,7 +4,8 @@
 		{
 			"type": "Feature",
 			"properties": {
-				"region": "north-east"
+				"region": "north-east",
+				"title": "North-east"
 			},
 			"geometry": {
 				"type": "Polygon",
@@ -37,7 +38,8 @@
 		{
 			"type": "Feature",
 			"properties": {
-				"region": "south-east"
+				"region": "south-east",
+				"title": "South-east"
 			},
 			"geometry": {
 				"type": "Polygon",
@@ -82,7 +84,8 @@
 		{
 			"type": "Feature",
 			"properties": {
-				"region": "great-lakes"
+				"region": "great-lakes",
+				"title": "Great Lakes"
 			},
 			"geometry": {
 				"type": "Polygon",

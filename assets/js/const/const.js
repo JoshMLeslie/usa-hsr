@@ -13,3 +13,6 @@ export const PROD_CENTER = CENTERS.AMERICAS;
 
 export const SHOW_CITY_LABELS = 'show_city_labels';
 export const HIDE_CITY_LABELS = 'hide_city_labels';
+
+export const SHOW_SOFT_REGION = 'show_soft_region';
+export const HIDE_SOFT_REGION = 'hide_soft_region';

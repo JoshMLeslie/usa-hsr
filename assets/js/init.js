@@ -2,7 +2,13 @@
 /* global L:readonly */
 
 import { bindRegionButtonsToMap, setupBoundaryButtons } from './bind-btns.js';
-import { INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL } from './const/const.js';
+import {
+	HIDE_SOFT_REGION,
+	INIT_ZOOM_LEVEL,
+	PROD_CENTER,
+	SHOW_SOFT_REGION,
+	ZOOM_LEVEL,
+} from './const/const.js';
 import abbreviatedStateNames from './const/usa-states/abbreviated-state-names.mjs';
 import abbreviatedStateToName from './const/usa-states/abbreviated-state-to-name.mjs';
 import coords from './coords.js';
@@ -132,18 +138,46 @@ const initSupportDialog = () => {
 };
 
 const initSoftRegions = async (map) => {
-	// generate soft regions
+	document
+		.querySelector('#show-soft-regions')
+		.addEventListener('change', (e) => {
+			if (!e.target.checked) {
+				Object.values(softRegions).forEach((region) => {
+					map.removeLayer(region);
+				});
+			}
+		});
+
+	document.addEventListener(SHOW_SOFT_REGION, ({detail}) => {
+		const softRegion = softRegions[detail];
+		if (softRegion) {
+			softRegion.addTo(map);
+		} else {
+			throw ReferenceError(`soft region DNE for '${detail}'`);
+		}
+	});
+	document.addEventListener(HIDE_SOFT_REGION, ({detail}) => {
+		const softRegion = softRegions[detail];
+		if (softRegion && map.hasLayer(softRegion)) {
+			softRegion.removeFrom(map);
+		} else if (!softRegion) {
+			throw ReferenceError(`soft region DNE for '${detail}'`);
+		}
+	});
+
 	const softRegions = {};
 	const data = await fetchJSON('./assets/js/zones/soft-regions.json');
 	// todo figure out why L.geoJson(d) won't render
 	data.features.forEach((f) => {
-		if (!f.geometry.coordinates[0].length) return;
+		if (!f.geometry.coordinates[0].length) {
+			return;
+		}
 		const poly = L.polygon(f.geometry.coordinates[0], {
-			interactive: false,
+			interactive: true,
 		});
+		poly.bindTooltip(`${f.properties.title} region`);
 		softRegions[f.properties.region] = poly;
 	});
-	console.log('generated soft regions: ', data.features.length);
 };
 
 /** data from https://gadm.org/download_country.html */
@@ -378,7 +412,6 @@ function initStateRoutes(map) {
 		selectedStateAbrv = e.target.value;
 	});
 
-	console.log('resume work here');
 	stateSelectorEnter.onclick = () => {
 		const selectedStateName = abbreviatedStateToName[selectedStateAbrv];
 		let stateZone;
