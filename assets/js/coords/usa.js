@@ -20,6 +20,7 @@ export default {
 		Sacramento: [38.5816, -121.4944],
 	},
 	Connecticut: {
+		_CENTER: [41.357, -72.424],
 		'New Haven': [41.3083, -72.9279],
 		Bridgeport: [41.1865, -73.1952],
 		Hartford: [41.7658, -72.6734],
@@ -151,6 +152,7 @@ export default {
 		Trenton: [40.2206, -74.7597],
 	},
 	'New York': {
+		_CENTER: [42.579, -76.1],
 		Albany: [42.6526, -73.7562],
 		Buffalo: [42.8864, -78.8784],
 		NYC: [40.7128, -74.006],
@@ -188,7 +190,7 @@ export default {
 		Erie: [42.1292, -80.0851],
 		Harrisburg: [40.2732, -76.8867],
 		Hazleton: [40.9645, -75.9855],
-		'Jim Thorpe': [40.8690, -75.7248],
+		'Jim Thorpe': [40.869, -75.7248],
 		Philadelphia: [39.9526, -75.1652],
 		Pittsburgh: [40.4406, -79.9959],
 		Scranton: [41.408, -75.6624],

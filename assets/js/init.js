@@ -4,13 +4,17 @@
 import { bindRegionButtonsToMap, setupBoundaryButtons } from './bind-btns.js';
 import { INIT_ZOOM_LEVEL, PROD_CENTER, ZOOM_LEVEL } from './const/const.js';
 import abbreviatedStateNames from './const/usa-states/abbreviated-state-names.mjs';
+import abbreviatedStateToName from './const/usa-states/abbreviated-state-to-name.mjs';
+import coords from './coords.js';
 import genCountyHeatmap from './county-heatmap.js';
+import { drawRegion } from './draw-region.js';
 import { eHIDE_CITY_LABELS, eSHOW_CITY_LABELS } from './events.js';
 import initAddressLookup from './interactions/address-lookup.js';
 import initPingCoord from './interactions/ping-coord.js';
 import genMajorCityMarkers from './mapping/major-city-markers.js';
 import { fetchJSON, getBoundsForBox } from './util.js';
 import CENTERS from './zones/centers.js';
+import ZONE_NE from './zones/north-east.js';
 
 const simpleDataCache = {
 	majorCities: null,
@@ -140,7 +144,6 @@ const initSoftRegions = async (map) => {
 		softRegions[f.properties.region] = poly;
 	});
 	console.log('generated soft regions: ', data.features.length);
-	bindRegionButtonsToMap(map, softRegions);
 };
 
 /** data from https://gadm.org/download_country.html */
@@ -350,16 +353,16 @@ function setStateSelector(states) {
 		stateSelector.appendChild(option);
 	});
 }
-function initStateRoutes() {
+function initStateRoutes(map) {
 	const stateSelector = document.querySelector('#state-route-selector');
 	const countrySelector = document.querySelector('#country-route-selector');
 	const stateSelectorEnter = document.querySelector('#state-route-show');
 
 	// init values / html
-	let selectedState = 'PA';
+	let selectedStateAbrv = 'PA';
 	let selectedCountry = 'USA';
 	setStateSelector(abbreviatedStateNames);
-	stateSelector.value = selectedState;
+	stateSelector.value = selectedStateAbrv;
 
 	countrySelector.addEventListener('change', (e) => {
 		selectedCountry = e.target.value;
@@ -370,16 +373,31 @@ function initStateRoutes() {
 		}
 	});
 	stateSelector.addEventListener('change', (e) => {
-		selectedState = e.target.value;
+		selectedStateAbrv = e.target.value;
 	});
+
+	console.log('resume work here');
 	stateSelectorEnter.onclick = () => {
-		alert(
-			'todo: routes for specific states: ' +
-				selectedCountry +
-				',' +
-				selectedState
+		const selectedStateName = abbreviatedStateToName[selectedStateAbrv];
+		let stateZone;
+		if (selectedCountry === 'USA') {
+			if (['CT', 'PA', 'NY'].includes(selectedStateAbrv)) {
+				stateZone = ZONE_NE.filter((route) =>
+					route.some((el) => el.state === selectedStateName)
+				);
+			}
+			console.log(stateZone);
+		} else {
+			alert(
+				'todo: specific route for: ' + selectedCountry + ',' + selectedStateAbrv
+			);
+		}
+		drawRegion(
+			map,
+			selectedStateName,
+			coords[selectedCountry][selectedStateName]._CENTER,
+			{zone: stateZone}
 		);
-		// todo SHOW STATE ROUTE
 	};
 }
 
@@ -410,20 +428,21 @@ function bindHomeIcon() {
 }
 
 /** @returns {L.Map} map */
-export default async function () {
+export default function () {
 	const [map, mapHUD] = initMaps();
-	await initSoftRegions(map);
+	initSoftRegions(map);
 	initMapHUDViewbox(map, mapHUD);
 	configContextMenu(map);
 	addOSMTiles(map, mapHUD);
 
 	// Support
+	bindRegionButtonsToMap(map);
 	bindCityLabelEvents();
 	initPingCoord(map);
 	initAddressLookup(map);
 	initMajorCities(map);
 	initCountyHeatmap();
-	initStateRoutes();
+	initStateRoutes(map);
 	initSupportDialog();
 	bindHomeIcon();
 	initBoundaryButtons(map);

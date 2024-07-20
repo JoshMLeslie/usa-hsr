@@ -2,9 +2,7 @@
 /* global L:readonly */
 
 import { ZOOM_LEVEL } from './const/const.js';
-import COORDS from './coords.js';
-import { drawZone } from './mapping/draw.js';
-import CENTERS from './zones/centers.js';
+import { drawRegion } from './draw-region.js';
 import ZONE_CENTRAL from './zones/central.js';
 import ZONE_G_LAKES from './zones/great-lakes.js';
 import ZONE_INTERCONTINENTAL from './zones/intercontinental.js';
@@ -12,68 +10,15 @@ import ZONE_NE from './zones/north-east.js';
 import ZONE_SE from './zones/south-east.js';
 import ZONE_WEST from './zones/west.js';
 
-/**
- * @type {{
- * 	[center: string]: {zoneData: any; shown: boolean}
- * }}
- */
-const hasDrawn = {};
-
-export const bindRegionButtonsToMap = (map, softRegions) => {
+export const bindRegionButtonsToMap = (map) => {
 	/**
 	 * @param {string} elID - raw id, no '#' etc. e.g. `<div id="west"></div>` => 'west'
-	 * @param {keyof CENTERS} center
-	 * @param {{zone: Zone, zoom: number}}
+	 * @param {any[]} args - @see drawRegion
 	 */
-	const bindRegionBtn = (
-		elID,
-		center,
-		{zone, zoom = ZOOM_LEVEL.country} = {}
-	) => {
-		if (!elID || !center) {
-			throw ReferenceError('missing required argument(s)');
-		}
-
-		try {
-			document.querySelector('.region-btn#' + elID).onclick = () => {
-				if (!zone) {
-					console.warn('no zoneData for: ' + center);
-					return;
-				}
-
-				if (document.querySelector('#show-soft-regions').checked) {
-					if (softRegions[elID]) {
-						map.addLayer(softRegions[elID]);
-					} else {
-						console.warn('soft-region DNE');
-						alert('Missing soft-region data');
-					}
-				}
-
-				if (!hasDrawn[elID]) {
-					const zoneData = drawZone(map, zone, COORDS);
-					hasDrawn[elID] = {zoneData, shown: false};
-				}
-
-				const isCentered = map.getCenter().equals(CENTERS[center], 2);
-				const flyTo = () => map.flyTo(CENTERS[center], zoom, {duration: 0.5});
-				if (hasDrawn[elID].shown && isCentered) {
-					map.removeLayer(hasDrawn[elID].zoneData);
-					if (softRegions[elID]) {
-						map.removeLayer(softRegions[elID]);
-					}
-					hasDrawn[elID].shown = false;
-				} else if (hasDrawn[elID].shown && !isCentered) {
-					flyTo();
-				} else {
-					map.addLayer(hasDrawn[elID].zoneData);
-					flyTo();
-					hasDrawn[elID].shown = true;
-				}
-			};
-		} catch (e) {
-			console.error('Error while binding region button', e);
-		}
+	const bindRegionBtn = (elID, ...args) => {
+		document.querySelector('.region-btn#' + elID).onclick = () => {
+			drawRegion(map, elID, ...args);
+		};
 	};
 
 	bindRegionBtn('intercontinental', 'AMERICAS', {

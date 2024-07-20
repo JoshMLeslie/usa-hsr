@@ -8,7 +8,6 @@ const [map, mapHUD] = await init();
 const resizeDiv = document.querySelector('#resize-divider');
 const mapCont = document.querySelector('#map-container');
 const hudMapCont = document.querySelector('#hud-map-container');
-const doc = document;
 
 resizeDiv.ondrag = ({offsetX}) => {
 	// defend against last drag event having an errant offset
