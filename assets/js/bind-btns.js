@@ -50,23 +50,25 @@ export const bindRegionButtonsToMap = (map, softRegions) => {
 					}
 				}
 
-				if (!hasDrawn[center]) {
+				if (!hasDrawn[elID]) {
 					const zoneData = drawZone(map, zone, COORDS);
-					hasDrawn[center] = {zoneData, shown: false};
+					hasDrawn[elID] = {zoneData, shown: false};
 				}
 
 				const isCentered = map.getCenter().equals(CENTERS[center], 2);
 				const panTo = () => map.panTo(CENTERS[center], {duration: 0.5});
-				if (hasDrawn[center].shown && isCentered) {
-					map.removeLayer(hasDrawn[center].zoneData);
-					map.removeLayer(softRegions[elID]);
-					hasDrawn[center].shown = false;
-				} else if (hasDrawn[center].shown && !isCentered) {
+				if (hasDrawn[elID].shown && isCentered) {
+					map.removeLayer(hasDrawn[elID].zoneData);
+					if (softRegions[elID]) {
+						map.removeLayer(softRegions[elID]);
+					}
+					hasDrawn[elID].shown = false;
+				} else if (hasDrawn[elID].shown && !isCentered) {
 					panTo();
 				} else {
-					map.addLayer(hasDrawn[center].zoneData);
+					map.addLayer(hasDrawn[elID].zoneData);
 					panTo();
-					hasDrawn[center].shown = true;
+					hasDrawn[elID].shown = true;
 				}
 			};
 		} catch (e) {
@@ -74,7 +76,7 @@ export const bindRegionButtonsToMap = (map, softRegions) => {
 		}
 	};
 
-	bindRegionBtn('intercontinental', 'NA', {
+	bindRegionBtn('intercontinental', 'AMERICAS', {
 		zone: ZONE_INTERCONTINENTAL,
 		zoom: ZOOM_LEVEL.continent,
 	});
@@ -190,7 +192,7 @@ function handleBoundaryZoomChange(map, boundaryData) {
 export const setupBoundaryButtons = (map, boundaryData) => {
 	map.on('zoomend', (e) => {
 		handleBoundaryZoomChange(e.sourceTarget, boundaryData);
-		console.log(countryBoundaryData)
+		console.log(countryBoundaryData);
 	});
 
 	document
