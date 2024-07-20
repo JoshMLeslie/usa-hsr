@@ -23,14 +23,15 @@ const showCityMarkerPos = (map, lat, lon, city) => e => {
 export default async function genMajorCityMarkers (map) {
 	/** @type {{lat: number; lon: number; city: string;}[]}} data */
 	const data = await fetchJSON('./data-csv/parsed_results.json');
-	const clusterGroup = L.markerClusterGroup({
-		maxClusterRadius: 40,
-	});
+	if (!data || !data.length) {
+		throw ReferenceError("missing CSV data");
+	}
 	const markers = data.map(({lat, lon, city}) => {
 		const m = drawMarker(map, [lat, lon], city, {color: 'red'});
 		m.on('click', showCityMarkerPos(map, lat, lon, city));
 		return m;
 	});
-	clusterGroup.addLayers(markers);
-	return clusterGroup;
+	return L.markerClusterGroup(markers, {
+		maxClusterRadius: 40,
+	});
 };

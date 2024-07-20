@@ -308,11 +308,11 @@ function bindCityLabelEvents() {
 }
 
 function initMajorCities(map) {
-	const toggleMajorCities = async (map) => {
-		const {majorCities} = simpleDataCache;
+	const toggleMajorCities = async () => {
 		if (!simpleDataCache.majorCities) {
 			simpleDataCache.majorCities = await genMajorCityMarkers();
 		}
+		const {majorCities} = simpleDataCache;
 		if (map.hasLayer(majorCities)) {
 			map.removeLayer(majorCities);
 			console.log('remove major cities');
@@ -324,17 +324,19 @@ function initMajorCities(map) {
 	document.querySelector('#highest-pop-cities').onclick = toggleMajorCities;
 }
 
-function initCountyHeatmap() {
-	let countyHeatmap;
-	let showCountyHeatmap = false;
-	const toggleCountyHeatmap = async (map) => {
+function initCountyHeatmap(map) {
+	const toggleCountyHeatmap = async () => {
 		if (!simpleDataCache.countyHeatmap) {
 			simpleDataCache.countyHeatmap = await genCountyHeatmap();
 		}
-		showCountyHeatmap = !showCountyHeatmap;
-		showCountyHeatmap
-			? map.addLayer(countyHeatmap)
-			: map.removeLayer(countyHeatmap);
+		const {countyHeatmap} = simpleDataCache;
+		if (map.hasLayer(countyHeatmap)) {
+			map.removeLayer(countyHeatmap);
+			console.log('remove us county heatmap');
+		} else {
+			map.addLayer(countyHeatmap);
+			console.log('add us county heatmap');
+		}
 	};
 	document.querySelector('#county-heatmap').onclick = toggleCountyHeatmap;
 }
@@ -441,7 +443,7 @@ export default function () {
 	initPingCoord(map);
 	initAddressLookup(map);
 	initMajorCities(map);
-	initCountyHeatmap();
+	initCountyHeatmap(map);
 	initStateRoutes(map);
 	initSupportDialog();
 	bindHomeIcon();
