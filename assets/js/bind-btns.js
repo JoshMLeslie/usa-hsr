@@ -192,7 +192,6 @@ function handleBoundaryZoomChange(map, boundaryData) {
 export const setupBoundaryButtons = (map, boundaryData) => {
 	map.on('zoomend', (e) => {
 		handleBoundaryZoomChange(e.sourceTarget, boundaryData);
-		console.log(countryBoundaryData);
 	});
 
 	document
