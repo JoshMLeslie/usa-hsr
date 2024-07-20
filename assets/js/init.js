@@ -462,25 +462,31 @@ function bindHomeIcon() {
 	};
 }
 
-/** @returns {L.Map} map */
-export default function () {
-	const [map, mapHUD] = initMaps();
-	initSoftRegions(map);
-	initMapHUDViewbox(map, mapHUD);
-	configContextMenu(map);
-	addOSMTiles(map, mapHUD);
-
-	// Support
-	bindRegionButtonsToMap(map);
+function initSupportFunctions(map) {
 	bindCityLabelEvents();
-	initPingCoord(map);
+	bindHomeIcon();
+	bindRegionButtonsToMap(map);
 	initAddressLookup(map);
-	initMajorCities(map);
+	initBoundaryButtons(map);
 	initCountyHeatmap(map);
+	initMajorCities(map);
+	initPingCoord(map);
+	initSoftRegions(map);
 	initStateRoutes(map);
 	initSupportDialog();
-	bindHomeIcon();
-	initBoundaryButtons(map);
+}
+
+/**
+ * main init function
+ * @returns {[L.Map, L.Map]} map
+ * */
+export default function () {
+	const [map, mapHUD] = initMaps();
+	initMapHUDViewbox(map, mapHUD);
+	addOSMTiles(map, mapHUD);
+	configContextMenu(map);
+
+	initSupportFunctions(map);
 
 	// todo - caching
 	// initServiceWorker();
