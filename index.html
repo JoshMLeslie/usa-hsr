@@ -13,6 +13,23 @@
 				margin: 0 auto;
 				padding: 16px 32px;
 			}
+			.working-doc-block {
+				display: flex;
+				flex-direction: column;
+				width: 300px;
+				padding: 8px 16px;
+				gap: 8px;
+				box-shadow: inset 0 0 4px 2px gray;
+				border-radius: 4px;
+			}
+			.working-doc-block a {
+				padding: 8px 16px;
+			}
+			.working-doc-block a:hover {
+				color: white;
+				background-color: rgba(0, 0, 0, 0.5);
+				border-radius: 4px;
+			}
 		</style>
 	</head>
 	<body>
@@ -55,6 +72,21 @@
 				active development, significant data and resolution of plans is missing.
 			</p>
 			<button onclick="window.location.href = '/map.html'">View map</button>
+		</div>
+
+		<h2>Working / Annotated Documents</h2>
+		<p>Links open in a new tab by default. Dense documents may take a minute to load.</p>
+		<div class="working-doc-block">
+			<a
+				target="_blank"
+				href="https://americas-high-speed-rail.notion.site/Metcalfe-s-Law-for-High-speed-Rail-019684761e7d4e0aa8067ff7473a7504?pvs=4"
+				>Alon Levy on Metcalfe's law</a
+			>
+			<a
+				target="_blank"
+				href="https://pedestrianobservations.com/2020/02/13/metcalfes-law-for-high-speed-rail/"
+				>Source</a
+			>
 		</div>
 
 		<footer style="position: absolute; bottom: 1rem; left: 1rem">
