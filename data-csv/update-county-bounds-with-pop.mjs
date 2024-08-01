@@ -3,7 +3,7 @@
 import fs from 'fs';
 import ANSIStateToName from '../assets/js/ansi-state-to-name.mjs';
 import countyData from '../assets/js/geojson/us_county_data.mjs';
-import population from './parsed_county-pop-data.json' assert {type: 'json'};
+import population from './parsed_county-pop-data.json' with {type: 'json'};
 
 async function addPopulationToGeoJSONFile(inputFilePath, outputFilePath) {
 	try {

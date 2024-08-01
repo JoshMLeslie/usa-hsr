@@ -1,0 +1,54 @@
+{
+	"Siemens": {
+		"ACS-64": {
+			"maxSpeed": 201,
+			"acceleration": 15,
+			"braking": 20,
+			"fuelType": "Electric",
+			"burnRate": 0.05
+		},
+		"Velaro": {
+			"maxSpeed": 350,
+			"acceleration": 25,
+			"braking": 30,
+			"fuelType": "Electric",
+			"burnRate": 0.06
+		}
+	},
+	"Alstom": {
+		"Coradia iLint": {
+			"maxSpeed": 140,
+			"acceleration": 12,
+			"braking": 15,
+			"fuelType": "Hydrogen",
+			"burnRate": 0.02
+		}
+	},
+	"Bombardier": {
+		"TRAXX": {
+			"maxSpeed": 160,
+			"acceleration": 18,
+			"braking": 18,
+			"fuelType": "Electric",
+			"burnRate": 0.04
+		}
+	},
+	"General Electric": {
+		"Evolution Series": {
+			"maxSpeed": 120,
+			"acceleration": 10,
+			"braking": 15,
+			"fuelType": "Diesel",
+			"burnRate": 0.1
+		}
+	},
+	"Hitachi": {
+		"Class 800": {
+			"maxSpeed": 200,
+			"acceleration": 20,
+			"braking": 20,
+			"fuelType": "Bi-mode",
+			"burnRate": 0.07
+		}
+	}
+}
