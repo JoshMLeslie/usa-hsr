@@ -41,19 +41,16 @@ const NE = [
 		{city: 'Stamford', state: 'Connecticut', country: 'USA'},
 		{city: 'NYC', state: 'New York', country: 'USA'},
 	],
-	// Boston - Buffalo
 	[
 		{city: 'Albany', state: 'New York', country: 'USA'},
 		{city: 'Syracuse', state: 'New York', country: 'USA'},
 		{city: 'Rochester', state: 'New York', country: 'USA'},
 		{city: 'Buffalo', state: 'New York', country: 'USA'},
 	],
-	// Jumper
 	[
 		{city: 'Springfield', state: 'Massachusetts', country: 'USA'},
 		{city: 'Albany', state: 'New York', country: 'USA'},
 	],
-	// Montreal - New York
 	[
 		{city: 'Montreal', state: 'Quebec', country: 'Canada'},
 		{city: 'Burlington', state: 'Vermont', country: 'USA'},
