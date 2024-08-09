@@ -1,4 +1,4 @@
-import {fetchJSON} from './util.js';
+import {fetchJSON} from './util/index.js';
 
 /* global L:readonly */
 let USA_CountyData;

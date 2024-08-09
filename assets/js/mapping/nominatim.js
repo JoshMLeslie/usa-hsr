@@ -1,6 +1,6 @@
 'use strict';
 
-import { fetchJSON } from "../util.js";
+import { fetchJSON } from "../util/index.js";
 
 // adapted from https://www.npmjs.com/package/nominatim-js
 

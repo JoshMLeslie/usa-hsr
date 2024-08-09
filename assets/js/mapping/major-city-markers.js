@@ -1,7 +1,7 @@
 
 /* global L:readonly */
 
-import { fetchJSON } from "../util.js";
+import { fetchJSON } from "../util/index.js";
 import { drawMarker } from "./draw.js";
 
 const showCityMarkerPos = (map, lat, lon, city) => e => {
